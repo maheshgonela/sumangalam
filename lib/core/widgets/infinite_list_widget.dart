@@ -15,8 +15,8 @@ class InfiniteListViewWidget<T extends StateStreamable<InfiniteListState<D>>, D>
     required this.fetchInitial,
     required this.fetchMore,
     required this.emptyListText,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ChildWidgetBuilder<D> childBuilder;
   final VoidCallback fetchInitial;
@@ -60,8 +60,8 @@ class _InfiniteListView<T> extends StatefulWidget {
     required this.fetchMore,
     required this.hasReachedMax,
     this.failure,
-    Key? key, 
-  }) : super(key: key);
+    super.key, 
+  });
 
   final ChildWidgetBuilder<T> childBuilder;
   final List<T> data;

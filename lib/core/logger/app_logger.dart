@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
+import 'dart:developer' as dev;
 import 'package:sumangalam/core/di/injector.dart';
 
 final $logger = $sl.get<AppLogger>(instanceName: 'app_logger');
@@ -22,7 +23,7 @@ class AppLogger {
         error: error, stackTrace: stackTrace, time: DateTime.now());
   }
 
-  void print(dynamic message, [dynamic v1, dynamic v2]) {
-
+  void devLog(dynamic message) {
+    dev.log(message.toString());
   }
 }

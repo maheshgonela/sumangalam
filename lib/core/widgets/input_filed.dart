@@ -17,7 +17,7 @@ class InputField extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.autofocus = false,
-    this.borderColor,
+    this.borderColor = AppColors.catalineBlue,
     this.minLines,
     this.inputFormatters,
     TextEditingController? controller,
@@ -61,20 +61,19 @@ class InputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       defaultHeight: 4.0,
       children: [
-        CaptionText(
-          title: title,
-        ),
+        CaptionText(title: title),
         Container(
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
-            color: fieldColor ?? AppColors.white,
-            border: Border.all(color: AppColors.white),
+            color:  AppColors.white,
+            border: Border.all(color: AppColors.white, width: 0),
             boxShadow: [
               BoxShadow(
-                  color: borderColor ?? AppColors.white,
-                  blurRadius: 1,
-                  offset: const Offset(2, 5)),
+                color: borderColor ?? AppColors.white,
+                blurRadius: 0.8,
+                offset: const Offset(4, 4),
+              ),
             ],
             borderRadius: BorderRadius.circular(16.0),
           ),
@@ -85,7 +84,7 @@ class InputField extends StatelessWidget {
               border: textFieldBorder,
               enabledBorder: textFieldBorder,
               focusedBorder: textFieldBorder,
-              contentPadding: const EdgeInsets.all(10.0),
+              contentPadding: const EdgeInsets.all(16.0),
               suffixIcon: suffixIcon,
               counterText: '',
             ),

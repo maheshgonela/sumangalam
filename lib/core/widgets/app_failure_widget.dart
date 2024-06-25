@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/widgets/primary_btn.dart';
@@ -34,11 +33,11 @@ class AppFailureWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            PrimaryBtn(
+            AppButton(
               onPressed: retry,
-              padding: const EdgeInsets.all(12.0),
-              title: 'REFRESH',
-              color: AppColors.error,
+              margin: const EdgeInsets.all(12.0),
+              label: 'REFRESH',
+              bgColor: AppColors.error,
             )
           ],
         ),

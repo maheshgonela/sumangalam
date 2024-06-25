@@ -21,7 +21,6 @@ class AuthCubit extends AppBaseCubit<AuthState> {
       final isloggedIn = await repo.isLoggedIn();
       if (!isloggedIn) {
         emitSafeState(const _UnAuthenticated());
-        print('afhjbdj');
         return;
       }
 
@@ -30,8 +29,6 @@ class AuthCubit extends AppBaseCubit<AuthState> {
         (l) => emitSafeState(const _UnAuthenticated()),
         (r) async {
           await register<LoggedInUser>(r);
-          print('object');
-          // await OneSignal.User.pushSubscription.optIn();
           emitSafeState(const _Authenticated());
         },
       );
@@ -44,7 +41,6 @@ class AuthCubit extends AppBaseCubit<AuthState> {
   void signOut() async {
     try {
       emitSafeState(const _Loading());
-      // await OneSignal.User.pushSubscription.optOut();
       await repo.signOut();
       await $sl.unregister<LoggedInUser>();
       emitSafeState(const _UnAuthenticated());

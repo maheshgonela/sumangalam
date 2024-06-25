@@ -16,61 +16,62 @@ class AppPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-
-      fit: StackFit.expand,
-      children: [
-        Positioned(
-          left: 52,
-          top: -24,
-          child: Image.asset(AppIcons.bgFrame.path, alignment: Alignment.topRight, fit: BoxFit.cover,height: 210,width: context.sizeOfWidth,),
-        ),
-        Positioned(
-          left: 18,
-          right: 8,
-          top: kToolbarHeight,
-          child: Text(mode.name.toUpperCase(),style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.black,) , 
+    return SafeArea(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned(
+            left: 52,
+            top: -12,
+            child: Image.asset(AppIcons.bgFrame.path, alignment: Alignment.topRight, fit: BoxFit.cover,height: 210,width: context.sizeOfWidth),
           ),
-        ),
-        
-        Positioned.fill(
-          top: kToolbarHeight + 112,
-          child: Container(
-            width: context.sizeOfWidth,
-            padding: const EdgeInsets.all(8.0).copyWith(top: 100),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(32.0),
-                topRight: Radius.circular(32.0),
+          Positioned(
+            left: 18,
+            right: 8,
+            top: kToolbarHeight,
+            child: Text(mode.name.toUpperCase(),style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.black,) , 
+            ),
+          ),
+          
+          Positioned.fill(
+            top: kToolbarHeight + 112,
+            child: Container(
+              width: context.sizeOfWidth,
+              padding: const EdgeInsets.all(8.0).copyWith(top: 100),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(32.0),
+                  topRight: Radius.circular(32.0),
+                ),
+                border: Border.all(color: AppColors.white),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.black.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: const Offset(0, -1),
+                  )
+                ],
               ),
-              border: Border.all(color: AppColors.white),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withOpacity(0.5),
-                  blurRadius: 10,
-                  offset: const Offset(0, -1),
-                )
-              ],
+              child: child,
             ),
-            child: child,
           ),
-        ),
-        
-        Positioned(
-          left: 24,
-          right: 24,
-          top: 100,
-          child: Card(
-            color: AppColors.powderBlue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              side: const BorderSide(color: AppColors.kashmirBlue)
+          
+          Positioned(
+            left: 24,
+            right: 24,
+            top: 100,
+            child: Card(
+              color: AppColors.powderBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                side: const BorderSide(color: AppColors.kashmirBlue)
+              ),
+              child: mode == PageMode.home ? const _HomeCardContent() : const _SettingsCardContent(),
             ),
-            child: mode == PageMode.home ? const _HomeCardContent() : const _SettingsCardContent(),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -80,7 +80,6 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
-            
             hintText: hintText,
             hintStyle: context.textTheme.titleMedium
                 ?.copyWith(color: AppColors.grey,fontWeight: FontWeight.bold),
@@ -101,6 +100,7 @@ class AppTextField extends StatelessWidget {
           keyboardType: inputType,
           minLines: minLines,
           maxLines: maxLines,
+          cursorColor: AppColors.black,
           maxLength: maxLength,
           textCapitalization: TextCapitalization.none,
           readOnly: readOnly,

@@ -17,7 +17,6 @@ class AppDropDown<T> extends StatefulWidget {
     this.listItemBuilder,
     this.headerBuilder,
     this.hintBuilder,
-    this.closedFillColor,
     required this.title,
   });
   final String? hint;
@@ -32,7 +31,6 @@ class AppDropDown<T> extends StatefulWidget {
   final void Function(T?) onSelected;
   final Widget Function(BuildContext context, String hint, bool name)?
       hintBuilder;
-  final Color? closedFillColor;
   @override
   State<AppDropDown<T>> createState() => _AppDropDownState<T>();
 }
@@ -52,36 +50,35 @@ class _AppDropDownState<T> extends State<AppDropDown<T>> {
       crossAxisAlignment: CrossAxisAlignment.start,
       defaultHeight: 4.0,
       children: [
-        CaptionText(
-          title: widget.title,
-        ),
+        CaptionText(title: widget.title, isRequired: widget.isMandatory),
         Container(
-               margin: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
             color:  AppColors.white,
-            border: Border.all(color: AppColors.white),
+            border: Border.all(color: AppColors.white, width: 0),
             boxShadow: const [
               BoxShadow(
-                color:  AppColors.catalineBlue,
-                blurRadius: 1,
-                offset: Offset(2, 5)
+                color: AppColors.catalineBlue,
+                blurRadius: 0.8,
+                offset: Offset(4, 4),
               ),
             ],
-            borderRadius: BorderRadius.circular(14.0),
+            borderRadius: BorderRadius.circular(16.0),
           ),
           child: AbsorbPointer(
             absorbing: widget.readOnly,
             child: CustomDropdown<T>(
+              canCloseOutsideBounds: true,
               hideSelectedFieldWhenExpanded: true,
               excludeSelected: false,
-              closedHeaderPadding: const EdgeInsets.all(12.0),
-              expandedHeaderPadding: const EdgeInsets.all(12.0),
+              closedHeaderPadding: const EdgeInsets.all(16.0),
+              expandedHeaderPadding: const EdgeInsets.all(16.0),
               decoration: CustomDropdownDecoration(
+                closedSuffixIcon: const Icon(Icons.arrow_drop_down),
                 closedBorderRadius: BorderRadius.circular(8.0),
                 expandedBorderRadius: BorderRadius.circular(8.0),
                 closedBorder: Border.all(width: 0.4),
-                closedFillColor: widget.closedFillColor?.withOpacity(0.5),
                 expandedBorder: Border.all(width: 0.4),
                 hintStyle: context.textTheme.titleLarge?.copyWith(
                     color: AppColors.black, fontWeight: FontWeight.bold),

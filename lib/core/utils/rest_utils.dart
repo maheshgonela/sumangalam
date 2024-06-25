@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:sumangalam/core/core.dart';
 
 class RestUtils {
@@ -28,13 +26,6 @@ class RestUtils {
     });
 
     return s;
-  }
-
-  static String basicAuth(String username, String password) {
-    assert(username.isNotEmpty, 'Username can not be empty');
-    assert(password.isNotEmpty, 'Password can not be empty');
-
-    return 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   }
 
   static String withAnd(List<String> values) =>

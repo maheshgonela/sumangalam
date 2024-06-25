@@ -38,6 +38,13 @@ class BaseApiRepository {
     return _request(client.multipartRequest, params, includeAuthHeader: includeAuthHeader);
   }
 
+  StandardApiResponse<T> formRequest<T>(
+    RequestConfig<T> params, {
+    bool includeAuthHeader = true,
+  }) async {
+    return _request(client.formRequest, params, includeAuthHeader: includeAuthHeader);
+  }
+
   StandardApiResponse<T> _request<T>(ApiCall<T> apiCall, RequestConfig<T> config, {bool includeAuthHeader = true}) async {
     try {
       final commonHeaders = <String,dynamic>{HttpHeaders.contentTypeHeader : 'application/json'};
@@ -75,4 +82,10 @@ class BaseApiRepository {
   }
 
   LoggedInUser user() => $sl.get<LoggedInUser>();
+
+  Map<String, dynamic> removeNullValues(Map<String, dynamic> map) {
+   map.removeWhere((key, value) => value == null);
+    return map;
+  }
+
 }

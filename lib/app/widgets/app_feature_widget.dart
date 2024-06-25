@@ -11,12 +11,12 @@ class AppFeatureWidget extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onTap, 
-    this.featureColor,
+    this.featureColor = AppColors.cobaltBlue,
   });
 
   final Widget icon;
   final String title;
-  final Color? featureColor;
+  final Color featureColor;
   final VoidCallback onTap;
 
   @override
@@ -28,7 +28,7 @@ class AppFeatureWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: featureColor ?? AppColors.catalineBlue, width: 2),
+            border: Border.all(color: featureColor, width: 2),
             color:AppColors.cobaltBlue,
           ),
           child: Column(
@@ -41,7 +41,7 @@ class AppFeatureWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.cobaltBlue),
-                  color: featureColor ?? AppColors.cobaltBlue,
+                  color: featureColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(

@@ -18,7 +18,7 @@ Future<void> bootstrap(void Function() runApp) async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await _initInjector();
-  await register<Urls>(Urls.sumUAT(),instanceName: 'baseUrl');
+  await register<Urls>(Urls.test(),instanceName: 'baseUrl');
   await _initFirebase();
   _setupErrorHandling(runApp);
 }

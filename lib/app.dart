@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/di/injector.dart';
 import 'package:sumangalam/core/router/app_route.dart';
-import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/styles/app_theme.dart';
 import 'package:sumangalam/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:sumangalam/features/auth/presentation/bloc/sign_in/sign_in_cubit.dart';

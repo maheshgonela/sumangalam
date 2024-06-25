@@ -20,7 +20,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   late final TextEditingController _username;
   late final TextEditingController _pswd;
   bool _showPswd = true;
-  bool _rememberMe = false;
 
   @override
   void initState() {
@@ -32,11 +31,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   void togglePswd() => setState(() {
         _showPswd = !_showPswd;
       });
-
-  void toggleRememberMe(bool? value) => setState(() {
-        _rememberMe = value ?? false;
-      });
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -95,57 +89,26 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
                         Icons.visibility_off_outlined,
                       )),
           ),
-          Row(
-            children: [
-              Checkbox(
-                value: _rememberMe,
-                onChanged: toggleRememberMe,
-                activeColor: AppColors.blue,
-              ),
-              const Text(
-                'Remember Me',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.black,
-                ),
-              ),
-            ],
-          ),
+          
           BlocBuilder<SignInCubit, SignInState>(
             builder: (_, state) {
-              final isloading =
-                  state.maybeWhen(loading: () => true, orElse: () => false);
-                  final color = _rememberMe ? AppColors.blue:AppColors.grey;
-              return PrimaryBtn(
-                color: color,
-                isloading: isloading,
+              final isloading = state.maybeWhen(
+                loading: () => true, 
+                orElse: () => false,
+              );
+              return AppButton(
+                isLoading: isloading,
                 onPressed: () {
                   context.cubit<SignInCubit>().login(
                         _username.text,
                         _pswd.text,
                       );
                 },
-                title: 'SIGN IN',
+                label: 'SIGN IN',
               );
             },
           ),
-          RichText(
-            textAlign: TextAlign.center,
-            text: const TextSpan(
-              text: 'By continuing you agree to ',
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '\nOur Terms & Privacy',
-                  style: TextStyle(
-                    color: AppColors.blue,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          
           RichText(
               text: const TextSpan(children: [
             TextSpan(

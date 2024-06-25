@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
-import 'package:path/path.dart' show basename;
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/logger/app_logger.dart';
 import 'package:sumangalam/core/network/api_response.dart';
 import 'package:sumangalam/core/network/error_pasrser.dart';
 import 'package:sumangalam/core/network/exception.dart';
@@ -42,6 +40,28 @@ class ApiClient {
     );
   }
 
+  Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
+    return _request(
+      (Uri urlWithParams) => client.post(urlWithParams, headers: params.headers, body: jsonDecode(params.body!)),
+      params,
+    );
+  }
+
+  /// Performs HTTP POST request with provided request configuration
+  Future<ApiResponse<T>> formUrlEncodeRequest<T>(RequestConfig<T> params) async {
+    return _request(
+      (Uri urlWithParams) => client.post(
+        urlWithParams, 
+        headers: {
+          ...params.headers ?? {},
+        }, 
+        body: params.body,
+        // encoding: Encoding.getByName('utf-8')
+      ),
+      params,
+    );
+  }
+
   /// Performs HTTP POST-multipart-request body request with provided request configuration
   /// Note: This method is supposed to be used for uploading files only as of now because few
   /// keys have been hardcoded in the implementation.
@@ -61,12 +81,8 @@ class ApiClient {
         if (reqParams != null) {
           for (final MapEntry<String, dynamic> param in reqParams.entries) {
             if (param.value is File?) {
-              final File originalFile = param.value as File;
-              final String name = reqParams['file_name'] as String? ?? basename(originalFile.path);
-              final http.MultipartFile file = await http.MultipartFile.fromPath(
-                'file', originalFile.path,
-                filename: name,
-              );
+               final originalFile = param.value as File;
+              final file = await http.MultipartFile.fromPath(param.key, originalFile.path);
               request.files.add(file);
             } else {
               request.fields.putIfAbsent(param.key, () => param.value);
@@ -97,9 +113,15 @@ class ApiClient {
       final String resBody = httpResponse.body;
       
       if (kDebugMode) {
+        print(params);
+        final modifiedParams = {...params.reqParams ?? {}};
+        modifiedParams.removeWhere((key, value) {
+          if(key == 'file' && kDebugMode) $logger.devLog(value);
+          return key == 'file';
+        });
         $logger
           ..info(uri)
-          ..info(params.body ?? params.reqParams)
+          ..info(params.body ?? modifiedParams)
           ..info('Status Code $statusCode')
           ..info('Response : $resBody');
       }

@@ -4,8 +4,9 @@ import 'package:sumangalam/core/model/failure.dart';
 Failure defaultErrorParser(Map<String, dynamic> response, String defErrorMessage) {
   try {
     if(response.containsKey('_server_messages')) {
-      return Failure(error: response['exc_type'], title: 'Message');
+      return Failure(title: response['exc_type'], error: response['exception']);
     }
+
     late final String errorMsg;
     if(response.containsKey('message')) {
       errorMsg = response['message'];

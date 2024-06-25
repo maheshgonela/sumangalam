@@ -1,8 +1,3 @@
-/// Represents a generic pair of two values.
-///
-/// There is no meaning attached to values in this class, it can be used for any purpose.
-/// Pair exhibits value semantics, i.e. two pairs are equal if both components are equal.
-
 class Pair<A, B> {
   const Pair(this.first, this.second);
 

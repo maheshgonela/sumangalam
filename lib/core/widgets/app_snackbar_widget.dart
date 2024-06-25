@@ -55,7 +55,7 @@ class AppSnackBarWidget extends StatelessWidget {
   }
 
   Color _snackbarColor(AppSnackBarType type) => switch(type) {
-    AppSnackBarType.error => AppColors.rejected,
+    AppSnackBarType.error => AppColors.error,
     AppSnackBarType.success => AppColors.success,
     AppSnackBarType.info => AppColors.grey,
   };

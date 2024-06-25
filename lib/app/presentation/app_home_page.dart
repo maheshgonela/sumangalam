@@ -24,7 +24,7 @@ class AppHomePage extends StatelessWidget {
               ),
               title: 'Gate Entry',
               featureColor: AppColors.white,
-              onTap: () =>RoutePath.gateEntry.push(context),
+              onTap: () => RoutePath.gateEntry.push(context),
             ),
           ],
         ),

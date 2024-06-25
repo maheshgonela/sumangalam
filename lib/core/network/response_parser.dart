@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:sumangalam/core/network/api_response.dart';
-import 'package:sumangalam/core/network/exception.dart';
 
 typedef ApiObjectParser<T> = T Function(Map<String, dynamic>);
 
@@ -18,7 +17,7 @@ class FrappeApiResponseParser<T> implements ApiResponseParser<T> {
     String defErrorMessage,
   ) {
     try {
-      final Map<String, dynamic> response =json.decode(apiResponse) as Map<String, dynamic>;
+      final Map<String, dynamic> response = json.decode(apiResponse) as Map<String, dynamic>;
       final result = parser(response);
       return ApiResponse.success(result);
     } on Exception catch (e) {

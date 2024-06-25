@@ -17,7 +17,7 @@ class DateSelectionField extends StatefulWidget {
     required this.firstDate,
     required this.lastDate, 
     required this.onDateSelect, 
-    this.borderColor,
+    this.borderColor = AppColors.catalineBlue,
   });
 
   final String title;
@@ -54,20 +54,18 @@ class _DateSelectionFieldState extends State<DateSelectionField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       defaultHeight: 4.0,
       children: [
-        CaptionText(
-          title: widget.title,
-        ),
+        CaptionText(title: widget.title),
         Container(
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: AppColors.white),
+            border: Border.all(color: AppColors.white, width: 0),
             boxShadow: [
               BoxShadow(
                 color: widget.borderColor ?? AppColors.white,
-                blurRadius: 1,
-                offset: const Offset(2, 5)
+                blurRadius: 0.8,
+                offset: const Offset(4, 4),
               ),
             ],
             borderRadius: BorderRadius.circular(16.0),

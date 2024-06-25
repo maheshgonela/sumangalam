@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sumangalam/app/widgets/app_page_view.dart';
+import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/styles/app_text_styles.dart';
 import 'package:sumangalam/core/widgets/app_spacer.dart';
@@ -6,8 +8,6 @@ import 'package:sumangalam/core/widgets/primary_btn.dart';
 import 'package:sumangalam/core/widgets/spaced_column.dart';
 
 import 'dart:math' as math;
-
-import '../widgets/app_page_view.dart';
 
 class AppProfilePage extends StatelessWidget {
   const AppProfilePage({super.key});
@@ -23,31 +23,32 @@ class AppProfilePage extends StatelessWidget {
               SpacedColumn(
                 defaultHeight: 0,
                 divider: Divider(color: AppColors.grey.shade400),
-                children: const [
+                children: [
                   _ProfileItem(
-                      Icon(Icons.account_circle_rounded,
-                          color: AppColors.catalineBlue),
-                      'Name',
-                      'Mahesh'),
+                    const Icon(Icons.account_circle_rounded, color: AppColors.catalineBlue),
+                    'Name',
+                    context.user.name,
+                  ),
                   _ProfileItem(
-                      Icon(Icons.corporate_fare, color: AppColors.catalineBlue),
-                      'Organization',
-                      'NA'),
-                  _ProfileItem(
-                      Icon(Icons.lock, color: AppColors.catalineBlue),
-                      'App Version',
-                      '0.0.1'),
+                    const Icon(Icons.corporate_fare, color: AppColors.catalineBlue),
+                    'Organization',
+                    'Sumangalam'.toUpperCase(),
+                  ),
+                  const _ProfileItem(
+                    Icon(Icons.lock, color: AppColors.catalineBlue),
+                    'App Version',
+                    '0.0.1',
+                  ),
                 ],
               ),
               AppSpacer.p24(),
-              PrimaryBtn(
-                title: 'Logout',
+              AppButton(
+                label: 'Logout',
                 icon: Transform.rotate(
                   angle: 180 * math.pi / 180,
-                  child:
-                      const Icon(Icons.logout_outlined, color: AppColors.white),
+                  child: const Icon(Icons.logout_outlined, color: AppColors.white),
                 ),
-                onPressed: () {},
+                onPressed: context.logout,
               ),
             ],
           ),

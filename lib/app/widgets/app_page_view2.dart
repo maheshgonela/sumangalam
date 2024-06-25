@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:go_router/go_router.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/styles/app_icon.dart';
 import 'package:sumangalam/core/styles/app_text_styles.dart';
 import 'package:sumangalam/core/widgets/app_spacer.dart';
-import 'package:sumangalam/core/widgets/secondary_btn.dart';
 import 'package:sumangalam/core/widgets/simple_search_bar.dart';
 
 enum PageMode2 {
