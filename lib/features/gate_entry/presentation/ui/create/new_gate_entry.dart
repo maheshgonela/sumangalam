@@ -4,6 +4,7 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/widgets/app_dialogs.dart';
 import 'package:sumangalam/core/widgets/simple_app_bar.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
+import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart';
 import 'package:sumangalam/features/gate_entry/presentation/ui/create/widgets/gate_entry_form_widget.dart';
 
@@ -55,7 +56,9 @@ class _NewGateEntryState extends State<NewGateEntry> {
         onTapDismiss: context.exit,
       );
       if (!context.mounted) return;
-      context.cubit<NewGateEntryCubit>().handled();
+      context
+        ..cubit<NewGateEntryCubit>().handled()
+        ..cubit<GateEntriesCubit>().fetchInitial();
       return;
     }
   }

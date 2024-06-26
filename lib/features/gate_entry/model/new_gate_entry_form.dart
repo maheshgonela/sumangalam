@@ -74,6 +74,8 @@ class GateEntryForm with _$GateEntryForm {
           'seal_tag_image' : form.sealPhoto,
         });
     }
+
+    json['receive_mode'] = form.receiveMode?.name;
     json['document_image'] = form.docPhoto;
     json['unloaded_pile_pic'] = form.unloadedPilePhoto;
 

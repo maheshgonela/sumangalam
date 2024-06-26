@@ -17,7 +17,8 @@ class BaseApiRepository {
 
   final ApiClient client;
 
-  StandardApiResponse<T> get<T>(RequestConfig<T> params,{bool includeAuthHeader = true}) async {
+  StandardApiResponse<T> get<T>(RequestConfig<T> params,
+      {bool includeAuthHeader = true}) async {
     try {
       return _request(client.get, params, includeAuthHeader: includeAuthHeader);
     } on Exception catch (e, st) {
@@ -29,26 +30,33 @@ class BaseApiRepository {
   StandardApiResponse<T> post<T>(
     RequestConfig<T> params, {
     bool includeAuthHeader = true,
-  }) async => _request(client.post, params, includeAuthHeader: includeAuthHeader);
+  }) async =>
+      _request(client.post, params, includeAuthHeader: includeAuthHeader);
 
   StandardApiResponse<T> multiPart<T>(
     RequestConfig<T> params, {
     bool includeAuthHeader = true,
   }) async {
-    return _request(client.multipartRequest, params, includeAuthHeader: includeAuthHeader);
+    return _request(client.multipartRequest, params,
+        includeAuthHeader: includeAuthHeader);
   }
 
   StandardApiResponse<T> formRequest<T>(
     RequestConfig<T> params, {
     bool includeAuthHeader = true,
   }) async {
-    return _request(client.formRequest, params, includeAuthHeader: includeAuthHeader);
+    return _request(client.formRequest, params,
+        includeAuthHeader: includeAuthHeader);
   }
 
-  StandardApiResponse<T> _request<T>(ApiCall<T> apiCall, RequestConfig<T> config, {bool includeAuthHeader = true}) async {
+  StandardApiResponse<T> _request<T>(
+      ApiCall<T> apiCall, RequestConfig<T> config,
+      {bool includeAuthHeader = true}) async {
     try {
-      final commonHeaders = <String,dynamic>{HttpHeaders.contentTypeHeader : 'application/json'};
-      if(includeAuthHeader) {
+      final commonHeaders = <String, dynamic>{
+        HttpHeaders.contentTypeHeader: 'application/json'
+      };
+      if (includeAuthHeader) {
         final cookie = await _getAuthCookie();
         commonHeaders.addAll(cookie);
       }
@@ -58,7 +66,9 @@ class BaseApiRepository {
 
       final ApiResponse<T> response = await apiCall(requestConfig);
       if (response.isFailed()) {
-        return left(Failure(error: response.error!, ));
+        return left(Failure(
+          error: response.error!,
+        ));
       }
 
       return right(response);
@@ -73,19 +83,27 @@ class BaseApiRepository {
     }
   }
 
-  Future<Map<String,dynamic>> _getAuthCookie() async {
+  Future<Map<String, dynamic>> _getAuthCookie() async {
     final apiKey = user().apiKey;
     final apiSecret = user().apiSecret;
-    if(apiKey.doesNotHaveValue || apiSecret.doesNotHaveValue) return {};
+    if (apiKey.doesNotHaveValue || apiSecret.doesNotHaveValue) return {};
 
-    return {HttpHeaders.authorizationHeader : 'token $apiKey:$apiSecret'};
+    return {HttpHeaders.authorizationHeader: 'token $apiKey:$apiSecret'};
   }
 
   LoggedInUser user() => $sl.get<LoggedInUser>();
 
   Map<String, dynamic> removeNullValues(Map<String, dynamic> map) {
-   map.removeWhere((key, value) => value == null);
-    return map;
-  }
+    map.removeWhere((key, value) => value == null);
+    Map<String, dynamic> stringifiedMap = {};
 
+    map.forEach((key, value) {
+      if (value is! File) {
+        stringifiedMap[key] = value.toString();
+      } else {
+        stringifiedMap[key] = value;
+      }
+    });
+    return stringifiedMap;
+  }
 }

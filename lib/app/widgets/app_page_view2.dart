@@ -92,7 +92,7 @@ class AppPageView2 extends StatelessWidget {
                       },
                     ),
                   ),
-                  AppSpacer.p24(),
+                  AppSpacer.p8(),
                   CircleAvatar(
                     backgroundColor: AppColors.black,
                     child: IconButton(
@@ -103,7 +103,6 @@ class AppPageView2 extends StatelessWidget {
                       ),
                     ),
                   ),
-                  AppSpacer.p12(),
                 ],
               ),
             ),
@@ -138,9 +137,7 @@ class AppPageView2 extends StatelessWidget {
         extendedPadding: const EdgeInsets.symmetric(
           horizontal: 28,
         ),
-        onPressed: () {
-          onNew();
-        },
+        onPressed: onNew,
         backgroundColor: AppColors.cobaltBlue,
         icon: const Icon(
           Icons.add,

@@ -33,9 +33,22 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     if (extra is GateEntryForm) {
       final parsedDate = DFU.toDateTime(extra.entryDate!, 'yyyy-MM-dd');
       final formattedStr = DFU.friendlyFormat(parsedDate);
+
+      String? formattedStr2;
+      if(extra.vendorInvoiceDate.containsValidValue) {
+        final parsedDate1 = DFU.toDateTime(extra.vendorInvoiceDate!, 'yyyy-MM-dd');
+        formattedStr2 = DFU.friendlyFormat(parsedDate1);
+      }
+      
+      final type = switch (extra.status) {
+        null => ActionType.vechileIn,
+        'Draft' || 'Update' => ActionType.unloading,
+        'Submit' => ActionType.vechileOut,
+        String() => ActionType.vechileIn,
+      };
       emitSafeState(state.copyWith(
-        type: ActionType.unloading,
-        form: extra.copyWith(entryDate: formattedStr),
+        type: type,
+        form: extra.copyWith(entryDate: formattedStr, vendorInvoiceDate: formattedStr2),
       ));
     }
   }
@@ -91,6 +104,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     File? sealPhoto,
     File? weightPhoto,
     File? pilePhoto,
+    File? weight2Photo,
   }) {
     final form = state.form;
     final documentPhoto = docPhoto ?? form.docPhoto;
@@ -100,6 +114,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     final sealingPhoto = sealPhoto ?? form.sealPhoto;
     final weight1Photo = weightPhoto ?? form.weight1Photo;
     final unloadedPilePhoto = pilePhoto ?? form.unloadedPilePhoto;
+    final weight2Image = weight2Photo ?? form.weight2Photo;
 
     final newForm = form.copyWith(
       materialType: materialType ?? form.materialType,
@@ -122,6 +137,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       remarks: remarks ?? form.remarks,
       weight1: weightVal,
       weight1Photo: weight1Photo,
+      weight2Photo: weight2Image,
       unloadedPilePhoto: unloadedPilePhoto,
     );
     emitSafeState(state.copyWith(form: newForm));
@@ -170,7 +186,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
 
   void _updateGateEntry() async {
     final form = state.form;
-    if (form.unloadedPilePhoto.isNull) {
+    if (form.unloadedPilePhoto.isNull && form.unloadedPilePhotoUrl.isNull) {
       return _emitError('Capture Unloaded Pile Photo');
     }
     emitSafeState(state.copyWith(isLoading: true));
@@ -179,7 +195,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       (l) => emitSafeState(state.copyWith(isLoading: false, error: l)),
       (r) {
         final updatedState =
-            state.copyWith(isSuccess: true, successMsg: r, isLoading: false);
+            state.copyWith(isSuccess: true, successMsg: r, isLoading: false, type: ActionType.vechileOut);
         return emitSafeState(updatedState);
       },
     );
@@ -193,7 +209,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       (r) {
         final form = state.form.copyWith(status: 'Submit');
         final updatedState = state.copyWith(
-            isSuccess: true, successMsg: r, isLoading: false, form: form);
+            isSuccess: true, successMsg: r, isLoading: false, form: form, type: ActionType.completed);
         return emitSafeState(updatedState);
       },
     );

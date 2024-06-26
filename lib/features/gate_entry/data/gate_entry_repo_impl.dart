@@ -21,7 +21,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
     try {
       final config = RequestConfig(
         url: Urls.gateEntries, 
-        body: jsonEncode({'status' :  'Draft', 'start' : start, 'end' : end}),
+        body: jsonEncode({'status' :  'Update', 'start' : start, 'end' : end}),
         parser: (p0) {
           final entries = p0['message']['data'] as List<dynamic>;
           return entries.map((e) => GateEntryForm.fromJson(e)).toList();
@@ -81,8 +81,11 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   AsyncValueOf<String> updatePileDetails(GateEntryForm form) async {
     try {  
       final formJson = GateEntryForm.toEncodedFormJson(form);
-      formJson.update('status', (value) => 'Draft');
+      $logger.devLog(formJson);
+      formJson.update('status', (value) => 'Update');
+      formJson.removeWhere((key, value) => key == 'name');
       final cleanedMap = removeNullValues(formJson);
+      $logger.devLog(cleanedMap);
       final config = RequestConfig(
         url: Urls.createGateEntry, 
         reqParams: cleanedMap,

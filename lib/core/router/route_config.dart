@@ -45,10 +45,7 @@ class AppRouterConfig {
                 routes: [
                   GoRoute(
                     path: _getPath(RoutePath.gateEntry),
-                    builder: (context, state) => BlocProvider(
-                      create: (_) => GateEntryBlocProvider.instance().gateEntries()..fetchInitial(),
-                      child: const GateEntryListScrn(),
-                    ),
+                    builder: (context, state) => const GateEntryListScrn(),
                     routes: [
                       GoRoute(
                         path: _getPath(RoutePath.newGateEntry),
