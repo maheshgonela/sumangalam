@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398765158500",
+    "project_id": "sumangalam-easy",
+    "storage_bucket": "sumangalam-easy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398765158500:android:87769d6d251199f2cb6f71",
+        "android_client_info": {
+          "package_name": "in.easycloud.sumangalam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMgvFjZLwO1GUMsTe8SUKBwNPHUBqKJWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
