@@ -19,7 +19,6 @@ class SumangalamApp extends StatelessWidget {
         BlocProvider<AuthCubit>(create: (_) => $sl.get<AuthCubit>()..authCheckRequested()),
         BlocProvider<SignInCubit>(create: (_) => $sl.get<SignInCubit>()),
         BlocProvider(create: (_) => GateEntryBlocProvider.instance().gateEntries()),
-
       ],
       child: MultiBlocListener(
         listeners: [
@@ -28,9 +27,10 @@ class SumangalamApp extends StatelessWidget {
               state.maybeWhen(
                 orElse: () {},
                 authenticated: () {
-                  context.cubit<GateEntriesCubit>().fetchInitial();
+                  final ctxt = (AppRouterConfig.parentNavigatorKey.currentContext!);
+                  ctxt.cubit<GateEntriesCubit>().fetchInitial();
                   RoutePath.home
-                    .go(AppRouterConfig.parentNavigatorKey.currentContext!);
+                    .go(ctxt);
                 },
                 unAuthenticated: () => RoutePath.login
                     .go(AppRouterConfig.parentNavigatorKey.currentContext!),

@@ -19,7 +19,7 @@ class AppHomePage extends StatelessWidget {
           children: [
             AppFeatureWidget(
               icon: Image.asset(
-                AppIcons.gateEntry.path,
+                AppIcons.vehicleIn.path,
                 fit: BoxFit.contain,
               ),
               title: 'Gate Entry',

@@ -25,14 +25,14 @@ class GateEntryWidget extends StatelessWidget {
         surfaceTintColor: AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: const BorderSide(color: AppColors.catalineBlue, width: 2)
+          side: const BorderSide(color: AppColors.catalineBlue, width: 1)
         ),
         child: Stack(
           children: [
             Positioned.fill(
               left: context.sizeOfWidth * 0.3,
               child: Image(
-                image: AssetImage(AppIcons.bgFrame.path),
+                image: AssetImage(AppIcons.gateEntryFrame.path),
                 fit: BoxFit.fill,
               ),
             ),

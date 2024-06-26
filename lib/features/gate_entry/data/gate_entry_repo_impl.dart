@@ -21,7 +21,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
     try {
       final config = RequestConfig(
         url: Urls.gateEntries, 
-        body: jsonEncode({'status' :  'Update', 'start' : start, 'end' : end}),
+        body: jsonEncode({'status' : status, 'start' : start, 'end' : end}),
         parser: (p0) {
           final entries = p0['message']['data'] as List<dynamic>;
           return entries.map((e) => GateEntryForm.fromJson(e)).toList();

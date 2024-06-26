@@ -23,7 +23,7 @@ class AppPageView extends StatelessWidget {
           Positioned(
             left: 52,
             top: -12,
-            child: Image.asset(AppIcons.bgFrame.path, alignment: Alignment.topRight, fit: BoxFit.cover,height: 210,width: context.sizeOfWidth),
+            child: Image.asset(AppIcons.grateEntryBG.path, alignment: Alignment.topRight, fit: BoxFit.cover,height: 210,width: context.sizeOfWidth),
           ),
           Positioned(
             left: 18,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sumangalam/app/widgets/status_menu_widget.dart';
 
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
@@ -6,6 +7,7 @@ import 'package:sumangalam/core/styles/app_icon.dart';
 import 'package:sumangalam/core/styles/app_text_styles.dart';
 import 'package:sumangalam/core/widgets/app_spacer.dart';
 import 'package:sumangalam/core/widgets/simple_search_bar.dart';
+import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.dart';
 
 enum PageMode2 {
   gateentry('Gate Entry'),
@@ -43,13 +45,13 @@ class AppPageView2 extends StatelessWidget {
             top: -24,
             child: mode == PageMode2.gateentry
                 ? Image.asset(
-                    AppIcons.bgFrame.path,
+                    AppIcons.grateEntryBG.path,
                     alignment: Alignment.topRight,
                     fit: BoxFit.cover,
                     height: 210,
                     width: context.sizeOfWidth,
                   )
-                : Image.asset(AppIcons.bgFrame.path,
+                : Image.asset(AppIcons.grateEntryBG.path,
                     alignment: Alignment.topRight,
                     fit: BoxFit.cover,
                     height: 210),
@@ -78,6 +80,7 @@ class AppPageView2 extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: SimpleSearchBar(
                       hintText: mode == PageMode2.gateentry
                           ? 'Search Gate Entry - ID'
@@ -93,16 +96,12 @@ class AppPageView2 extends StatelessWidget {
                     ),
                   ),
                   AppSpacer.p8(),
-                  CircleAvatar(
-                    backgroundColor: AppColors.black,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.filter_list,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
+                  Expanded(
+                    flex: 1,
+                    child: StatusMenuWidget(onChange: (status) {
+                      context.cubit<GateEntriesCubit>().fetchInitial(status);
+                    },),
+                  )
                 ],
               ),
             ),

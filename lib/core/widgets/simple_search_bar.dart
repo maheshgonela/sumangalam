@@ -30,9 +30,9 @@ class _SimpleSearchBarState extends State<SimpleSearchBar> {
         widget.onSearch(value);
       },
       decoration: InputDecoration(
-        constraints: const BoxConstraints(maxHeight: 40, minHeight: 40),
+        constraints: const BoxConstraints(maxHeight: 48, minHeight: 40),
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         border: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(4.0),
