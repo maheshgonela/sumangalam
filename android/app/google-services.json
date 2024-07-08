@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:398765158500:android:d8a9b0ce3c9cd2f9cb6f71",
+        "android_client_info": {
+          "package_name": "in.easycloud.suma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMgvFjZLwO1GUMsTe8SUKBwNPHUBqKJWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:398765158500:android:87769d6d251199f2cb6f71",
         "android_client_info": {
           "package_name": "in.easycloud.sumangalam"

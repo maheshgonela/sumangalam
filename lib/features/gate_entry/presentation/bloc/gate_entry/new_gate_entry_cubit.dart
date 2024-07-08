@@ -42,8 +42,9 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       
       final type = switch (extra.status) {
         null => ActionType.vechileIn,
-        'Draft' || 'Update' => ActionType.unloading,
-        'Submit' => ActionType.vechileOut,
+        'Draft' => ActionType.unloading,
+        'Update' => ActionType.vechileOut,
+        'Submit' => ActionType.completed,
         String() => ActionType.vechileIn,
       };
       emitSafeState(state.copyWith(
@@ -81,10 +82,9 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
   }
 
   void onFieldValueChanged({
-    String? creationDate,
     String? materialType,
     String? vendorName,
-    String? receiveMode,
+    ReceiverMode? receiveMode,
     String? poNumber,
     String? vendorInvoiceNo,
     String? vendorInvoiceDate,
@@ -118,13 +118,13 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
 
     final newForm = form.copyWith(
       materialType: materialType ?? form.materialType,
-      vendor: vendorName ?? form.vendor,
+      vendor: vendorName?.trim() ?? form.vendor,
       poNumber: poNumber ?? form.poNumber,
       delivererName: delivererName ?? form.delivererName,
       delivererMobileNo: delivererMobileNo ?? form.delivererMobileNo,
       docPhoto: documentPhoto,
       docPhotoUrl: documentPhoto.isNotNull ? null : form.docPhotoUrl,
-      receiveMode: ReceiverMode.fromName(receiveMode) ?? form.receiveMode,
+      receiveMode:receiveMode ?? form.receiveMode,
       vehiclePhoto: vechPhoto,
       vehiclePhotoUrl: vechPhoto.isNotNull ? null : form.vehiclePhotoUrl,
       vehicleNo: vehicleNo ?? form.vehicleNo,
@@ -140,6 +140,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       weight2Photo: weight2Image,
       unloadedPilePhoto: unloadedPilePhoto,
     );
+    
     emitSafeState(state.copyWith(form: newForm));
   }
 
@@ -202,6 +203,10 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
   }
 
   void _submitGateEntry() async {
+    final form = state.form;
+    if (form.weight2.isNull) {
+      return _emitError('Enter Weight without Material');
+    }
     emitSafeState(state.copyWith(isLoading: true));
     final res = await repo.submitGateEntry(state.form);
     return res.fold(
@@ -243,7 +248,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       if (form.vehiclePhoto.isNull) {
         return optionOf('Capture Vehicle Photo.');
       } else if (form.vehicleNo.doesNotHaveValue) {
-        return optionOf('Enter Vechicle No.');
+        return optionOf('Enter Vehicle No.');
       } else if (form.driverName.doesNotHaveValue) {
         return optionOf('Enter Driver Name');
       } else if (form.driverMobileNo.isNull) {

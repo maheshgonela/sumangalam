@@ -102,7 +102,7 @@ class _InfiniteListViewState<T> extends State<_InfiniteListView<T>> {
       type: MaterialType.transparency,
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.zero,
         itemCount: listLen,
         controller: _scrollController,
         itemBuilder: (BuildContext ctx, int idx) {

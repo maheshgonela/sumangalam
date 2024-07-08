@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:sumangalam/constants/urls.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/utils/attachment_selection_mixin.dart';
@@ -92,10 +93,15 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: _selectedImage.isNotNull
-                      ? Image.memory(_selectedImage!.readAsBytesSync(),
-                          fit: BoxFit.cover)
-                      : Image.network(
-                          'https://testsumangalam.easycloud.co.in/${widget.initialValue!}'),
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.memory(_selectedImage!.readAsBytesSync(),
+                            fit: BoxFit.cover),
+                      )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(Urls.filepath(widget.initialValue!)),
+                      ),
                 ),
               ],
             ],

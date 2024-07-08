@@ -24,5 +24,5 @@ class Urls {
   static final purchaseOrders = '$cusWs/sumangalam.api.get_purchase_order_no';
   static final supplierList = '$cusWs/sumangalam.api.get_supplier_list';
 
-  static const filePath = 'https://testsumangalam.easycloud.co.in';
+  static filepath(String path) => '${baseUrl.replaceAll('api', '')}/$path';
 }

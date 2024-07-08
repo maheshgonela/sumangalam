@@ -6,6 +6,7 @@ import 'package:sumangalam/core/widgets/simple_app_bar.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart';
+import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
 import 'package:sumangalam/features/gate_entry/presentation/ui/create/widgets/gate_entry_form_widget.dart';
 
 class NewGateEntry extends StatefulWidget {
@@ -44,7 +45,10 @@ class _NewGateEntryState extends State<NewGateEntry> {
         content: state.successMsg.valueOrEmpty,
         onTapDismiss: context.exit,
       );
-      context.cubit<NewGateEntryCubit>().handled();
+      final filters = context.read<GateEntryFilterCubit>().state;
+      context
+        ..cubit<NewGateEntryCubit>().handled()
+        ..cubit<GateEntriesCubit>().fetchInitial(filters);
       setState(() {});
       return;
     }
@@ -56,9 +60,7 @@ class _NewGateEntryState extends State<NewGateEntry> {
         onTapDismiss: context.exit,
       );
       if (!context.mounted) return;
-      context
-        ..cubit<NewGateEntryCubit>().handled()
-        ..cubit<GateEntriesCubit>().fetchInitial();
+      context.cubit<NewGateEntryCubit>().handled();
       return;
     }
   }

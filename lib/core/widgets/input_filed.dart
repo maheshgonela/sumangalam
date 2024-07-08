@@ -78,6 +78,7 @@ class InputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: TextField(
+            onTapOutside: (_) => FocusScope.of(context).unfocus(),
             controller: controller,
             decoration: InputDecoration(
               labelText: labelText,
@@ -86,6 +87,8 @@ class InputField extends StatelessWidget {
               focusedBorder: textFieldBorder,
               contentPadding: const EdgeInsets.all(16.0),
               suffixIcon: suffixIcon,
+              filled: readOnly,
+              fillColor: AppColors.himlayaPeeks,
               counterText: '',
             ),
             obscuringCharacter: '*',

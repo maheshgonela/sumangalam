@@ -20,27 +20,23 @@ class _StatusMenuWidgetState extends State<StatusMenuWidget> {
       isExpanded: false,
       value: _selectedDuration,
       dropdownColor: AppColors.white,
-      hint: Text(
-        'Select Status',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColors.white),
+            borderRadius: BorderRadius.circular(8)),
         fillColor: Colors.white,
-    filled: true,
-        border: InputBorder.none),
-
+        filled: true,
+        
+        border: InputBorder.none,
+      ),
       items: ['Draft', 'Update', 'Submit'].map((e) {
         return DropdownMenuItem<String>(
           value: e,
           alignment: Alignment.center,
-          child: Text(
-            e,
-            style: context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)
-          ),
+          child: Text(e,
+              style: context.textTheme.labelLarge
+                  ?.copyWith(fontWeight: FontWeight.bold)),
         );
       }).toList(),
       onChanged: (String? value) {

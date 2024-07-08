@@ -17,6 +17,7 @@ import 'package:sumangalam/features/gate_entry/presentation/ui/entries/gate_entr
 
 class AppRouterConfig {
   static final parentNavigatorKey = GlobalKey<NavigatorState>();
+  static final getCurrContext = parentNavigatorKey.currentContext;
   static final _sectionNavigatorKey = GlobalKey<NavigatorState>();
 
   static final router = GoRouter(

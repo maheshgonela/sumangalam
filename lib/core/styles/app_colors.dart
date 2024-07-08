@@ -24,4 +24,5 @@ class AppColors {
   static const error = Color(0xFFFF4D17);
   static const defaultTextColor = Color(0xFF707070);
   static const mintLeaf = Color(0xFF07CEA5);
+  static const himlayaPeeks = Color(0xFFF2F2F2);
 }

@@ -11,36 +11,33 @@ class AppFailureWidget extends StatelessWidget {
   final VoidCallback? retry;
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.warning_amber_outlined,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.warning_amber_outlined,
+            color: AppColors.error,
+            size: 64,
+          ),
+          const SizedBox(height: 8.0),
+          Text(
+            errorMsg,
+            textAlign: TextAlign.center,
+            style: context.textTheme.titleMedium?.copyWith(
               color: AppColors.error,
-              size: 64,
             ),
-            const SizedBox(height: 8.0),
-            Text(
-              errorMsg,
-              
-              textAlign: TextAlign.center,
-              style: context.textTheme.titleMedium?.copyWith(
-                color: AppColors.error,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            AppButton(
-              onPressed: retry,
-              margin: const EdgeInsets.all(12.0),
-              label: 'REFRESH',
-              bgColor: AppColors.error,
-            )
-          ],
-        ),
+          ),
+          const SizedBox(height: 8.0),
+          AppButton(
+            onPressed: retry,
+            margin: const EdgeInsets.all(12.0),
+            label: 'REFRESH',
+            bgColor: AppColors.error,
+          ),
+        ],
       ),
     );
   }

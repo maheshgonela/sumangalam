@@ -11,17 +11,24 @@ import 'package:sumangalam/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
 import 'package:sumangalam/features/gate_entry/model/new_gate_entry_form.dart';
 import 'package:sumangalam/features/gate_entry/model/po_order.dart';
+import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
 
 
 @LazySingleton(as: GateEntryRepo)
 class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   const GateEntryRepoImpl(super.client);
   @override
-  AsyncValueOf<List<GateEntryForm>> fetchGateEntries(String? status, int start, int end) async {
+  AsyncValueOf<List<GateEntryForm>> fetchGateEntries(GateEntryFilter filter, int start, int end) async {
     try {
       final config = RequestConfig(
         url: Urls.gateEntries, 
-        body: jsonEncode({'status' : status, 'start' : start, 'end' : end}),
+        body: jsonEncode({
+          'status' : filter.status, 
+          'start' : start, 
+          'end' : end,
+          if(filter.query.containsValidValue)
+            'query' : filter.query,
+        }),
         parser: (p0) {
           final entries = p0['message']['data'] as List<dynamic>;
           return entries.map((e) => GateEntryForm.fromJson(e)).toList();
@@ -72,7 +79,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
         return right(Pair(docNo, successMsg));
       });
     } on Exception catch (e, st) {
-      $logger.error('[Gate Entry]', e, st);
+      $logger.error('[Gate Entry Creation]', e, st);
       return left(Failure(error: e.toString()));
     }
   }
@@ -97,7 +104,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
         return right(successMsg);
       });
     } on Exception catch (e, st) {
-      $logger.error('[Gate Entry]', e, st);
+      $logger.error('[Gate Entry Updation]', e, st);
       return left(Failure(error: e.toString()));
     }
   }
@@ -119,7 +126,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
         return right(successMsg);
       });
     } on Exception catch (e, st) {
-      $logger.error('[Gate Entry]', e, st);
+      $logger.error('[Gate Entry Submit]', e, st);
       return left(Failure(error: e.toString()));
     }
   }
@@ -135,7 +142,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       final response = await post(config);
       return response.processAsync((r) => right(r.data!));
     } on Exception catch (e, st) {
-      $logger.error('[Gate Entry]', e, st);
+      $logger.error('[Gate Entry Attachments]', e, st);
       return left(Failure(error: e.toString()));
     }
   }

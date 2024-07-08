@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/app/widgets/status_menu_widget.dart';
 
 import 'package:sumangalam/core/core.dart';
@@ -8,6 +9,7 @@ import 'package:sumangalam/core/styles/app_text_styles.dart';
 import 'package:sumangalam/core/widgets/app_spacer.dart';
 import 'package:sumangalam/core/widgets/simple_search_bar.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.dart';
+import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
 
 enum PageMode2 {
   gateentry('Gate Entry'),
@@ -87,10 +89,19 @@ class AppPageView2 extends StatelessWidget {
                           : 'Search Gate Exit - ID',
                       onCancel: () {
                         if (mode == PageMode2.gateentry) {
+                          final filterState = context.read<GateEntryFilterCubit>().state;
+                          context
+                            ..cubit<GateEntryFilterCubit>().onSearch(null)
+                            ..cubit<GateEntriesCubit>().fetchInitial(GateEntryFilter(status: filterState.status));
                         } else {}
                       },
                       onSearch: (query) {
                         if (mode == PageMode2.gateentry) {
+                          final filterState = context.read<GateEntryFilterCubit>().state;
+                          final filters = filterState.copyWith(query: query);
+                          context
+                            ..cubit<GateEntryFilterCubit>().onSearch(query)
+                            ..cubit<GateEntriesCubit>().fetchInitial(filters);
                         } else {}
                       },
                     ),
@@ -98,9 +109,15 @@ class AppPageView2 extends StatelessWidget {
                   AppSpacer.p8(),
                   Expanded(
                     flex: 1,
-                    child: StatusMenuWidget(onChange: (status) {
-                      context.cubit<GateEntriesCubit>().fetchInitial(status);
-                    },),
+                    child: StatusMenuWidget(
+                      onChange: (status) {
+                        final filterState = context.read<GateEntryFilterCubit>().state;
+                        final filters = filterState.copyWith(status: status);
+                        context
+                          ..cubit<GateEntryFilterCubit>().onChangeStatus(status)
+                          ..cubit<GateEntriesCubit>().fetchInitial(filters);
+                      },
+                    ),
                   )
                 ],
               ),

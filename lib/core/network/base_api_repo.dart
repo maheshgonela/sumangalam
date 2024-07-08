@@ -60,15 +60,15 @@ class BaseApiRepository {
         final cookie = await _getAuthCookie();
         commonHeaders.addAll(cookie);
       }
+      print(commonHeaders);
       final RequestConfig<T> requestConfig = config.copyWith(
         headers: {...config.headers ?? {}, ...commonHeaders},
       );
 
+
       final ApiResponse<T> response = await apiCall(requestConfig);
       if (response.isFailed()) {
-        return left(Failure(
-          error: response.error!,
-        ));
+        return left(Failure(error: response.error!));
       }
 
       return right(response);

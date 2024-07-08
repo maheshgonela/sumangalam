@@ -37,9 +37,9 @@ class AppButton extends StatelessWidget {
           fixedSize: Size.fromWidth(context.sizeOfWidth),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.0),
-            side: const BorderSide(color: AppColors.normal),
+            side: BorderSide(color: bgColor),
           ),
-          padding: const EdgeInsets.all(14.0),
+          padding: const EdgeInsets.all(10.0),
         ),
         onPressed: isLoading ? null : onPressed,
         label: isLoading
