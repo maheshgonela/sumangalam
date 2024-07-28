@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:sumangalam/core/cubit/infinite_list/infinite_list_cubit.dart';
 import 'package:sumangalam/core/model/failure.dart';
-import 'package:sumangalam/core/widgets/app_failure_widget.dart';
-import 'package:sumangalam/core/widgets/app_loading_indicator.dart';
+import 'package:sumangalam/core/widgets/widgets.dart';
 
 typedef ChildWidgetBuilder<T> = Widget Function(BuildContext context, T data);
 
@@ -32,7 +31,10 @@ class InfiniteListViewWidget<T extends StateStreamable<InfiniteListState<D>>, D>
           loading: () => const Center(child: AppLoadingIndicator()),
           success: (List<D> data,bool hasReachedMax,bool isloadingMore, Failure? failure) {
             if (data.isEmpty) {
-              return AppFailureWidget(errorMsg: emptyListText, retry: fetchInitial);
+              return EmptyListWidget(
+                message: emptyListText,
+                retry: fetchInitial,
+              );
             }
 
             return _InfiniteListView<D>(

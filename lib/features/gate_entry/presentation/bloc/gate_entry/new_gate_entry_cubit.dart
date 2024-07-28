@@ -19,7 +19,7 @@ extension ActionTypeApi on ActionType {
     return switch(this) {
       ActionType.vechileIn => 'Create',
       ActionType.unloading => 'Update',
-      ActionType.vechileOut || ActionType.completed => 'Submit',
+      ActionType.vechileOut || ActionType.completed => 'Submitted',
     };
   }
 }
@@ -44,7 +44,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
         null => ActionType.vechileIn,
         'Draft' => ActionType.unloading,
         'Update' => ActionType.vechileOut,
-        'Submit' => ActionType.completed,
+        'Submitted' => ActionType.completed,
         String() => ActionType.vechileIn,
       };
       emitSafeState(state.copyWith(
@@ -89,7 +89,10 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     String? vendorInvoiceNo,
     String? vendorInvoiceDate,
     String? weight1,
+    String? weight2,
+    String? documentWeight,
     String? remarks,
+    bool? isPOAvailable,
     File? docPhoto,
 
     // "By Hand" fields
@@ -109,13 +112,19 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     final form = state.form;
     final documentPhoto = docPhoto ?? form.docPhoto;
     final vechPhoto = vehiclePhoto ?? form.vehiclePhoto;
-    final weightVal =
-        weight1.isNotNull ? double.tryParse(weight1!) : form.weight1;
+    final weight1Val = weight1.isNotNull 
+      ? double.tryParse(weight1!) : form.weight1;
+    final weight2Val = weight2.isNotNull 
+      ? double.tryParse(weight2!) : form.weight2;
+    final docWeightVal = documentWeight.isNotNull 
+      ? documentWeight! : form.documentWeight;
     final sealingPhoto = sealPhoto ?? form.sealPhoto;
     final weight1Photo = weightPhoto ?? form.weight1Photo;
     final unloadedPilePhoto = pilePhoto ?? form.unloadedPilePhoto;
     final weight2Image = weight2Photo ?? form.weight2Photo;
-
+    final actualWeight = weight2Val.isNotNull && weight1Val.isNotNull 
+      ? weight1Val! - weight2Val!
+      : null;
     final newForm = form.copyWith(
       materialType: materialType ?? form.materialType,
       vendor: vendorName?.trim() ?? form.vendor,
@@ -126,6 +135,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       docPhotoUrl: documentPhoto.isNotNull ? null : form.docPhotoUrl,
       receiveMode:receiveMode ?? form.receiveMode,
       vehiclePhoto: vechPhoto,
+      isPOAvailable: isPOAvailable ?? form.isPOAvailable,
       vehiclePhotoUrl: vechPhoto.isNotNull ? null : form.vehiclePhotoUrl,
       vehicleNo: vehicleNo ?? form.vehicleNo,
       driverName: driverName ?? form.driverName,
@@ -135,9 +145,12 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       sealPhoto: sealingPhoto,
       sealPhotoUrl: sealingPhoto.isNotNull ? null : form.sealPhotoUrl,
       remarks: remarks ?? form.remarks,
-      weight1: weightVal,
+      weight1: weight1Val,
+      weight2: weight2Val,
+      documentWeight: docWeightVal,
       weight1Photo: weight1Photo,
       weight2Photo: weight2Image,
+      actualWeight: actualWeight,
       unloadedPilePhoto: unloadedPilePhoto,
     );
     
@@ -190,6 +203,13 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     if (form.unloadedPilePhoto.isNull && form.unloadedPilePhotoUrl.isNull) {
       return _emitError('Capture Unloaded Pile Photo');
     }
+    if(form.actualWeight.isNull) {
+      return _emitError('Update Weight without out material. To obtain actual weight.');
+    }
+    if(form.actualWeight!.isNegative) {
+      return _emitError('Actual weight cant be Negative');
+    }
+
     emitSafeState(state.copyWith(isLoading: true));
     final res = await repo.updatePileDetails(state.form);
     return res.fold(
@@ -206,6 +226,10 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     final form = state.form;
     if (form.weight2.isNull) {
       return _emitError('Enter Weight without Material');
+    }
+    final isByVehicle = form.receiveMode == ReceiverMode.byVehicle;
+    if (isByVehicle && form.weight2Photo.isNull && form.weight2PhotoUrl.isNull) {
+      return _emitError('Upload Weight without Material Photo');
     }
     emitSafeState(state.copyWith(isLoading: true));
     final res = await repo.submitGateEntry(state.form);
@@ -230,21 +254,25 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
 
   Option<String> _validate() {
     final form = state.form;
+    final isPOAvailable = form.isPOAvailable.isTrue;
     if (form.materialType.doesNotHaveValue) {
       return optionOf('Select Material Type');
     } else if (form.vendor.doesNotHaveValue) {
       return optionOf('Select Vendor');
-    } else if (form.poNumber.doesNotHaveValue) {
+    } else if (isPOAvailable && form.poNumber.doesNotHaveValue) {
       return optionOf('Select Purchase Order No.');
     } else if (form.receiveMode.isNull) {
       return optionOf('Select Recevie Mode');
-    } else if (form.receiveMode == ReceiverMode.byHand) {
+    } if (form.receiveMode == ReceiverMode.byHand) {
       if (form.delivererName.doesNotHaveValue) {
         return optionOf('Enter Delivery Person Name');
       } else if (form.delivererMobileNo.doesNotHaveValue) {
         return optionOf('Enter Delivery Person Mobile No.');
       }
-    } else if (form.receiveMode == ReceiverMode.byVehicle) {
+    } 
+    if (form.receiveMode == ReceiverMode.byVehicle) {
+      final isImportScrap = form.materialType == 'Import Scrap';
+
       if (form.vehiclePhoto.isNull) {
         return optionOf('Capture Vehicle Photo.');
       } else if (form.vehicleNo.doesNotHaveValue) {
@@ -253,18 +281,22 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
         return optionOf('Enter Driver Name');
       } else if (form.driverMobileNo.isNull) {
         return optionOf('Enter Driver Mobile No.');
-      } else if (form.sealPhoto.isNull && form.sealPhotoUrl.isNull) {
+      } else if (isImportScrap && form.sealPhoto.isNull && form.sealPhotoUrl.isNull) {
         return optionOf('Capture Seal Photo');
-      } else if (form.weight1.isNull) {
-        return optionOf('Enter weight with Material');
-      } else if (form.weight1Photo.isNull && form.weight1Url.isNull) {
-        return optionOf('Capture Weight (with Material) Photo');
       }
-    } else if (form.vendorInvoiceNo.doesNotHaveValue) {
+    } 
+    if (form.weight1.isNull) {
+      return optionOf('Enter weight with Material');
+    } else if (form.weight1Photo.isNull && form.weight1Url.isNull) {
+      return optionOf('Capture Weight (with Material) Photo');
+    }
+    if (form.vendorInvoiceNo.doesNotHaveValue) {
       return optionOf('Enter Vendor Invoice No.');
     } else if (form.vendorInvoiceDate.doesNotHaveValue) {
       return optionOf('Enter Vendor Invoice Date');
-    } else if (form.docPhoto.isNull && form.docPhoto.isNull) {
+    } else if(isPOAvailable && form.documentWeight.isNull) {
+      return optionOf('Enter Document Weight');
+    } else if (isPOAvailable && form.docPhoto.isNull && form.docPhotoUrl.isNull) {
       return optionOf('Capture Document Photo');
     }
     return const None();

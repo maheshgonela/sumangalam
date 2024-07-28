@@ -36,6 +36,9 @@ mixin _$GateEntryForm {
   String? get poNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'vendor_invoice_no')
   String? get vendorInvoiceNo => throw _privateConstructorUsedError;
+  @BoolenAPIConverter()
+  @JsonKey(name: 'po_available')
+  bool? get isPOAvailable => throw _privateConstructorUsedError;
   @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
   String? get vendorInvoiceDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'remarks')
@@ -73,6 +76,8 @@ mixin _$GateEntryForm {
   String? get driverMobileNo => throw _privateConstructorUsedError;
   @JsonKey(name: 'weight1')
   double? get weight1 => throw _privateConstructorUsedError; // With Material
+  @JsonKey(name: 'bill_weight')
+  String? get documentWeight => throw _privateConstructorUsedError;
   @JsonKey(
       name: 'seal_tag_image',
       includeFromJson: true,
@@ -102,6 +107,9 @@ mixin _$GateEntryForm {
   String? get weight2PhotoUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'weight2')
   double? get weight2 => throw _privateConstructorUsedError; // Without Material
+  @JsonKey(name: 'actual_weight')
+  double? get actualWeight =>
+      throw _privateConstructorUsedError; // With Material
 // Add Pile Details
   @JsonKey(
       name: 'unloaded_pile_pic',
@@ -135,6 +143,7 @@ abstract class $GateEntryFormCopyWith<$Res> {
       ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
+      @BoolenAPIConverter() @JsonKey(name: 'po_available') bool? isPOAvailable,
       @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
       String? vendorInvoiceDate,
       @JsonKey(name: 'remarks') String? remarks,
@@ -163,6 +172,7 @@ abstract class $GateEntryFormCopyWith<$Res> {
       @JsonKey(name: 'driver_name') String? driverName,
       @JsonKey(name: 'driver_mobile_no') String? driverMobileNo,
       @JsonKey(name: 'weight1') double? weight1,
+      @JsonKey(name: 'bill_weight') String? documentWeight,
       @JsonKey(
           name: 'seal_tag_image',
           includeFromJson: true,
@@ -190,6 +200,7 @@ abstract class $GateEntryFormCopyWith<$Res> {
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? weight2PhotoUrl,
       @JsonKey(name: 'weight2') double? weight2,
+      @JsonKey(name: 'actual_weight') double? actualWeight,
       @JsonKey(
           name: 'unloaded_pile_pic',
           includeFromJson: true,
@@ -222,6 +233,7 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
     Object? receiveMode = freezed,
     Object? poNumber = freezed,
     Object? vendorInvoiceNo = freezed,
+    Object? isPOAvailable = freezed,
     Object? vendorInvoiceDate = freezed,
     Object? remarks = freezed,
     Object? status = freezed,
@@ -235,6 +247,7 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
     Object? driverName = freezed,
     Object? driverMobileNo = freezed,
     Object? weight1 = freezed,
+    Object? documentWeight = freezed,
     Object? sealPhoto = freezed,
     Object? sealPhotoUrl = freezed,
     Object? weight1Photo = freezed,
@@ -242,6 +255,7 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
     Object? weight2Photo = freezed,
     Object? weight2PhotoUrl = freezed,
     Object? weight2 = freezed,
+    Object? actualWeight = freezed,
     Object? unloadedPilePhoto = freezed,
     Object? unloadedPilePhotoUrl = freezed,
   }) {
@@ -278,6 +292,10 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
           ? _value.vendorInvoiceNo
           : vendorInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
+      isPOAvailable: freezed == isPOAvailable
+          ? _value.isPOAvailable
+          : isPOAvailable // ignore: cast_nullable_to_non_nullable
+              as bool?,
       vendorInvoiceDate: freezed == vendorInvoiceDate
           ? _value.vendorInvoiceDate
           : vendorInvoiceDate // ignore: cast_nullable_to_non_nullable
@@ -330,6 +348,10 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
           ? _value.weight1
           : weight1 // ignore: cast_nullable_to_non_nullable
               as double?,
+      documentWeight: freezed == documentWeight
+          ? _value.documentWeight
+          : documentWeight // ignore: cast_nullable_to_non_nullable
+              as String?,
       sealPhoto: freezed == sealPhoto
           ? _value.sealPhoto
           : sealPhoto // ignore: cast_nullable_to_non_nullable
@@ -357,6 +379,10 @@ class _$GateEntryFormCopyWithImpl<$Res, $Val extends GateEntryForm>
       weight2: freezed == weight2
           ? _value.weight2
           : weight2 // ignore: cast_nullable_to_non_nullable
+              as double?,
+      actualWeight: freezed == actualWeight
+          ? _value.actualWeight
+          : actualWeight // ignore: cast_nullable_to_non_nullable
               as double?,
       unloadedPilePhoto: freezed == unloadedPilePhoto
           ? _value.unloadedPilePhoto
@@ -388,6 +414,7 @@ abstract class _$$GateEntryFormImplCopyWith<$Res>
       ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
+      @BoolenAPIConverter() @JsonKey(name: 'po_available') bool? isPOAvailable,
       @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
       String? vendorInvoiceDate,
       @JsonKey(name: 'remarks') String? remarks,
@@ -416,6 +443,7 @@ abstract class _$$GateEntryFormImplCopyWith<$Res>
       @JsonKey(name: 'driver_name') String? driverName,
       @JsonKey(name: 'driver_mobile_no') String? driverMobileNo,
       @JsonKey(name: 'weight1') double? weight1,
+      @JsonKey(name: 'bill_weight') String? documentWeight,
       @JsonKey(
           name: 'seal_tag_image',
           includeFromJson: true,
@@ -443,6 +471,7 @@ abstract class _$$GateEntryFormImplCopyWith<$Res>
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? weight2PhotoUrl,
       @JsonKey(name: 'weight2') double? weight2,
+      @JsonKey(name: 'actual_weight') double? actualWeight,
       @JsonKey(
           name: 'unloaded_pile_pic',
           includeFromJson: true,
@@ -473,6 +502,7 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
     Object? receiveMode = freezed,
     Object? poNumber = freezed,
     Object? vendorInvoiceNo = freezed,
+    Object? isPOAvailable = freezed,
     Object? vendorInvoiceDate = freezed,
     Object? remarks = freezed,
     Object? status = freezed,
@@ -486,6 +516,7 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
     Object? driverName = freezed,
     Object? driverMobileNo = freezed,
     Object? weight1 = freezed,
+    Object? documentWeight = freezed,
     Object? sealPhoto = freezed,
     Object? sealPhotoUrl = freezed,
     Object? weight1Photo = freezed,
@@ -493,6 +524,7 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
     Object? weight2Photo = freezed,
     Object? weight2PhotoUrl = freezed,
     Object? weight2 = freezed,
+    Object? actualWeight = freezed,
     Object? unloadedPilePhoto = freezed,
     Object? unloadedPilePhotoUrl = freezed,
   }) {
@@ -529,6 +561,10 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
           ? _value.vendorInvoiceNo
           : vendorInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
+      isPOAvailable: freezed == isPOAvailable
+          ? _value.isPOAvailable
+          : isPOAvailable // ignore: cast_nullable_to_non_nullable
+              as bool?,
       vendorInvoiceDate: freezed == vendorInvoiceDate
           ? _value.vendorInvoiceDate
           : vendorInvoiceDate // ignore: cast_nullable_to_non_nullable
@@ -581,6 +617,10 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
           ? _value.weight1
           : weight1 // ignore: cast_nullable_to_non_nullable
               as double?,
+      documentWeight: freezed == documentWeight
+          ? _value.documentWeight
+          : documentWeight // ignore: cast_nullable_to_non_nullable
+              as String?,
       sealPhoto: freezed == sealPhoto
           ? _value.sealPhoto
           : sealPhoto // ignore: cast_nullable_to_non_nullable
@@ -609,6 +649,10 @@ class __$$GateEntryFormImplCopyWithImpl<$Res>
           ? _value.weight2
           : weight2 // ignore: cast_nullable_to_non_nullable
               as double?,
+      actualWeight: freezed == actualWeight
+          ? _value.actualWeight
+          : actualWeight // ignore: cast_nullable_to_non_nullable
+              as double?,
       unloadedPilePhoto: freezed == unloadedPilePhoto
           ? _value.unloadedPilePhoto
           : unloadedPilePhoto // ignore: cast_nullable_to_non_nullable
@@ -634,6 +678,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
       this.receiveMode,
       @JsonKey(name: 'purchase_order_no') this.poNumber,
       @JsonKey(name: 'vendor_invoice_no') this.vendorInvoiceNo,
+      @BoolenAPIConverter() @JsonKey(name: 'po_available') this.isPOAvailable,
       @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
       this.vendorInvoiceDate,
       @JsonKey(name: 'remarks') this.remarks,
@@ -661,6 +706,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
       @JsonKey(name: 'driver_name') this.driverName,
       @JsonKey(name: 'driver_mobile_no') this.driverMobileNo,
       @JsonKey(name: 'weight1') this.weight1,
+      @JsonKey(name: 'bill_weight') this.documentWeight,
       @JsonKey(
           name: 'seal_tag_image',
           includeFromJson: true,
@@ -687,6 +733,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.weight2PhotoUrl,
       @JsonKey(name: 'weight2') this.weight2,
+      @JsonKey(name: 'actual_weight') this.actualWeight,
       @JsonKey(
           name: 'unloaded_pile_pic',
           includeFromJson: true,
@@ -724,6 +771,10 @@ class _$GateEntryFormImpl implements _GateEntryForm {
   @override
   @JsonKey(name: 'vendor_invoice_no')
   final String? vendorInvoiceNo;
+  @override
+  @BoolenAPIConverter()
+  @JsonKey(name: 'po_available')
+  final bool? isPOAvailable;
   @override
   @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
   final String? vendorInvoiceDate;
@@ -776,6 +827,9 @@ class _$GateEntryFormImpl implements _GateEntryForm {
   final double? weight1;
 // With Material
   @override
+  @JsonKey(name: 'bill_weight')
+  final String? documentWeight;
+  @override
   @JsonKey(
       name: 'seal_tag_image',
       includeFromJson: true,
@@ -813,6 +867,10 @@ class _$GateEntryFormImpl implements _GateEntryForm {
   @JsonKey(name: 'weight2')
   final double? weight2;
 // Without Material
+  @override
+  @JsonKey(name: 'actual_weight')
+  final double? actualWeight;
+// With Material
 // Add Pile Details
   @override
   @JsonKey(
@@ -828,7 +886,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
 
   @override
   String toString() {
-    return 'GateEntryForm(gateEntryNo: $gateEntryNo, entryDate: $entryDate, createdtime: $createdtime, materialType: $materialType, vendor: $vendor, receiveMode: $receiveMode, poNumber: $poNumber, vendorInvoiceNo: $vendorInvoiceNo, vendorInvoiceDate: $vendorInvoiceDate, remarks: $remarks, status: $status, docPhoto: $docPhoto, docPhotoUrl: $docPhotoUrl, delivererName: $delivererName, delivererMobileNo: $delivererMobileNo, vehiclePhoto: $vehiclePhoto, vehiclePhotoUrl: $vehiclePhotoUrl, vehicleNo: $vehicleNo, driverName: $driverName, driverMobileNo: $driverMobileNo, weight1: $weight1, sealPhoto: $sealPhoto, sealPhotoUrl: $sealPhotoUrl, weight1Photo: $weight1Photo, weight1Url: $weight1Url, weight2Photo: $weight2Photo, weight2PhotoUrl: $weight2PhotoUrl, weight2: $weight2, unloadedPilePhoto: $unloadedPilePhoto, unloadedPilePhotoUrl: $unloadedPilePhotoUrl)';
+    return 'GateEntryForm(gateEntryNo: $gateEntryNo, entryDate: $entryDate, createdtime: $createdtime, materialType: $materialType, vendor: $vendor, receiveMode: $receiveMode, poNumber: $poNumber, vendorInvoiceNo: $vendorInvoiceNo, isPOAvailable: $isPOAvailable, vendorInvoiceDate: $vendorInvoiceDate, remarks: $remarks, status: $status, docPhoto: $docPhoto, docPhotoUrl: $docPhotoUrl, delivererName: $delivererName, delivererMobileNo: $delivererMobileNo, vehiclePhoto: $vehiclePhoto, vehiclePhotoUrl: $vehiclePhotoUrl, vehicleNo: $vehicleNo, driverName: $driverName, driverMobileNo: $driverMobileNo, weight1: $weight1, documentWeight: $documentWeight, sealPhoto: $sealPhoto, sealPhotoUrl: $sealPhotoUrl, weight1Photo: $weight1Photo, weight1Url: $weight1Url, weight2Photo: $weight2Photo, weight2PhotoUrl: $weight2PhotoUrl, weight2: $weight2, actualWeight: $actualWeight, unloadedPilePhoto: $unloadedPilePhoto, unloadedPilePhotoUrl: $unloadedPilePhotoUrl)';
   }
 
   @override
@@ -851,6 +909,8 @@ class _$GateEntryFormImpl implements _GateEntryForm {
                 other.poNumber == poNumber) &&
             (identical(other.vendorInvoiceNo, vendorInvoiceNo) ||
                 other.vendorInvoiceNo == vendorInvoiceNo) &&
+            (identical(other.isPOAvailable, isPOAvailable) ||
+                other.isPOAvailable == isPOAvailable) &&
             (identical(other.vendorInvoiceDate, vendorInvoiceDate) ||
                 other.vendorInvoiceDate == vendorInvoiceDate) &&
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
@@ -874,6 +934,8 @@ class _$GateEntryFormImpl implements _GateEntryForm {
             (identical(other.driverMobileNo, driverMobileNo) ||
                 other.driverMobileNo == driverMobileNo) &&
             (identical(other.weight1, weight1) || other.weight1 == weight1) &&
+            (identical(other.documentWeight, documentWeight) ||
+                other.documentWeight == documentWeight) &&
             (identical(other.sealPhoto, sealPhoto) ||
                 other.sealPhoto == sealPhoto) &&
             (identical(other.sealPhotoUrl, sealPhotoUrl) ||
@@ -887,6 +949,8 @@ class _$GateEntryFormImpl implements _GateEntryForm {
             (identical(other.weight2PhotoUrl, weight2PhotoUrl) ||
                 other.weight2PhotoUrl == weight2PhotoUrl) &&
             (identical(other.weight2, weight2) || other.weight2 == weight2) &&
+            (identical(other.actualWeight, actualWeight) ||
+                other.actualWeight == actualWeight) &&
             (identical(other.unloadedPilePhoto, unloadedPilePhoto) ||
                 other.unloadedPilePhoto == unloadedPilePhoto) &&
             (identical(other.unloadedPilePhotoUrl, unloadedPilePhotoUrl) ||
@@ -905,6 +969,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
         receiveMode,
         poNumber,
         vendorInvoiceNo,
+        isPOAvailable,
         vendorInvoiceDate,
         remarks,
         status,
@@ -918,6 +983,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
         driverName,
         driverMobileNo,
         weight1,
+        documentWeight,
         sealPhoto,
         sealPhotoUrl,
         weight1Photo,
@@ -925,6 +991,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
         weight2Photo,
         weight2PhotoUrl,
         weight2,
+        actualWeight,
         unloadedPilePhoto,
         unloadedPilePhotoUrl
       ]);
@@ -955,6 +1022,9 @@ abstract class _GateEntryForm implements GateEntryForm {
       final ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') final String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') final String? vendorInvoiceNo,
+      @BoolenAPIConverter()
+      @JsonKey(name: 'po_available')
+      final bool? isPOAvailable,
       @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
       final String? vendorInvoiceDate,
       @JsonKey(name: 'remarks') final String? remarks,
@@ -983,6 +1053,7 @@ abstract class _GateEntryForm implements GateEntryForm {
       @JsonKey(name: 'driver_name') final String? driverName,
       @JsonKey(name: 'driver_mobile_no') final String? driverMobileNo,
       @JsonKey(name: 'weight1') final double? weight1,
+      @JsonKey(name: 'bill_weight') final String? documentWeight,
       @JsonKey(
           name: 'seal_tag_image',
           includeFromJson: true,
@@ -1011,6 +1082,7 @@ abstract class _GateEntryForm implements GateEntryForm {
       @JsonKey(includeFromJson: false, includeToJson: false)
       final String? weight2PhotoUrl,
       @JsonKey(name: 'weight2') final double? weight2,
+      @JsonKey(name: 'actual_weight') final double? actualWeight,
       @JsonKey(
           name: 'unloaded_pile_pic',
           includeFromJson: true,
@@ -1048,6 +1120,10 @@ abstract class _GateEntryForm implements GateEntryForm {
   @override
   @JsonKey(name: 'vendor_invoice_no')
   String? get vendorInvoiceNo;
+  @override
+  @BoolenAPIConverter()
+  @JsonKey(name: 'po_available')
+  bool? get isPOAvailable;
   @override
   @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson)
   String? get vendorInvoiceDate;
@@ -1097,6 +1173,9 @@ abstract class _GateEntryForm implements GateEntryForm {
   @JsonKey(name: 'weight1')
   double? get weight1;
   @override // With Material
+  @JsonKey(name: 'bill_weight')
+  String? get documentWeight;
+  @override
   @JsonKey(
       name: 'seal_tag_image',
       includeFromJson: true,
@@ -1133,6 +1212,9 @@ abstract class _GateEntryForm implements GateEntryForm {
   @JsonKey(name: 'weight2')
   double? get weight2;
   @override // Without Material
+  @JsonKey(name: 'actual_weight')
+  double? get actualWeight;
+  @override // With Material
 // Add Pile Details
   @JsonKey(
       name: 'unloaded_pile_pic',

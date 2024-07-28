@@ -11,8 +11,8 @@ import 'package:sumangalam/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
 import 'package:sumangalam/features/gate_entry/model/new_gate_entry_form.dart';
 import 'package:sumangalam/features/gate_entry/model/po_order.dart';
+import 'package:sumangalam/features/gate_entry/model/supplier.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
-
 
 @LazySingleton(as: GateEntryRepo)
 class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
@@ -43,11 +43,31 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   }
 
   @override
-  AsyncValueOf<List<POOrder>> fetchPurchaseOrders(String query) async {
+  AsyncValueOf<List<Supplier>> getSuppliers(String query) async {
+    try {
+      final config = RequestConfig(
+        url: Urls.supplierList, 
+        body: jsonEncode({'supplier_name' : query}),
+        parser: (p0) {
+          final orders = p0['message']['data'] as List<dynamic>;
+          return orders.map((e) => Supplier.fromJson(e)).toList();
+        },
+      );
+
+      final response = await post(config);
+      return response.process((r) => right(r.data!));
+    } on Exception catch (e, st) {
+      $logger.error('[Supplier]', e, st);
+      return left(Failure(error: e.toString()));
+    }
+  }
+
+  @override
+  AsyncValueOf<List<POOrder>> fetchPurchaseOrders(String supplier) async {
     try {
       final config = RequestConfig(
         url: Urls.purchaseOrders, 
-        body: jsonEncode({'purchase_order_no' : query}),
+        body: jsonEncode({'supplier_name' : supplier}),
         parser: (p0) {
           final orders = p0['message']['data'] as List<dynamic>;
           return orders.map((e) => POOrder.fromJson(e)).toList();

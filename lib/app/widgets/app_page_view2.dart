@@ -16,7 +16,6 @@ enum PageMode2 {
   gateexit('Gate Exit');
 
   final String name;
-
   const PageMode2(this.name);
 }
 

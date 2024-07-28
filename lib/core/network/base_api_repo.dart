@@ -57,10 +57,10 @@ class BaseApiRepository {
         HttpHeaders.contentTypeHeader: 'application/json'
       };
       if (includeAuthHeader) {
-        final cookie = await _getAuthCookie();
+        final cookie = await _getAuthKey();
         commonHeaders.addAll(cookie);
       }
-      print(commonHeaders);
+
       final RequestConfig<T> requestConfig = config.copyWith(
         headers: {...config.headers ?? {}, ...commonHeaders},
       );
@@ -83,7 +83,7 @@ class BaseApiRepository {
     }
   }
 
-  Future<Map<String, dynamic>> _getAuthCookie() async {
+  Future<Map<String, dynamic>> _getAuthKey() async {
     final apiKey = user().apiKey;
     final apiSecret = user().apiSecret;
     if (apiKey.doesNotHaveValue || apiSecret.doesNotHaveValue) return {};

@@ -21,7 +21,7 @@ class _StatusMenuWidgetState extends State<StatusMenuWidget> {
       value: _selectedDuration,
       dropdownColor: AppColors.white,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.white),
             borderRadius: BorderRadius.circular(8)),
@@ -30,7 +30,7 @@ class _StatusMenuWidgetState extends State<StatusMenuWidget> {
         
         border: InputBorder.none,
       ),
-      items: ['Draft', 'Update', 'Submit'].map((e) {
+      items: ['All', 'Draft', 'Update', 'Submit'].map((e) {
         return DropdownMenuItem<String>(
           value: e,
           alignment: Alignment.center,

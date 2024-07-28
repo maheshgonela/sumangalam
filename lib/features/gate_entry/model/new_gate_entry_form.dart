@@ -18,6 +18,7 @@ class GateEntryForm with _$GateEntryForm {
     @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson) ReceiverMode? receiveMode,
     @JsonKey(name: 'purchase_order_no') String? poNumber,
     @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
+    @BoolenAPIConverter() @JsonKey(name: 'po_available') bool? isPOAvailable,
     @JsonKey(name: 'vendor_invoice_date', toJson: _dateToJson) String? vendorInvoiceDate,
     @JsonKey(name: 'remarks') String? remarks,
     String? status,
@@ -35,6 +36,7 @@ class GateEntryForm with _$GateEntryForm {
     @JsonKey(name: 'driver_name') String? driverName,
     @JsonKey(name: 'driver_mobile_no') String? driverMobileNo,
     @JsonKey(name: 'weight1') double? weight1, // With Material
+    @JsonKey(name: 'bill_weight') String? documentWeight,
     @JsonKey(name: 'seal_tag_image', includeFromJson: true, includeToJson: false, toJson: toNull, fromJson: toNull) File? sealPhoto,
     @JsonKey(includeFromJson: false, includeToJson: false) String? sealPhotoUrl,
     @JsonKey(name: 'weigth1_image', includeFromJson: true, includeToJson: false, toJson: toNull, fromJson: toNull) File? weight1Photo,
@@ -44,6 +46,7 @@ class GateEntryForm with _$GateEntryForm {
     @JsonKey(name: 'weight2_image', includeFromJson: true, includeToJson: false, toJson: toNull, fromJson: toNull) File? weight2Photo,
     @JsonKey(includeFromJson: false, includeToJson: false) String? weight2PhotoUrl,
     @JsonKey(name: 'weight2') double? weight2, // Without Material
+    @JsonKey(name: 'actual_weight') double? actualWeight, // With Material
 
     // Add Pile Details
     @JsonKey(name: 'unloaded_pile_pic', includeFromJson: true, includeToJson: false, toJson: toNull, fromJson: toNull) File? unloadedPilePhoto,

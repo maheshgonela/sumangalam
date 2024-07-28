@@ -14,7 +14,7 @@ class SectoinHead extends StatelessWidget {
         Text(title, style: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.bold,
         ),),
-        AppSpacer.p4(),
+        AppSpacer.p8(),
       ],
     );
   }

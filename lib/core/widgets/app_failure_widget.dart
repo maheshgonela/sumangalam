@@ -3,16 +3,15 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/widgets/primary_btn.dart';
 
-
 class AppFailureWidget extends StatelessWidget {
   const AppFailureWidget({super.key, required this.errorMsg, this.retry});
 
   final String errorMsg;
   final VoidCallback? retry;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
+    return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

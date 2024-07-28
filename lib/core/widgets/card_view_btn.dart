@@ -10,9 +10,9 @@ class ViewBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.darkGray,
+        backgroundColor: AppColors.kashmirBlue,
         visualDensity: VisualDensity.compact,
-        side: const BorderSide(color: AppColors.normal),
+        side: const BorderSide(color: AppColors.kashmirBlue),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),

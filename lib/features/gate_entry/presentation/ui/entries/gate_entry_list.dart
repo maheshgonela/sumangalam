@@ -24,7 +24,7 @@ class GateEntryListScrn extends StatelessWidget {
         ), 
         fetchInitial: () => fetchInital(context), 
         fetchMore: () => fetchMore(context), 
-        emptyListText: 'No GateEntries Found',
+        emptyListText: 'No Gate Entry found with matching filters.',
       ),
     );
   }

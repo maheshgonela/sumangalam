@@ -79,6 +79,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i17.NewGateEntryCubit(gh<_i11.GateEntryRepo>()));
     gh.factory<_i18.PurchaseOrderHelper>(
         () => _i18.PurchaseOrderHelper(repo: gh<_i11.GateEntryRepo>()));
+    gh.factory<_i18.SupplierListHelper>(
+        () => _i18.SupplierListHelper(repo: gh<_i11.GateEntryRepo>()));
     gh.factory<_i19.GateEntryBlocProvider>(
         () => _i19.GateEntryBlocProvider(repo: gh<_i11.GateEntryRepo>()));
     gh.factory<_i20.SignInCubit>(() => _i20.SignInCubit(gh<_i14.AuthRepo>()));

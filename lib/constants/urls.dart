@@ -24,5 +24,9 @@ class Urls {
   static final purchaseOrders = '$cusWs/sumangalam.api.get_purchase_order_no';
   static final supplierList = '$cusWs/sumangalam.api.get_supplier_list';
 
-  static filepath(String path) => '${baseUrl.replaceAll('api', '')}/$path';
+  static filepath(String path) {
+    print(path);
+    print('${baseUrl.replaceAll('api', '')}/${path.replaceAll("///", '/')}');
+    return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';
+  }
 }
