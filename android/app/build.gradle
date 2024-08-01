@@ -34,7 +34,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     namespace = "in.easycloud.sumangalam"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 33
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId = "in.easycloud.sumangalam"
-        minSdk = flutter.minSdkVersion
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName

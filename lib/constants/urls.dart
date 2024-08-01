@@ -6,6 +6,7 @@ final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
   factory Urls.test() => const Urls('https://testsumangalam.easycloud.co.in/api');
+  factory Urls.prod() => const Urls('https://livesumangalam.easycloud.co.in/api');
 
   const Urls(this.url);
 
@@ -25,8 +26,6 @@ class Urls {
   static final supplierList = '$cusWs/sumangalam.api.get_supplier_list';
 
   static filepath(String path) {
-    print(path);
-    print('${baseUrl.replaceAll('api', '')}/${path.replaceAll("///", '/')}');
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';
   }
 }
