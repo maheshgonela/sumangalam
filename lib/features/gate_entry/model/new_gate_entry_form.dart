@@ -81,6 +81,7 @@ class GateEntryForm with _$GateEntryForm {
     json['receive_mode'] = form.receiveMode?.name;
     json['document_image'] = form.docPhoto;
     json['unloaded_pile_pic'] = form.unloadedPilePhoto;
+    json['remarks'] = form.remarks;
 
     return json;
   }

@@ -203,12 +203,6 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     if (form.unloadedPilePhoto.isNull && form.unloadedPilePhotoUrl.isNull) {
       return _emitError('Capture Unloaded Pile Photo');
     }
-    if(form.actualWeight.isNull) {
-      return _emitError('Update Weight without out material. To obtain actual weight.');
-    }
-    if(form.actualWeight!.isNegative) {
-      return _emitError('Actual weight cant be Negative');
-    }
 
     emitSafeState(state.copyWith(isLoading: true));
     final res = await repo.updatePileDetails(state.form);
@@ -226,6 +220,13 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     final form = state.form;
     if (form.weight2.isNull) {
       return _emitError('Enter Weight without Material');
+    }
+
+    if(form.actualWeight.isNull) {
+      return _emitError('Update Weight without out material. To obtain actual weight.');
+    }
+    if(form.actualWeight!.isNegative) {
+      return _emitError('Actual weight cant be Negative');
     }
     final isByVehicle = form.receiveMode == ReceiverMode.byVehicle;
     if (isByVehicle && form.weight2Photo.isNull && form.weight2PhotoUrl.isNull) {
