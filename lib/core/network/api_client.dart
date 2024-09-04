@@ -4,12 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/network/api_response.dart';
-import 'package:sumangalam/core/network/error_pasrser.dart';
-import 'package:sumangalam/core/network/exception.dart';
-import 'package:sumangalam/core/network/internet_check.dart';
-import 'package:sumangalam/core/network/request_config.dart';
-import 'package:sumangalam/core/network/response_parser.dart';
+import 'package:sumangalam/core/network/network.dart';
 
 /// A class which is responsible to make actual api calls and provide [ApiResponse]s.
 ///
@@ -32,7 +27,6 @@ class ApiClient {
     );
   }
 
-
   /// Performs HTTP POST request with provided request configuration
   Future<ApiResponse<T>> post<T>(RequestConfig<T> params) async {
     return _request(
@@ -41,24 +35,9 @@ class ApiClient {
     );
   }
 
-  Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
+    Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
     return _request(
       (Uri urlWithParams) => client.post(urlWithParams, headers: params.headers, body: jsonDecode(params.body!)),
-      params,
-    );
-  }
-
-  /// Performs HTTP POST request with provided request configuration
-  Future<ApiResponse<T>> formUrlEncodeRequest<T>(RequestConfig<T> params) async {
-    return _request(
-      (Uri urlWithParams) => client.post(
-        urlWithParams, 
-        headers: {
-          ...params.headers ?? {},
-        }, 
-        body: params.body,
-        // encoding: Encoding.getByName('utf-8')
-      ),
       params,
     );
   }
@@ -82,9 +61,8 @@ class ApiClient {
         if (reqParams != null) {
           for (final MapEntry<String, dynamic> param in reqParams.entries) {
             if (param.value is File?) {
-               final originalFile = param.value as File;
-              final file = await http.MultipartFile.fromPath(param.key, originalFile.path);
-              request.files.add(file);
+              final File originalFile = param.value as File;
+              await _addFileToRequest(param.key, originalFile, request);
             } else {
               request.fields.putIfAbsent(param.key, () => param.value);
             }
@@ -97,6 +75,13 @@ class ApiClient {
       },
       params,
     );
+  }
+
+  Future<void> _addFileToRequest(String key, File? file, http.MultipartRequest request) async {
+    if (file != null) {
+      final multipartFile = await http.MultipartFile.fromPath(key, file.path);
+      request.files.add(multipartFile);
+    }
   }
 
   Future<ApiResponse<T>> _request<T>(
@@ -114,15 +99,10 @@ class ApiClient {
       final String resBody = httpResponse.body;
       
       if (kDebugMode) {
-        print(params);
-        final modifiedParams = {...params.reqParams ?? {}};
-        modifiedParams.removeWhere((key, value) {
-          if(key == 'file' && kDebugMode) $logger.devLog(value);
-          return key == 'file';
-        });
         $logger
           ..info(uri)
-          ..info(params.body ?? modifiedParams)
+          ..info(params.body ?? params.reqParams)
+          ..info(params.headers)
           ..info('Status Code $statusCode')
           ..info('Response : $resBody');
       }
@@ -141,27 +121,28 @@ class ApiClient {
 
         return result;
       } else {
-        if (statusCode == HttpStatus.unauthorized || statusCode <= HttpStatus.internalServerError) {
-          final res = defaultErrorParser(jsonDecode(resBody), Errors.invalidcredentials);
-          throw BaseApiException(res.error);
+        if(statusCode == HttpStatus.gatewayTimeout) {
+          throw ServerException(Errors.gatewayTimeout);
+        } else if(statusCode == HttpStatus.unauthorized) {
+          throw ServerException(Errors.invalidcredentials);
+        } else if ((statusCode >= HttpStatus.internalServerError &&
+            statusCode <= HttpStatus.networkConnectTimeoutError) || statusCode == HttpStatus.expectationFailed) {
+          final message = defaultErrorParser(jsonDecode(resBody), Errors.internalServerError);
+          throw ServerException(message);
         } else if (statusCode >= HttpStatus.badRequest &&
             statusCode <= HttpStatus.clientClosedRequest) {
           throw ClientException(Errors.clientError);
-        } else if ( statusCode <= HttpStatus.networkConnectTimeoutError) {
-          throw ServerException(Errors.internalServerError);
         } else {
           throw UnknownException(Errors.unknown);
         }
       }
-    } on SocketException catch(e,st) {
-      $logger.error('[API client SocketException]',e, st);
-      throw ConnectionException(Errors.connectionIssue);
+    } on ServerException catch(e, _) {
+      throw BaseApiException(e.message);
     } on FormatException catch (e) {
       throw ParseException(e.message);
     } on Exception catch (e, st) {
       $logger.error('[API client SocketException]',e, st);
       if (e is NoInternetException ||
-          e is BaseApiException ||
           e is UnExpectedResponseException ||
           e is UnAuthorizedException ||
           e is ClientException ||

@@ -1,11 +1,10 @@
 abstract class AppStaticData {
   static const List<String> materialTypes = [
-    'Ingots',
-    'Import Scrap',
-    'Local Scrap',
-    'Others',
-    'Raw Material',
-    'Racking Material',
+    'Imported Scrap',
+    'Foundry Raw Material',
+    'Fuel',
+    'Other material in weight',
+    'Other material',
   ];
 
   static const List<String> vehicleTypes = [

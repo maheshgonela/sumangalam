@@ -26,8 +26,6 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _textStyle = textStyle ?? AppTextStyles.btnLabelStyle(context);
-
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: ElevatedButton.icon(
@@ -44,7 +42,7 @@ class AppButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         label: isLoading
             ? const AppLoadingIndicator()
-            : Text(label, style: _textStyle),
+            : Text(label, style: AppTextStyles.btnLabelStyle(context)),
       ),
     );
   }

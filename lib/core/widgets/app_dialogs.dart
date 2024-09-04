@@ -145,7 +145,7 @@ class _DialogWidget extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -168,15 +168,21 @@ class _DialogWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ] else...[const SizedBox.shrink()],
-                  IconButton(onPressed: onTapDismiss, icon: const Icon(Icons.close, color: AppColors.error,)),
                 ],
               ),
+              AppSpacer.p4(),
               if(dialogType != DialogType.success)...[
                 const Divider(color: AppColors.grey, height: 1, thickness: 2),
               ],
               AppSpacer.p8(),
               _BulletPointWidget(content, textColor),
-              AppSpacer.p32(),
+              AppSpacer.p12(),
+              AppButton(
+                label: 'CLOSE', 
+                bgColor: AppColors.black,
+                onPressed: onTapDismiss,
+              ),
+              AppSpacer.p8(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

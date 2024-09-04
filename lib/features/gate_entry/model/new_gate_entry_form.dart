@@ -77,7 +77,7 @@ class GateEntryForm with _$GateEntryForm {
           'seal_tag_image' : form.sealPhoto,
         });
     }
-
+    json['weigth1_image'] = form.weight1Photo;
     json['receive_mode'] = form.receiveMode?.name;
     json['document_image'] = form.docPhoto;
     json['unloaded_pile_pic'] = form.unloadedPilePhoto;
@@ -98,6 +98,9 @@ extension GateEntryFormApi on GateEntryForm {
   bool get isNotSaved => status.doesNotHaveValue;
   bool get isDraft => status == 'Draft';
   bool get isSubmitted => status == 'Submit';
+
+  bool get isOtherMaterialType => materialType == 'Other material';
+  bool get isImportedScrap => materialType == 'Imported Scrap';
 }
 
 dynamic toNull(_) => null;

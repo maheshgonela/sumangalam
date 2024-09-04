@@ -85,7 +85,11 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   AsyncValueOf<Pair<String, String>> createGateEntry(GateEntryForm form) async {
     try {  
       final formJson = GateEntryForm.toEncodedFormJson(form);
-      formJson.update('status', (value) => 'Draft');
+      if(form.isOtherMaterialType) {
+        formJson.update('status', (value) => 'Update');
+      } else {
+        formJson.update('status', (value) => 'Draft');
+      }
       final cleanedMap = removeNullValues(formJson);
       final config = RequestConfig(
         url: Urls.createGateEntry, 
@@ -93,10 +97,15 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
         parser: (p0) => p0['message']['gate_entry_no'] as String,
       );
       final response = await multiPart(config);
-      return response.process((r) {
+      return response.processAsync((r) async {
         final docNo = r.data.valueOrEmpty; 
-        const successMsg = 'The Gate Entry Details have been saved successfully. Please add pile details.';
-        return right(Pair(docNo, successMsg));
+        if(form.isOtherMaterialType) {
+          const successMsg = 'Gate Entry Details have been saved successfully. Please submit Gate Entry.';
+          return right(Pair(docNo, successMsg));
+        } else {
+          const successMsg = 'Gate Entry Details have been saved successfully. Please add pile details.';
+          return right(Pair(docNo, successMsg));
+        }
       });
     } on Exception catch (e, st) {
       $logger.error('[Gate Entry Creation]', e, st);
@@ -110,7 +119,6 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       final formJson = GateEntryForm.toEncodedFormJson(form);
       $logger.devLog(formJson);
       formJson.update('status', (value) => 'Update');
-      formJson.removeWhere((key, value) => key == 'name');
       final cleanedMap = removeNullValues(formJson);
       $logger.devLog(cleanedMap);
       final config = RequestConfig(
@@ -120,7 +128,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       );
       final response = await multiPart(config);
       return response.process((r) {
-        const successMsg ='The Gate Entry Details have been updated successfully. Please add vechile weight details.';
+        const successMsg ='Gate Entry Details have been updated successfully. Please add vehicle weight details.';
         return right(successMsg);
       });
     } on Exception catch (e, st) {
@@ -142,7 +150,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       );
       final response = await multiPart(config);
       return response.process((r) {
-        const successMsg ='The Gate Entry Details have been submitted successfully.';
+        const successMsg ='Gate Entry Details have been submitted successfully.';
         return right(successMsg);
       });
     } on Exception catch (e, st) {

@@ -15,23 +15,23 @@ import 'package:http/http.dart' as _i3;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i6;
 
-import '../../features/auth/data/auth_repo.dart' as _i14;
-import '../../features/auth/data/auth_repo_impl.dart' as _i15;
-import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i21;
+import '../../features/auth/data/auth_repo.dart' as _i12;
+import '../../features/auth/data/auth_repo_impl.dart' as _i13;
+import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i16;
 import '../../features/auth/presentation/bloc/sign_in/sign_in_cubit.dart'
-    as _i20;
-import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i18;
-import '../../features/gate_entry/data/gate_entry_repo.dart' as _i11;
-import '../../features/gate_entry/data/gate_entry_repo_impl.dart' as _i12;
-import '../../features/gate_entry/presentation/bloc/bloc_provider.dart' as _i19;
+    as _i15;
+import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i20;
+import '../../features/gate_entry/data/gate_entry_repo.dart' as _i17;
+import '../../features/gate_entry/data/gate_entry_repo_impl.dart' as _i18;
+import '../../features/gate_entry/presentation/bloc/bloc_provider.dart' as _i21;
 import '../../features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart'
-    as _i17;
-import '../core.dart' as _i16;
+    as _i19;
+import '../core.dart' as _i14;
 import '../local_storage/key_vale_storage.dart' as _i9;
 import '../logger/app_logger.dart' as _i8;
 import '../network/api_client.dart' as _i10;
 import '../network/internet_check.dart' as _i7;
-import '../network/network.dart' as _i13;
+import '../network/network.dart' as _i11;
 import 'injector.dart' as _i22;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -67,24 +67,24 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i10.ApiClient>(() => _i10.ApiClient(
           gh<_i3.Client>(),
-          gh<_i7.InternetConnectionChecker>(),
+          gh<_i11.InternetConnectionChecker>(),
         ));
-    gh.lazySingleton<_i11.GateEntryRepo>(
-        () => _i12.GateEntryRepoImpl(gh<_i13.ApiClient>()));
-    gh.lazySingleton<_i14.AuthRepo>(() => _i15.AuthRepoImpl(
+    gh.lazySingleton<_i12.AuthRepo>(() => _i13.AuthRepoImpl(
           gh<_i10.ApiClient>(),
-          gh<_i16.KeyValueStorage>(),
+          gh<_i14.KeyValueStorage>(),
         ));
-    gh.factory<_i17.NewGateEntryCubit>(
-        () => _i17.NewGateEntryCubit(gh<_i11.GateEntryRepo>()));
-    gh.factory<_i18.PurchaseOrderHelper>(
-        () => _i18.PurchaseOrderHelper(repo: gh<_i11.GateEntryRepo>()));
-    gh.factory<_i18.SupplierListHelper>(
-        () => _i18.SupplierListHelper(repo: gh<_i11.GateEntryRepo>()));
-    gh.factory<_i19.GateEntryBlocProvider>(
-        () => _i19.GateEntryBlocProvider(repo: gh<_i11.GateEntryRepo>()));
-    gh.factory<_i20.SignInCubit>(() => _i20.SignInCubit(gh<_i14.AuthRepo>()));
-    gh.factory<_i21.AuthCubit>(() => _i21.AuthCubit(gh<_i14.AuthRepo>()));
+    gh.factory<_i15.SignInCubit>(() => _i15.SignInCubit(gh<_i12.AuthRepo>()));
+    gh.factory<_i16.AuthCubit>(() => _i16.AuthCubit(gh<_i12.AuthRepo>()));
+    gh.lazySingleton<_i17.GateEntryRepo>(
+        () => _i18.GateEntryRepoImpl(gh<_i11.ApiClient>()));
+    gh.factory<_i19.NewGateEntryCubit>(
+        () => _i19.NewGateEntryCubit(gh<_i17.GateEntryRepo>()));
+    gh.factory<_i20.PurchaseOrderHelper>(
+        () => _i20.PurchaseOrderHelper(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i20.SupplierListHelper>(
+        () => _i20.SupplierListHelper(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i21.GateEntryBlocProvider>(
+        () => _i21.GateEntryBlocProvider(repo: gh<_i17.GateEntryRepo>()));
     return this;
   }
 }

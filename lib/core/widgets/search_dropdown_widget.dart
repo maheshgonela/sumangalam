@@ -75,6 +75,7 @@ class _SearchDropDownListState<T> extends State<SearchDropDownList<T>> {
               expandedHeaderPadding: const EdgeInsets.all(16.0),
               searchRequestLoadingIndicator: const AppLoadingIndicator(),
               decoration: CustomDropdownDecoration(
+                closedSuffixIcon: const Icon(Icons.arrow_drop_down),
                 closedBorder: Border.all(width: 0.4),
                 expandedBorder: Border.all(width: 0.4),
                 closedBorderRadius: BorderRadius.circular(8.0),

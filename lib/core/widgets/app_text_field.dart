@@ -62,7 +62,7 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _textFieldBorder = OutlineInputBorder(
+    final textFieldBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(4.0),
       borderSide: BorderSide(color: borderColor, width: borderWidth),
     );
@@ -83,11 +83,11 @@ class AppTextField extends StatelessWidget {
             hintText: hintText,
             hintStyle: context.textTheme.titleMedium
                 ?.copyWith(color: AppColors.grey,fontWeight: FontWeight.bold),
-            border: _textFieldBorder,
-            enabledBorder: _textFieldBorder,
-            focusedBorder: _textFieldBorder,
-            contentPadding: const EdgeInsets.all(16.0),
-            suffix: suffixIcon,
+            border: textFieldBorder,
+            enabledBorder: textFieldBorder,
+            focusedBorder: textFieldBorder,
+            contentPadding: const EdgeInsets.all(12.0),
+            suffixIcon: suffixIcon,
             counterText: '',
             filled: inputBg.isNull ? false : true,
             fillColor: inputBg,

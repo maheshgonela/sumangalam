@@ -6,11 +6,12 @@ import 'package:sumangalam/core/styles/app_colors.dart';
 class CaptionText extends StatelessWidget {
   final Color? textColor;
 
-  const CaptionText(
-      {super.key,
-      required this.title,
-      this.isRequired = true,
-      this.textColor = AppColors.black});
+  const CaptionText({
+    super.key,
+    required this.title,
+    this.isRequired = false,
+    this.textColor = AppColors.black,
+  });
 
   final String title;
   final bool isRequired;

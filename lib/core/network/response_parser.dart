@@ -27,6 +27,8 @@ class FrappeApiResponseParser<T> implements ApiResponseParser<T> {
 }
 
 class Errors {
+  static String get gatewayTimeout =>
+      'Server is taking too long to respond. Please try again later.';
   static String get noInternet => 'Please check your internet connection';
   static String get emptyApiResponse => 'Received empty response from server';
   static String get defaultApiErrorMessage =>

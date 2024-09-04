@@ -30,7 +30,7 @@ class _StatusMenuWidgetState extends State<StatusMenuWidget> {
         
         border: InputBorder.none,
       ),
-      items: ['All', 'Draft', 'Update', 'Submit'].map((e) {
+      items: ['All', 'Draft', 'Update', 'Submitted'].map((e) {
         return DropdownMenuItem<String>(
           value: e,
           alignment: Alignment.center,

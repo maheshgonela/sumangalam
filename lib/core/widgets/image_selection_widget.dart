@@ -11,6 +11,7 @@ class ImageSelectionWidget extends StatefulWidget {
   const ImageSelectionWidget({
     super.key,
     this.title,
+    this.helperText,
     required this.onImage,
     this.height = 150,
     this.width = 150,
@@ -20,6 +21,7 @@ class ImageSelectionWidget extends StatefulWidget {
   });
 
   final String? title;
+  final String? helperText;
   final Function(File? file) onImage;
   final double height;
   final double width;
@@ -42,6 +44,14 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CaptionText(title: widget.title.valueOrEmpty),
+        if(widget.helperText.containsValidValue)...[
+          Text(widget.helperText.valueOrEmpty, 
+            style: context.textTheme.labelSmall?.copyWith(
+              color: AppColors.error,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
         AbsorbPointer(
           absorbing: widget.readOnly,
           child: Stack(
@@ -107,6 +117,7 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
             ],
           ),
         ),
+        
       ],
     );
   }

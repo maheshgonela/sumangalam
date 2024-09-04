@@ -186,12 +186,14 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       (l) => emitSafeState(state.copyWith(isLoading: false, error: l)),
       (r) {
         final docNo = r.first;
-        final form = state.form.copyWith(status: 'Draft', gateEntryNo: docNo);
+        final nextStatus = state.form.isOtherMaterialType ? 'Submit' : 'Draft';
+        final nextType =  state.form.isOtherMaterialType ? ActionType.completed : ActionType.unloading;
+        final form = state.form.copyWith(status: nextStatus, gateEntryNo: docNo);
         final message = r.second;
         return emitSafeState(state.copyWith(
             form: form,
             isLoading: false,
-            type: ActionType.unloading,
+            type: nextType,
             isSuccess: true,
             successMsg: message));
       },
@@ -256,6 +258,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
   Option<String> _validate() {
     final form = state.form;
     final isPOAvailable = form.isPOAvailable.isTrue;
+
     if (form.materialType.doesNotHaveValue) {
       return optionOf('Select Material Type');
     } else if (form.vendor.doesNotHaveValue) {
@@ -264,7 +267,8 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       return optionOf('Select Purchase Order No.');
     } else if (form.receiveMode.isNull) {
       return optionOf('Select Recevie Mode');
-    } if (form.receiveMode == ReceiverMode.byHand) {
+    } 
+    if (form.receiveMode == ReceiverMode.byHand) {
       if (form.delivererName.doesNotHaveValue) {
         return optionOf('Enter Delivery Person Name');
       } else if (form.delivererMobileNo.doesNotHaveValue) {
@@ -272,8 +276,6 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       }
     } 
     if (form.receiveMode == ReceiverMode.byVehicle) {
-      final isImportScrap = form.materialType == 'Import Scrap';
-
       if (form.vehiclePhoto.isNull) {
         return optionOf('Capture Vehicle Photo.');
       } else if (form.vehicleNo.doesNotHaveValue) {
@@ -282,23 +284,28 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
         return optionOf('Enter Driver Name');
       } else if (form.driverMobileNo.isNull) {
         return optionOf('Enter Driver Mobile No.');
-      } else if (isImportScrap && form.sealPhoto.isNull && form.sealPhotoUrl.isNull) {
-        return optionOf('Capture Seal Photo');
       }
     } 
-    if (form.weight1.isNull) {
-      return optionOf('Enter weight with Material');
-    } else if (form.weight1Photo.isNull && form.weight1Url.isNull) {
-      return optionOf('Capture Weight (with Material) Photo');
-    }
-    if (form.vendorInvoiceNo.doesNotHaveValue) {
-      return optionOf('Enter Vendor Invoice No.');
-    } else if (form.vendorInvoiceDate.doesNotHaveValue) {
-      return optionOf('Enter Vendor Invoice Date');
-    } else if(isPOAvailable && form.documentWeight.isNull) {
-      return optionOf('Enter Document Weight');
-    } else if (isPOAvailable && form.docPhoto.isNull && form.docPhotoUrl.isNull) {
-      return optionOf('Capture Document Photo');
+    final isNotOtherMT = form.isOtherMaterialType;
+    final isImportedScrap = form.isImportedScrap;
+
+    if(isNotOtherMT) {
+      if (form.weight1.isNull) {
+        return optionOf('Enter weight with Material');
+      } else if (form.weight1Photo.isNull && form.weight1Url.isNull) {
+        return optionOf('Capture Weight (with Material) Photo');
+      } else if (form.vendorInvoiceNo.doesNotHaveValue) {
+        return optionOf('Enter Vendor Invoice No.');
+      } else if (form.vendorInvoiceDate.doesNotHaveValue) {
+        return optionOf('Enter Vendor Invoice Date');
+      } else if(isPOAvailable && form.documentWeight.isNull) {
+        return optionOf('Enter Document Weight');
+      } else if (isPOAvailable && form.docPhoto.isNull && form.docPhotoUrl.isNull) {
+        return optionOf('Capture Document Photo');
+      }
+      if(isImportedScrap) {
+        return optionOf('Capture Seal Tag Photo');
+      }
     }
     return const None();
   }
