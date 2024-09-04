@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
-import 'package:sumangalam/core/utils/date_format_util.dart';
 import 'package:sumangalam/core/widgets/caption_text.dart';
 import 'package:sumangalam/core/widgets/spaced_column.dart';
 

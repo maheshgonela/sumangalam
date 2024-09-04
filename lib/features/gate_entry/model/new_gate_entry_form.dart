@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/utils/date_format_util.dart';
 import 'package:sumangalam/features/gate_entry/model/receiver_mode.dart';
 part 'new_gate_entry_form.freezed.dart';
 part 'new_gate_entry_form.g.dart';

@@ -5,7 +5,6 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/di/injector.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/utils/attachment_selection_mixin.dart';
-import 'package:sumangalam/core/utils/date_format_util.dart';
 import 'package:sumangalam/core/utils/upper_case_formatter.dart';
 import 'package:sumangalam/core/widgets/widgets.dart';
 import 'package:sumangalam/features/gate_entry/data/gate_entry_api_helper.dart';

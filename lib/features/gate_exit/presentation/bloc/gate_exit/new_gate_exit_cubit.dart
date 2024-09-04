@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/utils/date_format_util.dart';
 import 'package:sumangalam/features/gate_exit/model/gate_exit_form.dart';
 import 'package:sumangalam/features/gate_exit/data/gate_exit_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
