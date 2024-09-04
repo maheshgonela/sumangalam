@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/utils/date_format_util.dart';
 import 'package:sumangalam/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
 import 'package:sumangalam/features/gate_entry/model/new_gate_entry_form.dart';
@@ -19,7 +18,7 @@ extension ActionTypeApi on ActionType {
     return switch(this) {
       ActionType.vechileIn => 'Create',
       ActionType.unloading => 'Update',
-      ActionType.vechileOut || ActionType.completed => 'Submitted',
+      ActionType.vechileOut || ActionType.completed => 'Submit',
     };
   }
 }

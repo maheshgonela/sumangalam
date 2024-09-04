@@ -41,8 +41,9 @@ class _AppDropDownState<T> extends State<AppDropDown<T>> {
   @override
   void initState() {
     super.initState();
- 
-    _selectedValue = widget.defaultSelection;
+    if(widget.items.contains(widget.defaultSelection)) {
+      _selectedValue = widget.defaultSelection;
+    }
   }
 
   @override

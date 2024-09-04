@@ -35,7 +35,7 @@ class ApiClient {
     );
   }
 
-    Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
+  Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
     return _request(
       (Uri urlWithParams) => client.post(urlWithParams, headers: params.headers, body: jsonDecode(params.body!)),
       params,

@@ -14,6 +14,7 @@ class AppIcons {
   static AppIcon get appLogo => const AppIcon('$_imagesPath/app_logo.png');
   static AppIcon get gateEntryFrame => const AppIcon('$_imagesPath/gate_entry_frame.png');
   static AppIcon get vehicleIn => const AppIcon('$_imagesPath/gate_entry.png');
+  static AppIcon get vehicleOut => const AppIcon('$_imagesPath/gate_exit.png');
   static AppIcon get emptyListState => const AppIcon('$_imagesPath/list_empty_state.svg');
 }
 

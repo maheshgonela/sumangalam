@@ -25,6 +25,10 @@ class Urls {
   static final purchaseOrders = '$cusWs/sumangalam.api.get_purchase_order_no';
   static final supplierList = '$cusWs/sumangalam.api.get_supplier_list';
 
+  static final createGateExit = '$cusWs/sumangalam.api.create_gate_exit_record';
+  static final gateExits = '$jsonWs/Gate Exit';
+  static final shipments = '$cusWs/sumangalam.api.get_shipment_records';
+
   static filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';
   }

@@ -14,19 +14,30 @@ class AppHomePage extends StatelessWidget {
     return AppPageView(
       mode: PageMode.home,
       child: Center(
-        child: SpacedColumn(
-          margin: const EdgeInsets.all(12),
-          children: [
-            AppFeatureWidget(
-              icon: Image.asset(
-                AppIcons.vehicleIn.path,
-                fit: BoxFit.contain,
+        child: SingleChildScrollView(
+          child: SpacedColumn(
+            margin: const EdgeInsets.all(12),
+            children: [
+              AppFeatureWidget(
+                icon: Image.asset(
+                  AppIcons.vehicleIn.path,
+                  fit: BoxFit.contain,
+                ),
+                title: 'Gate Entry',
+                featureColor: AppColors.white,
+                onTap: () => RoutePath.gateEntry.push(context),
               ),
-              title: 'Gate Entry',
-              featureColor: AppColors.white,
-              onTap: () => RoutePath.gateEntry.push(context),
-            ),
-          ],
+              AppFeatureWidget(
+                icon: Image.asset(
+                  AppIcons.vehicleOut.path,
+                  fit: BoxFit.contain,
+                ),
+                title: 'Gate Exit',
+                featureColor: AppColors.white,
+                onTap: () => RoutePath.gateExit.push(context),
+              ),
+            ],
+          ),
         ),
       ),
     );

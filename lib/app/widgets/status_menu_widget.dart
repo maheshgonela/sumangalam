@@ -3,8 +3,9 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 
 class StatusMenuWidget extends StatefulWidget {
-  const StatusMenuWidget({super.key, required this.onChange});
+  const StatusMenuWidget({super.key, required this.onChange, required this.items});
 
+  final List<String> items;
   final void Function(String status) onChange;
   @override
   State<StatusMenuWidget> createState() => _StatusMenuWidgetState();
@@ -30,7 +31,7 @@ class _StatusMenuWidgetState extends State<StatusMenuWidget> {
         
         border: InputBorder.none,
       ),
-      items: ['All', 'Draft', 'Update', 'Submitted'].map((e) {
+      items: widget.items.map((e) {
         return DropdownMenuItem<String>(
           value: e,
           alignment: Alignment.center,

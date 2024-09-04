@@ -10,6 +10,8 @@ import 'package:sumangalam/core/widgets/app_spacer.dart';
 import 'package:sumangalam/core/widgets/simple_search_bar.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
+import 'package:sumangalam/features/gate_exit/presentation/bloc/bloc_providers.dart';
+import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit_filter/gate_exit_filters.dart';
 
 enum PageMode2 {
   gateentry('Gate Entry'),
@@ -33,45 +35,40 @@ class AppPageView2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGateEntry = mode == PageMode2.gateentry;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: mode == PageMode2.gateentry
-          ? AppColors.powderBlue
-          : AppColors.powderBlue,
+      backgroundColor: AppColors.powderBlue,
       body: Stack(
         fit: StackFit.expand,
         children: [
           Positioned(
             left: 52,
             top: -24,
-            child: mode == PageMode2.gateentry
-                ? Image.asset(
-                    AppIcons.grateEntryBG.path,
-                    alignment: Alignment.topRight,
-                    fit: BoxFit.cover,
-                    height: 210,
-                    width: context.sizeOfWidth,
-                  )
-                : Image.asset(AppIcons.grateEntryBG.path,
-                    alignment: Alignment.topRight,
-                    fit: BoxFit.cover,
-                    height: 210),
+            child: Image.asset(
+              AppIcons.grateEntryBG.path,
+              alignment: Alignment.topRight,
+              fit: BoxFit.cover,
+              height: 210,
+            ),
           ),
           Positioned(
-              left: 18,
-              top: kToolbarHeight,
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const _GoBackWidget(),
-                    AppSpacer.p8(),
-                    Text(mode.name,
-                        style: AppTextStyles.titleLarge(context)
-                            .copyWith(color: AppColors.black)),
-                  ],
-                ),
-              )),
+            left: 18,
+            top: kToolbarHeight,
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const _GoBackWidget(),
+                  AppSpacer.p8(),
+                  Text(mode.name,
+                      style: AppTextStyles.titleLarge(context)
+                          .copyWith(color: AppColors.black)),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             top: kToolbarHeight + 32,
             left: 0,
@@ -83,25 +80,36 @@ class AppPageView2 extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: SimpleSearchBar(
-                      hintText: mode == PageMode2.gateentry
+                      hintText: isGateEntry
                           ? 'Search Gate Entry - ID'
                           : 'Search Gate Exit - ID',
                       onCancel: () {
-                        if (mode == PageMode2.gateentry) {
+                        if (isGateEntry) {
                           final filterState = context.read<GateEntryFilterCubit>().state;
                           context
                             ..cubit<GateEntryFilterCubit>().onSearch(null)
                             ..cubit<GateEntriesCubit>().fetchInitial(GateEntryFilter(status: filterState.status));
-                        } else {}
+                        } else {
+                          final filters = context.read<GateExitFilterCubit>().state;
+                          context
+                            ..cubit<GateExitFilterCubit>().onSearch(null)
+                            ..cubit<GateExitsCubit>().fetchInitial(filters);
+                        }
                       },
                       onSearch: (query) {
-                        if (mode == PageMode2.gateentry) {
+                        if (isGateEntry) {
                           final filterState = context.read<GateEntryFilterCubit>().state;
-                          final filters = filterState.copyWith(query: query);
+                          final filters = filterState.copyWith(query: query); 
                           context
                             ..cubit<GateEntryFilterCubit>().onSearch(query)
                             ..cubit<GateEntriesCubit>().fetchInitial(filters);
-                        } else {}
+                        } else {
+                          final filterState = context.read<GateExitFilterCubit>().state;
+                          final filters = filterState.copyWith(query: query);
+                          context
+                            ..cubit<GateExitFilterCubit>().onSearch(query)
+                            ..cubit<GateExitsCubit>().fetchInitial(filters);
+                        }
                       },
                     ),
                   ),
@@ -109,12 +117,23 @@ class AppPageView2 extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: StatusMenuWidget(
+                      items: isGateEntry 
+                        ? const ['All', 'Draft', 'Update', 'Submitted']
+                        : const ['All', 'Draft', 'Submitted'],
                       onChange: (status) {
-                        final filterState = context.read<GateEntryFilterCubit>().state;
-                        final filters = filterState.copyWith(status: status);
-                        context
-                          ..cubit<GateEntryFilterCubit>().onChangeStatus(status)
-                          ..cubit<GateEntriesCubit>().fetchInitial(filters);
+                        if(isGateEntry) {
+                          final filterState = context.read<GateEntryFilterCubit>().state;
+                          final filters = filterState.copyWith(status: status);
+                          context
+                            ..cubit<GateEntryFilterCubit>().onChangeStatus(status)
+                            ..cubit<GateEntriesCubit>().fetchInitial(filters);
+                        } else {
+                          final filterState = context.read<GateExitFilterCubit>().state;
+                          final filters = filterState.copyWith(status: status);
+                          context
+                            ..cubit<GateExitFilterCubit>().onChangeStatus(status)
+                            ..cubit<GateExitsCubit>().fetchInitial(filters);
+                        }
                       },
                     ),
                   )

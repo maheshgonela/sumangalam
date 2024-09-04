@@ -7,6 +7,8 @@ enum RoutePath {
   home('/home'),
   gateEntry('/home/gateEntry'),
   newGateEntry('/home/gateEntry/newGateEntry'),
+  gateExit('/home/gateExit'),
+  newGateExit('/home/gateExit/newGateExit'),
   profile('/profile');
 
   const RoutePath(this.path);

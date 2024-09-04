@@ -3,26 +3,37 @@ import 'package:sumangalam/core/core.dart';
 class RestUtils {
   static Uri constructUri(String baseUrl, [Map<String, dynamic>? params]) {
     final url = baseUrl.replaceAll('https://', '');
-    final authority =
-        url.indexOf('/') > 0 ? url.substring(0, url.indexOf('/')) : url;
-    final path = url == authority ? '' : url.substring(url.indexOf('/'));
 
-    final Map<String, String> urlParams = {};
-
+    final Map<String, dynamic> urlParams = {};
     params?.forEach((key, value) {
-      urlParams[key] = value.toString();
+      if (value is List) {
+        if (value is List<List<String?>>) {
+          final res = value.nonNulls.map((e) => _encodeList(e)).toList();
+          urlParams[key] = res;
+        } else if (value is List<String>) {
+          final valuesMap = _encodeList(value);
+          urlParams[key] = valuesMap;
+        }
+      } else {
+        urlParams[key] = value;
+      }
     });
-
-    return Uri.https(authority, path, urlParams);
+    final encodedParams = encodeParams(urlParams);
+    final fullUrl = "https://$url$encodedParams";
+    return Uri.parse(fullUrl);
   }
 
-  static String encodeParams(Map<String, String> params) {
+  static List<String> _encodeList(List<String?> value) {
+    final valuesMap = value.nonNulls.map((e) => '"$e"').toList();
+    // urlParams[key] = valuesMap;
+    return valuesMap;
+  }
+
+  static String encodeParams(Map<String, dynamic> params) {
     var s = '';
     params.forEach((key, value) {
-      if (value.isNotEmpty && value != 'null') {
-        final urlEncode = Uri.encodeComponent(value);
-        s += '${s == '' ? '?' : '&'}$key=$urlEncode';
-      }
+      final urlEncode = Uri.encodeComponent(value.toString());
+      s += '${s == '' ? '?' : '&'}$key=$urlEncode';
     });
 
     return s;
