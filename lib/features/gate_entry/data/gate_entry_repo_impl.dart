@@ -85,11 +85,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   AsyncValueOf<Pair<String, String>> createGateEntry(GateEntryForm form) async {
     try {  
       final formJson = GateEntryForm.toEncodedFormJson(form);
-      if(form.isOtherMaterialType) {
-        formJson.update('status', (value) => 'Update');
-      } else {
-        formJson.update('status', (value) => 'Draft');
-      }
+      formJson.update('status', (value) => 'Draft');
       final cleanedMap = removeNullValues(formJson);
       final config = RequestConfig(
         url: Urls.createGateEntry, 
@@ -100,6 +96,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       return response.processAsync((r) async {
         final docNo = r.data.valueOrEmpty; 
         if(form.isOtherMaterialType) {
+          await updatePileDetails(form.copyWith(gateEntryNo: docNo));
           const successMsg = 'Gate Entry Details have been saved successfully. Please submit Gate Entry.';
           return right(Pair(docNo, successMsg));
         } else {

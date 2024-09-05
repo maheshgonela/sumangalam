@@ -162,14 +162,8 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
   Option<String> _validate() {
     final form = state.form;
 
-    if (form.customerName.doesNotHaveValue) {
-      return optionOf('Select CustomerName ');
-    } else if (form.dcNo.doesNotHaveValue) {
+    if (form.dcNo.doesNotHaveValue) {
       return optionOf('Select DC Number');
-    } else if (form.sONO.doesNotHaveValue) {
-      return optionOf('Select SoNumber');
-    } else if (form.poNumber.doesNotHaveValue) {
-      return optionOf('Select Purchase Order No.');
     } else if (form.vehicleImage.isNull && form.vehicleImageUrl.isNull) {
       return optionOf('Capture Vehicle Image');
     } else if (form.vehicleNo.doesNotHaveValue) {

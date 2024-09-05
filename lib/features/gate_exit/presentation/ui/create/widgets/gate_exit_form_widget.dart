@@ -65,173 +65,161 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
           }
         },
         child: SpacedColumn(
-            margin: const EdgeInsets.all(12.0),
-            defaultHeight: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DateSelectionField(
-                title: 'Gate Exit Date',
-                initialValue: form.exitdate,
-                readOnly: true,
-                firstDate: DFU.now(),
-                lastDate: DFU.now(),
-                onDateSelect: (date) {},
-                suffixIcon: const Icon(Icons.calendar_month_outlined),
-              ),
-              InputField(
-                title: 'Created Time',
-                readOnly: true,
-                initialValue: form.createdtime,
-              ),
-              SearchDropDownList<Shipment>(
-                title: 'Shipment No.',
-                hint: 'Select Shipment No.',
-                readOnly: isSubmitted,
-                isMandatory: true,
-                defaultSelection: Shipment.fromEntry(form),
-                items: shipments,
-                futureRequest: (p0) async {
-                  final orders = await $sl.get<ShipmentListHelper>().call(p0);
-                  setState(() {
-                    shipments
-                      ..clear()
-                      ..addAll(orders);
-                  });
-                  return orders;
-                },
-                onSelected: (dcNo) {
-                  context.cubit<NewGateExitCubit>().onFieldValueChanged(
-                        dcNO: dcNo?.shipmentNo,
-                        customerName: dcNo?.customerName,
-                        sONO: dcNo?.soNo,
-                        poNumber: dcNo?.poNumber,
-                      );
-                  setState(() {
-                    controllers['customerName']?.text =
-                        dcNo?.customerName ?? '';
-                    controllers['sONO']?.text = dcNo?.soNo ?? '';
-                    controllers['poNumber']?.text = dcNo?.poNumber ?? '';
-                  });
-                },
-                headerBuilder: (context, item, isExpanded) =>
-                    Text(item.shipmentNo),
-                listItemBuilder: (context, item, isSelected, onTap) =>
-                    Text(item.shipmentNo),
-                hintBuilder: (context, hint, isExpanded) => Text(hint),
-              ),
-              InputField(
-                title: 'Customer Name',
-                readOnly: true,
-                initialValue: form.customerName,
-                controller: controllers['customerName'] =
-                    TextEditingController(text: form.customerName),
-                onChanged: (customerName) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(customerName: customerName);
-                },
-              ),
-              InputField(
-                title: 'SO Number',
-                readOnly: true,
-                initialValue: form.sONO,
-                controller: controllers['sONO'] =
-                    TextEditingController(text: form.sONO),
-                onChanged: (sONO) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(sONO: sONO);
-                },
-              ),
-              InputField(
-                title: 'PO Number',
-                readOnly: true,
-                initialValue: form.poNumber,
-                controller: controllers['poNumber'] = TextEditingController(),
-                onChanged: (poNumber) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(poNumber: poNumber);
-                },
-              ),
-              ImageSelectionWidget(
-                title: 'Vehicle Image',
-                initialValue: form.vehicleImageUrl,
-                readOnly: isSubmitted,
-                onImage: (vehicleImage) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(vehicleImage: vehicleImage);
-                },
-                icon: const Icon(Icons.local_shipping_outlined,
-                    color: AppColors.white, size: 32),
-              ),
-              InputField(
-                title: 'Vehicle Number',
-                controller: controllers['vehicleNo'],
-                initialValue: form.vehicleNo,
-                readOnly: isSubmitted,
-                inputFormatters: [UpperCaseTextFormatter()],
-                suffixIcon: const Icon(Icons.pin_outlined),
-                onChanged: (vehicleNo) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(vehicleNo: vehicleNo);
-                },
-              ),
-              InputField(
-                title: 'Driver Name',
-                initialValue: form.driverName,
-                readOnly: isSubmitted,
-                controller: controllers['driverName'],
-                inputFormatters: [UpperCaseTextFormatter()],
-                suffixIcon: const Icon(Icons.person_outlined),
-                onChanged: (driverName) {
-                  context
-                      .cubit<NewGateExitCubit>()
-                      .onFieldValueChanged(driverName: driverName);
-                },
-              ),
-              InputField(
-                  title: 'Driver Mobile Number',
-                  initialValue: form.driverMobileNo,
-                  readOnly: isSubmitted,
-                  controller: controllers['driverMobileNo'],
-                  suffixIcon: const Icon(Icons.dialpad_outlined),
-                  maxLength: 10,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-                  ],
-                  inputType: TextInputType.number,
-                  onChanged: (driverMobileNo) {
-                    context
-                        .cubit<NewGateExitCubit>()
-                        .onFieldValueChanged(driverMobileNo: driverMobileNo);
-                  }),
-              AppSpacer.p12(),
-              if (!isSubmitted) ...[
-                GateExitBuilder(
-                  builder: (_, state) => AppButton(
-                    isLoading: state.isLoading,
-                    onPressed:
-                        context.cubit<NewGateExitCubit>().processGateExit,
-                    label: state.type.toName(),
-                  ),
-                ),
+          margin: const EdgeInsets.all(12.0),
+          defaultHeight: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DateSelectionField(
+              title: 'Gate Exit Date',
+              initialValue: form.exitdate,
+              readOnly: true,
+              firstDate: DFU.now(),
+              lastDate: DFU.now(),
+              onDateSelect: (date) {},
+              suffixIcon: const Icon(Icons.calendar_month_outlined),
+            ),
+            InputField(
+              title: 'Created Time',
+              readOnly: true,
+              initialValue: form.createdtime,
+            ),
+            SearchDropDownList<Shipment>(
+              title: 'Shipment No.',
+              hint: 'Select Shipment No.',
+              readOnly: isSubmitted,
+              isMandatory: true,
+              defaultSelection: Shipment.fromEntry(form),
+              items: shipments,
+              futureRequest: (p0) async {
+                final orders = await $sl.get<ShipmentListHelper>().call(p0);
+                setState(() {
+                  shipments
+                    ..clear()
+                    ..addAll(orders);
+                });
+                return orders;
+              },
+              onSelected: (dcNo) {
+                context.cubit<NewGateExitCubit>().onFieldValueChanged(
+                      dcNO: dcNo?.shipmentNo,
+                      customerName: dcNo?.customerName,
+                      sONO: dcNo?.soNo,
+                      poNumber: dcNo?.poNumber,
+                    );
+                setState(() {
+                  controllers['customerName']?.text = dcNo?.customerName ?? '';
+                  controllers['sONO']?.text = dcNo?.soNo ?? '';
+                  controllers['poNumber']?.text = dcNo?.poNumber ?? '';
+                });
+              },
+              headerBuilder: (context, item, isExpanded) =>
+                  Text(item.shipmentNo),
+              listItemBuilder: (context, item, isSelected, onTap) =>
+                  Text(item.shipmentNo),
+              hintBuilder: (context, hint, isExpanded) => Text(hint),
+            ),
+            InputField(
+              title: 'Customer Name',
+              readOnly: true,
+              initialValue: form.customerName,
+              controller: controllers['customerName'] =
+                  TextEditingController(text: form.customerName),
+              onChanged: (customerName) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(customerName: customerName);
+              },
+            ),
+            InputField(
+              title: 'SO Number',
+              readOnly: true,
+              initialValue: form.sONO,
+              controller: controllers['sONO'] =
+                  TextEditingController(text: form.sONO),
+              onChanged: (sONO) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(sONO: sONO);
+              },
+            ),
+            InputField(
+              title: 'PO Number',
+              readOnly: true,
+              initialValue: form.poNumber,
+              controller: controllers['poNumber'] = TextEditingController(),
+              onChanged: (poNumber) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(poNumber: poNumber);
+              },
+            ),
+            ImageSelectionWidget(
+              title: 'Vehicle Image',
+              initialValue: form.vehicleImageUrl,
+              readOnly: isSubmitted,
+              onImage: (vehicleImage) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(vehicleImage: vehicleImage);
+              },
+              icon: const Icon(Icons.local_shipping_outlined,
+                  color: AppColors.white, size: 32),
+            ),
+            InputField(
+              title: 'Vehicle Number',
+              controller: controllers['vehicleNo'],
+              initialValue: form.vehicleNo,
+              readOnly: isSubmitted,
+              inputFormatters: [UpperCaseTextFormatter()],
+              suffixIcon: const Icon(Icons.pin_outlined),
+              onChanged: (vehicleNo) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(vehicleNo: vehicleNo);
+              },
+            ),
+            InputField(
+              title: 'Driver Name',
+              initialValue: form.driverName,
+              readOnly: isSubmitted,
+              controller: controllers['driverName'],
+              inputFormatters: [UpperCaseTextFormatter()],
+              suffixIcon: const Icon(Icons.person_outlined),
+              onChanged: (driverName) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(driverName: driverName);
+              },
+            ),
+            InputField(
+              title: 'Driver Mobile Number',
+              initialValue: form.driverMobileNo,
+              readOnly: isSubmitted,
+              controller: controllers['driverMobileNo'],
+              suffixIcon: const Icon(Icons.dialpad_outlined),
+              maxLength: 10,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
               ],
-              // AppButton(
-              //   label: "Submit",
-              //   // isLoading: true,
-              //   onPressed: () {
-              //     context.cubit<NewGateExitCubit>().processGateExit();
-              //   },
-              //   bgColor: AppColors.normal,
-              //   textStyle: const TextStyle(
-              //       fontSize: 20,
-              //       fontWeight: FontWeight.bold,
-              //       color: Colors.white),
-              // ),
-            ]),
+              inputType: TextInputType.number,
+              onChanged: (driverMobileNo) {
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(driverMobileNo: driverMobileNo);
+              },
+            ),
+            if (!isSubmitted) ...[
+              AppSpacer.p12(),
+              GateExitBuilder(
+                builder: (_, state) => AppButton(
+                  isLoading: state.isLoading,
+                  onPressed: context.cubit<NewGateExitCubit>().processGateExit,
+                  label: state.type.toName(),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

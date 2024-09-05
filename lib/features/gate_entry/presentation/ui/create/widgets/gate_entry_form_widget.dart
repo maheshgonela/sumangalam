@@ -285,7 +285,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
                 initialValue: form.driverName,
                 inputFormatters: [
                   UpperCaseTextFormatter(),
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                 ],
                 suffixIcon: const Icon(Icons.person_outline),
                 onChanged: (delivererName) {
@@ -406,7 +406,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
             ),
             InputField(
               controller: controllers['bill_weight'],
-              title: 'Weight as per Document (in KGs)',
+              title: 'Document Material Weight (in KGs)',
               readOnly: isSubmitted,
               inputType: const TextInputType.numberWithOptions(decimal: true),
               initialValue: form.documentWeight,
