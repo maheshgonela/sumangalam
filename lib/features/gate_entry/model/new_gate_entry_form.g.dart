@@ -13,7 +13,7 @@ _$GateEntryFormImpl _$$GateEntryFormImplFromJson(Map<String, dynamic> json) =>
       createdtime: json['created_time'] as String?,
       materialType: json['material_type'] as String?,
       vendor: json['supplier_name'] as String?,
-      receiveMode: _receiveModeFromJson(json['receiver_mode'] as String?),
+      receiveMode: _receiveModeFromJson(json['receive_mode'] as String?),
       poNumber: json['purchase_order_no'] as String?,
       vendorInvoiceNo: json['vendor_invoice_no'] as String?,
       isPOAvailable: _$JsonConverterFromJson<int, bool>(
@@ -45,7 +45,7 @@ Map<String, dynamic> _$$GateEntryFormImplToJson(_$GateEntryFormImpl instance) =>
       'created_time': instance.createdtime,
       'material_type': instance.materialType,
       'supplier_name': instance.vendor,
-      'receiver_mode': _$ReceiverModeEnumMap[instance.receiveMode],
+      'receive_mode': _$ReceiverModeEnumMap[instance.receiveMode],
       'purchase_order_no': instance.poNumber,
       'vendor_invoice_no': instance.vendorInvoiceNo,
       'po_available': _$JsonConverterToJson<int, bool>(

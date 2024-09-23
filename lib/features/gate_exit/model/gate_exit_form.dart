@@ -15,7 +15,7 @@ class GateExitForm with _$GateExitForm {
     @JsonKey(name: 'customer_name') String? customerName,
     @JsonKey(name: 'dc_no') String? dcNo,
     @JsonKey(name: 'so_number') String? sONO,
-    @JsonKey(name: 'customer_name_copy_copy') String? poNumber,
+    @JsonKey(name: 'purchase_order') String? poNumber,
     @JsonKey(name: 'vehicle_image', includeToJson: false)
     String? vehicleImageUrl,
     @JsonKey(

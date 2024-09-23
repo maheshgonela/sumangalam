@@ -32,7 +32,7 @@ mixin _$GateExitForm {
   String? get dcNo => throw _privateConstructorUsedError;
   @JsonKey(name: 'so_number')
   String? get sONO => throw _privateConstructorUsedError;
-  @JsonKey(name: 'customer_name_copy_copy')
+  @JsonKey(name: 'purchase_order')
   String? get poNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'vehicle_image', includeToJson: false)
   String? get vehicleImageUrl => throw _privateConstructorUsedError;
@@ -70,7 +70,7 @@ abstract class $GateExitFormCopyWith<$Res> {
       @JsonKey(name: 'customer_name') String? customerName,
       @JsonKey(name: 'dc_no') String? dcNo,
       @JsonKey(name: 'so_number') String? sONO,
-      @JsonKey(name: 'customer_name_copy_copy') String? poNumber,
+      @JsonKey(name: 'purchase_order') String? poNumber,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       String? vehicleImageUrl,
       @JsonKey(
@@ -184,7 +184,7 @@ abstract class _$$GateExitFormImplCopyWith<$Res>
       @JsonKey(name: 'customer_name') String? customerName,
       @JsonKey(name: 'dc_no') String? dcNo,
       @JsonKey(name: 'so_number') String? sONO,
-      @JsonKey(name: 'customer_name_copy_copy') String? poNumber,
+      @JsonKey(name: 'purchase_order') String? poNumber,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       String? vehicleImageUrl,
       @JsonKey(
@@ -291,7 +291,7 @@ class _$GateExitFormImpl implements _GateExitForm {
       @JsonKey(name: 'customer_name') this.customerName,
       @JsonKey(name: 'dc_no') this.dcNo,
       @JsonKey(name: 'so_number') this.sONO,
-      @JsonKey(name: 'customer_name_copy_copy') this.poNumber,
+      @JsonKey(name: 'purchase_order') this.poNumber,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       this.vehicleImageUrl,
       @JsonKey(
@@ -327,7 +327,7 @@ class _$GateExitFormImpl implements _GateExitForm {
   @JsonKey(name: 'so_number')
   final String? sONO;
   @override
-  @JsonKey(name: 'customer_name_copy_copy')
+  @JsonKey(name: 'purchase_order')
   final String? poNumber;
   @override
   @JsonKey(name: 'vehicle_image', includeToJson: false)
@@ -427,7 +427,7 @@ abstract class _GateExitForm implements GateExitForm {
       @JsonKey(name: 'customer_name') final String? customerName,
       @JsonKey(name: 'dc_no') final String? dcNo,
       @JsonKey(name: 'so_number') final String? sONO,
-      @JsonKey(name: 'customer_name_copy_copy') final String? poNumber,
+      @JsonKey(name: 'purchase_order') final String? poNumber,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       final String? vehicleImageUrl,
       @JsonKey(
@@ -463,7 +463,7 @@ abstract class _GateExitForm implements GateExitForm {
   @JsonKey(name: 'so_number')
   String? get sONO;
   @override
-  @JsonKey(name: 'customer_name_copy_copy')
+  @JsonKey(name: 'purchase_order')
   String? get poNumber;
   @override
   @JsonKey(name: 'vehicle_image', includeToJson: false)

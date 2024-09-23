@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/constants/urls.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/model/pair_triple.dart.dart';
+import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/core/network/network.dart';
 import 'package:sumangalam/features/gate_exit/model/gate_exit_form.dart';
-import 'package:sumangalam/features/gate_exit/model/shipment.dart';
+import 'package:sumangalam/features/gate_exit/model/delivery_note.dart';
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit_filter/gate_exit_filters.dart';
 import 'package:sumangalam/features/gate_exit/data/gate_exit_repo.dart';
 
@@ -98,13 +98,13 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
   }
 
   @override
-  AsyncValueOf<List<Shipment>> fetchPonumberlist() async {
+  AsyncValueOf<List<DeliveryNote>> fetchPonumberlist() async {
     try {
       final config = RequestConfig(
-        url: Urls.shipments,
+        url: Urls.deliveryNotes,
         parser: (p0) {
           final orders = p0['message']['data'] as List<dynamic>;
-          return orders.map((e) => Shipment.fromJson(e)).toList();
+          return orders.map((e) => DeliveryNote.fromJson(e)).toList();
         },
       );
       final response = await post(config);

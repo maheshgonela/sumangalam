@@ -14,7 +14,7 @@ class GateEntryForm with _$GateEntryForm {
     @JsonKey(name: 'created_time') String? createdtime,
     @JsonKey(name: 'material_type') String? materialType,
     @JsonKey(name: 'supplier_name') String? vendor,
-    @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson) ReceiverMode? receiveMode,
+    @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson) ReceiverMode? receiveMode,
     @JsonKey(name: 'purchase_order_no') String? poNumber,
     @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
     @BoolenAPIConverter() @JsonKey(name: 'po_available') bool? isPOAvailable,
@@ -63,23 +63,22 @@ class GateEntryForm with _$GateEntryForm {
       json
         ..remove('vehicle_image')
         ..remove('vehicle_no')
-        ..remove('driver_name')
-        ..remove('seal_tag_image')
-        ..remove('driver_mobile_no');
+        ..remove('driver_mobile_no')
+        ..remove('driver_name');
     }
     if (form.receiveMode == ReceiverMode.byVehicle) {
       json
         ..remove('delivery_person_name')
-        ..remove('delivery_person_mobile') 
-        ..addAll({
-          'vehicle_image' : form.vehiclePhoto,
-          'seal_tag_image' : form.sealPhoto,
-        });
+        ..remove('delivery_person_mobile');
     }
+    json['vehicle_image'] = form.vehiclePhoto;
+    json['document_image'] = form.docPhoto;
+    json['seal_tag_image'] = form.sealPhoto;
     json['weigth1_image'] = form.weight1Photo;
     json['receive_mode'] = form.receiveMode?.name;
     json['document_image'] = form.docPhoto;
     json['unloaded_pile_pic'] = form.unloadedPilePhoto;
+    json['weight2_image'] = form.weight2Photo;
     json['remarks'] = form.remarks;
 
     return json;

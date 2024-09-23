@@ -27,7 +27,7 @@ class Urls {
 
   static final createGateExit = '$cusWs/sumangalam.api.create_gate_exit_record';
   static final gateExits = '$jsonWs/Gate Exit';
-  static final shipments = '$cusWs/sumangalam.api.get_shipment_records';
+  static final deliveryNotes = '$cusWs/sumangalam.api.get_delivery_note';
 
   static filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';

@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/constants/urls.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/model/pair_triple.dart.dart';
+import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/core/network/network.dart';
 import 'package:sumangalam/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
@@ -87,6 +87,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       final formJson = GateEntryForm.toEncodedFormJson(form);
       formJson.update('status', (value) => 'Draft');
       final cleanedMap = removeNullValues(formJson);
+      $logger.devLog(cleanedMap);
       final config = RequestConfig(
         url: Urls.createGateEntry, 
         reqParams: cleanedMap,

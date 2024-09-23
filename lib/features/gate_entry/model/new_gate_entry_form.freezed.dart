@@ -30,7 +30,7 @@ mixin _$GateEntryForm {
   String? get materialType => throw _privateConstructorUsedError;
   @JsonKey(name: 'supplier_name')
   String? get vendor => throw _privateConstructorUsedError;
-  @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+  @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
   ReceiverMode? get receiveMode => throw _privateConstructorUsedError;
   @JsonKey(name: 'purchase_order_no')
   String? get poNumber => throw _privateConstructorUsedError;
@@ -139,7 +139,7 @@ abstract class $GateEntryFormCopyWith<$Res> {
       @JsonKey(name: 'created_time') String? createdtime,
       @JsonKey(name: 'material_type') String? materialType,
       @JsonKey(name: 'supplier_name') String? vendor,
-      @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+      @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
       ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
@@ -410,7 +410,7 @@ abstract class _$$GateEntryFormImplCopyWith<$Res>
       @JsonKey(name: 'created_time') String? createdtime,
       @JsonKey(name: 'material_type') String? materialType,
       @JsonKey(name: 'supplier_name') String? vendor,
-      @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+      @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
       ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') String? vendorInvoiceNo,
@@ -674,7 +674,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
       @JsonKey(name: 'created_time') this.createdtime,
       @JsonKey(name: 'material_type') this.materialType,
       @JsonKey(name: 'supplier_name') this.vendor,
-      @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+      @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
       this.receiveMode,
       @JsonKey(name: 'purchase_order_no') this.poNumber,
       @JsonKey(name: 'vendor_invoice_no') this.vendorInvoiceNo,
@@ -763,7 +763,7 @@ class _$GateEntryFormImpl implements _GateEntryForm {
   @JsonKey(name: 'supplier_name')
   final String? vendor;
   @override
-  @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+  @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
   final ReceiverMode? receiveMode;
   @override
   @JsonKey(name: 'purchase_order_no')
@@ -1018,7 +1018,7 @@ abstract class _GateEntryForm implements GateEntryForm {
       @JsonKey(name: 'created_time') final String? createdtime,
       @JsonKey(name: 'material_type') final String? materialType,
       @JsonKey(name: 'supplier_name') final String? vendor,
-      @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+      @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
       final ReceiverMode? receiveMode,
       @JsonKey(name: 'purchase_order_no') final String? poNumber,
       @JsonKey(name: 'vendor_invoice_no') final String? vendorInvoiceNo,
@@ -1112,7 +1112,7 @@ abstract class _GateEntryForm implements GateEntryForm {
   @JsonKey(name: 'supplier_name')
   String? get vendor;
   @override
-  @JsonKey(name: 'receiver_mode', fromJson: _receiveModeFromJson)
+  @JsonKey(name: 'receive_mode', fromJson: _receiveModeFromJson)
   ReceiverMode? get receiveMode;
   @override
   @JsonKey(name: 'purchase_order_no')

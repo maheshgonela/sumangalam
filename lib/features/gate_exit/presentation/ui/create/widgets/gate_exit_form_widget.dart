@@ -14,7 +14,7 @@ import 'package:sumangalam/core/widgets/primary_btn.dart';
 import 'package:sumangalam/core/widgets/search_dropdown_widget.dart';
 import 'package:sumangalam/core/widgets/spaced_column.dart';
 import 'package:sumangalam/features/gate_exit/data/gate_exit_api_helper.dart';
-import 'package:sumangalam/features/gate_exit/model/shipment.dart';
+import 'package:sumangalam/features/gate_exit/model/delivery_note.dart';
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit/new_gate_exit_cubit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/create/widgets/gate_exit_builder.dart';
 
@@ -28,7 +28,7 @@ class GateExitFormWidget extends StatefulWidget {
 class _GateExitFormWidgetState extends State<GateExitFormWidget>
     with AttahcmentSelectionMixin {
   final dateTime = DateTime.now();
-  final shipments = <Shipment>[];
+  final shipments = <DeliveryNote>[];
 
   @override
   void initState() {
@@ -83,12 +83,11 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
               readOnly: true,
               initialValue: form.createdtime,
             ),
-            SearchDropDownList<Shipment>(
-              title: 'Shipment No.',
-              hint: 'Select Shipment No.',
+            SearchDropDownList<DeliveryNote>(
+              title: 'DC No.',
+              hint: 'Select DC No.',
               readOnly: isSubmitted,
-              isMandatory: true,
-              defaultSelection: Shipment.fromEntry(form),
+              defaultSelection: DeliveryNote.fromEntry(form),
               items: shipments,
               futureRequest: (p0) async {
                 final orders = await $sl.get<ShipmentListHelper>().call(p0);
@@ -101,7 +100,7 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
               },
               onSelected: (dcNo) {
                 context.cubit<NewGateExitCubit>().onFieldValueChanged(
-                      dcNO: dcNo?.shipmentNo,
+                      dcNO: dcNo?.name,
                       customerName: dcNo?.customerName,
                       sONO: dcNo?.soNo,
                       poNumber: dcNo?.poNumber,
@@ -113,46 +112,48 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
                 });
               },
               headerBuilder: (context, item, isExpanded) =>
-                  Text(item.shipmentNo),
+                  Text(item.name),
               listItemBuilder: (context, item, isSelected, onTap) =>
-                  Text(item.shipmentNo),
+                  Text(item.name),
               hintBuilder: (context, hint, isExpanded) => Text(hint),
             ),
-            InputField(
-              title: 'Customer Name',
-              readOnly: true,
-              initialValue: form.customerName,
-              controller: controllers['customerName'] =
-                  TextEditingController(text: form.customerName),
-              onChanged: (customerName) {
-                context
-                    .cubit<NewGateExitCubit>()
-                    .onFieldValueChanged(customerName: customerName);
-              },
-            ),
-            InputField(
-              title: 'SO Number',
-              readOnly: true,
-              initialValue: form.sONO,
-              controller: controllers['sONO'] =
-                  TextEditingController(text: form.sONO),
-              onChanged: (sONO) {
-                context
-                    .cubit<NewGateExitCubit>()
-                    .onFieldValueChanged(sONO: sONO);
-              },
-            ),
-            InputField(
-              title: 'PO Number',
-              readOnly: true,
-              initialValue: form.poNumber,
-              controller: controllers['poNumber'] = TextEditingController(),
-              onChanged: (poNumber) {
-                context
-                    .cubit<NewGateExitCubit>()
-                    .onFieldValueChanged(poNumber: poNumber);
-              },
-            ),
+            if(form.dcNo.isNotNull)...[
+              InputField(
+                title: 'Customer Name',
+                readOnly: true,
+                initialValue: form.customerName,
+                controller: controllers['customerName'] =
+                    TextEditingController(text: form.customerName),
+                onChanged: (customerName) {
+                  context
+                      .cubit<NewGateExitCubit>()
+                      .onFieldValueChanged(customerName: customerName);
+                },
+              ),
+              InputField(
+                title: 'SO Number',
+                readOnly: true,
+                initialValue: form.sONO,
+                controller: controllers['sONO'] =
+                    TextEditingController(text: form.sONO),
+                onChanged: (sONO) {
+                  context
+                      .cubit<NewGateExitCubit>()
+                      .onFieldValueChanged(sONO: sONO);
+                },
+              ),
+              InputField(
+                title: 'PO Number',
+                readOnly: true,
+                initialValue: form.poNumber,
+                controller: controllers['poNumber'],
+                onChanged: (poNumber) {
+                  context
+                      .cubit<NewGateExitCubit>()
+                      .onFieldValueChanged(poNumber: poNumber);
+                },
+              ),
+            ],
             ImageSelectionWidget(
               title: 'Vehicle Image',
               initialValue: form.vehicleImageUrl,
