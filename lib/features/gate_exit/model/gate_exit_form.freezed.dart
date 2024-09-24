@@ -34,6 +34,16 @@ mixin _$GateExitForm {
   String? get sONO => throw _privateConstructorUsedError;
   @JsonKey(name: 'purchase_order')
   String? get poNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vehicle_weight_with_material')
+  double? get vehicleWithMaterial => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vehicle_weight_without_material')
+  double? get vehicleWithOutMaterial => throw _privateConstructorUsedError;
+  @JsonKey(name: 'actual_weight')
+  double? get actualWeight => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+  String? get vechileMaterialUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vehicle_weight_without_material_photo', includeToJson: false)
+  String? get vechileWithoutMaterialUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'vehicle_image', includeToJson: false)
   String? get vehicleImageUrl => throw _privateConstructorUsedError;
   @JsonKey(
@@ -42,6 +52,20 @@ mixin _$GateExitForm {
       toJson: toNull,
       fromJson: toNull)
   File? get vehicleImage => throw _privateConstructorUsedError;
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  File? get vehicleWeightWithMaterialPhoto =>
+      throw _privateConstructorUsedError;
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  File? get vehicleWeightWithOutMaterialPhoto =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'vehicle_no')
   String? get vehicleNo => throw _privateConstructorUsedError;
   @JsonKey(name: 'driver_name')
@@ -71,6 +95,16 @@ abstract class $GateExitFormCopyWith<$Res> {
       @JsonKey(name: 'dc_no') String? dcNo,
       @JsonKey(name: 'so_number') String? sONO,
       @JsonKey(name: 'purchase_order') String? poNumber,
+      @JsonKey(name: 'vehicle_weight_with_material')
+      double? vehicleWithMaterial,
+      @JsonKey(name: 'vehicle_weight_without_material')
+      double? vehicleWithOutMaterial,
+      @JsonKey(name: 'actual_weight') double? actualWeight,
+      @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+      String? vechileMaterialUrl,
+      @JsonKey(
+          name: 'vehicle_weight_without_material_photo', includeToJson: false)
+      String? vechileWithoutMaterialUrl,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       String? vehicleImageUrl,
       @JsonKey(
@@ -79,6 +113,18 @@ abstract class $GateExitFormCopyWith<$Res> {
           toJson: toNull,
           fromJson: toNull)
       File? vehicleImage,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      File? vehicleWeightWithMaterialPhoto,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      File? vehicleWeightWithOutMaterialPhoto,
       @JsonKey(name: 'vehicle_no') String? vehicleNo,
       @JsonKey(name: 'driver_name') String? driverName,
       @JsonKey(name: 'driver_mobile_no') String? driverMobileNo,
@@ -105,8 +151,15 @@ class _$GateExitFormCopyWithImpl<$Res, $Val extends GateExitForm>
     Object? dcNo = freezed,
     Object? sONO = freezed,
     Object? poNumber = freezed,
+    Object? vehicleWithMaterial = freezed,
+    Object? vehicleWithOutMaterial = freezed,
+    Object? actualWeight = freezed,
+    Object? vechileMaterialUrl = freezed,
+    Object? vechileWithoutMaterialUrl = freezed,
     Object? vehicleImageUrl = freezed,
     Object? vehicleImage = freezed,
+    Object? vehicleWeightWithMaterialPhoto = freezed,
+    Object? vehicleWeightWithOutMaterialPhoto = freezed,
     Object? vehicleNo = freezed,
     Object? driverName = freezed,
     Object? driverMobileNo = freezed,
@@ -141,6 +194,26 @@ class _$GateExitFormCopyWithImpl<$Res, $Val extends GateExitForm>
           ? _value.poNumber
           : poNumber // ignore: cast_nullable_to_non_nullable
               as String?,
+      vehicleWithMaterial: freezed == vehicleWithMaterial
+          ? _value.vehicleWithMaterial
+          : vehicleWithMaterial // ignore: cast_nullable_to_non_nullable
+              as double?,
+      vehicleWithOutMaterial: freezed == vehicleWithOutMaterial
+          ? _value.vehicleWithOutMaterial
+          : vehicleWithOutMaterial // ignore: cast_nullable_to_non_nullable
+              as double?,
+      actualWeight: freezed == actualWeight
+          ? _value.actualWeight
+          : actualWeight // ignore: cast_nullable_to_non_nullable
+              as double?,
+      vechileMaterialUrl: freezed == vechileMaterialUrl
+          ? _value.vechileMaterialUrl
+          : vechileMaterialUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      vechileWithoutMaterialUrl: freezed == vechileWithoutMaterialUrl
+          ? _value.vechileWithoutMaterialUrl
+          : vechileWithoutMaterialUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       vehicleImageUrl: freezed == vehicleImageUrl
           ? _value.vehicleImageUrl
           : vehicleImageUrl // ignore: cast_nullable_to_non_nullable
@@ -148,6 +221,15 @@ class _$GateExitFormCopyWithImpl<$Res, $Val extends GateExitForm>
       vehicleImage: freezed == vehicleImage
           ? _value.vehicleImage
           : vehicleImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+      vehicleWeightWithMaterialPhoto: freezed == vehicleWeightWithMaterialPhoto
+          ? _value.vehicleWeightWithMaterialPhoto
+          : vehicleWeightWithMaterialPhoto // ignore: cast_nullable_to_non_nullable
+              as File?,
+      vehicleWeightWithOutMaterialPhoto: freezed ==
+              vehicleWeightWithOutMaterialPhoto
+          ? _value.vehicleWeightWithOutMaterialPhoto
+          : vehicleWeightWithOutMaterialPhoto // ignore: cast_nullable_to_non_nullable
               as File?,
       vehicleNo: freezed == vehicleNo
           ? _value.vehicleNo
@@ -185,6 +267,16 @@ abstract class _$$GateExitFormImplCopyWith<$Res>
       @JsonKey(name: 'dc_no') String? dcNo,
       @JsonKey(name: 'so_number') String? sONO,
       @JsonKey(name: 'purchase_order') String? poNumber,
+      @JsonKey(name: 'vehicle_weight_with_material')
+      double? vehicleWithMaterial,
+      @JsonKey(name: 'vehicle_weight_without_material')
+      double? vehicleWithOutMaterial,
+      @JsonKey(name: 'actual_weight') double? actualWeight,
+      @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+      String? vechileMaterialUrl,
+      @JsonKey(
+          name: 'vehicle_weight_without_material_photo', includeToJson: false)
+      String? vechileWithoutMaterialUrl,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       String? vehicleImageUrl,
       @JsonKey(
@@ -193,6 +285,18 @@ abstract class _$$GateExitFormImplCopyWith<$Res>
           toJson: toNull,
           fromJson: toNull)
       File? vehicleImage,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      File? vehicleWeightWithMaterialPhoto,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      File? vehicleWeightWithOutMaterialPhoto,
       @JsonKey(name: 'vehicle_no') String? vehicleNo,
       @JsonKey(name: 'driver_name') String? driverName,
       @JsonKey(name: 'driver_mobile_no') String? driverMobileNo,
@@ -217,8 +321,15 @@ class __$$GateExitFormImplCopyWithImpl<$Res>
     Object? dcNo = freezed,
     Object? sONO = freezed,
     Object? poNumber = freezed,
+    Object? vehicleWithMaterial = freezed,
+    Object? vehicleWithOutMaterial = freezed,
+    Object? actualWeight = freezed,
+    Object? vechileMaterialUrl = freezed,
+    Object? vechileWithoutMaterialUrl = freezed,
     Object? vehicleImageUrl = freezed,
     Object? vehicleImage = freezed,
+    Object? vehicleWeightWithMaterialPhoto = freezed,
+    Object? vehicleWeightWithOutMaterialPhoto = freezed,
     Object? vehicleNo = freezed,
     Object? driverName = freezed,
     Object? driverMobileNo = freezed,
@@ -253,6 +364,26 @@ class __$$GateExitFormImplCopyWithImpl<$Res>
           ? _value.poNumber
           : poNumber // ignore: cast_nullable_to_non_nullable
               as String?,
+      vehicleWithMaterial: freezed == vehicleWithMaterial
+          ? _value.vehicleWithMaterial
+          : vehicleWithMaterial // ignore: cast_nullable_to_non_nullable
+              as double?,
+      vehicleWithOutMaterial: freezed == vehicleWithOutMaterial
+          ? _value.vehicleWithOutMaterial
+          : vehicleWithOutMaterial // ignore: cast_nullable_to_non_nullable
+              as double?,
+      actualWeight: freezed == actualWeight
+          ? _value.actualWeight
+          : actualWeight // ignore: cast_nullable_to_non_nullable
+              as double?,
+      vechileMaterialUrl: freezed == vechileMaterialUrl
+          ? _value.vechileMaterialUrl
+          : vechileMaterialUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      vechileWithoutMaterialUrl: freezed == vechileWithoutMaterialUrl
+          ? _value.vechileWithoutMaterialUrl
+          : vechileWithoutMaterialUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       vehicleImageUrl: freezed == vehicleImageUrl
           ? _value.vehicleImageUrl
           : vehicleImageUrl // ignore: cast_nullable_to_non_nullable
@@ -260,6 +391,15 @@ class __$$GateExitFormImplCopyWithImpl<$Res>
       vehicleImage: freezed == vehicleImage
           ? _value.vehicleImage
           : vehicleImage // ignore: cast_nullable_to_non_nullable
+              as File?,
+      vehicleWeightWithMaterialPhoto: freezed == vehicleWeightWithMaterialPhoto
+          ? _value.vehicleWeightWithMaterialPhoto
+          : vehicleWeightWithMaterialPhoto // ignore: cast_nullable_to_non_nullable
+              as File?,
+      vehicleWeightWithOutMaterialPhoto: freezed ==
+              vehicleWeightWithOutMaterialPhoto
+          ? _value.vehicleWeightWithOutMaterialPhoto
+          : vehicleWeightWithOutMaterialPhoto // ignore: cast_nullable_to_non_nullable
               as File?,
       vehicleNo: freezed == vehicleNo
           ? _value.vehicleNo
@@ -292,6 +432,15 @@ class _$GateExitFormImpl implements _GateExitForm {
       @JsonKey(name: 'dc_no') this.dcNo,
       @JsonKey(name: 'so_number') this.sONO,
       @JsonKey(name: 'purchase_order') this.poNumber,
+      @JsonKey(name: 'vehicle_weight_with_material') this.vehicleWithMaterial,
+      @JsonKey(name: 'vehicle_weight_without_material')
+      this.vehicleWithOutMaterial,
+      @JsonKey(name: 'actual_weight') this.actualWeight,
+      @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+      this.vechileMaterialUrl,
+      @JsonKey(
+          name: 'vehicle_weight_without_material_photo', includeToJson: false)
+      this.vechileWithoutMaterialUrl,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       this.vehicleImageUrl,
       @JsonKey(
@@ -300,6 +449,18 @@ class _$GateExitFormImpl implements _GateExitForm {
           toJson: toNull,
           fromJson: toNull)
       this.vehicleImage,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      this.vehicleWeightWithMaterialPhoto,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      this.vehicleWeightWithOutMaterialPhoto,
       @JsonKey(name: 'vehicle_no') this.vehicleNo,
       @JsonKey(name: 'driver_name') this.driverName,
       @JsonKey(name: 'driver_mobile_no') this.driverMobileNo,
@@ -330,6 +491,21 @@ class _$GateExitFormImpl implements _GateExitForm {
   @JsonKey(name: 'purchase_order')
   final String? poNumber;
   @override
+  @JsonKey(name: 'vehicle_weight_with_material')
+  final double? vehicleWithMaterial;
+  @override
+  @JsonKey(name: 'vehicle_weight_without_material')
+  final double? vehicleWithOutMaterial;
+  @override
+  @JsonKey(name: 'actual_weight')
+  final double? actualWeight;
+  @override
+  @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+  final String? vechileMaterialUrl;
+  @override
+  @JsonKey(name: 'vehicle_weight_without_material_photo', includeToJson: false)
+  final String? vechileWithoutMaterialUrl;
+  @override
   @JsonKey(name: 'vehicle_image', includeToJson: false)
   final String? vehicleImageUrl;
   @override
@@ -339,6 +515,20 @@ class _$GateExitFormImpl implements _GateExitForm {
       toJson: toNull,
       fromJson: toNull)
   final File? vehicleImage;
+  @override
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  final File? vehicleWeightWithMaterialPhoto;
+  @override
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  final File? vehicleWeightWithOutMaterialPhoto;
   @override
   @JsonKey(name: 'vehicle_no')
   final String? vehicleNo;
@@ -354,7 +544,7 @@ class _$GateExitFormImpl implements _GateExitForm {
 
   @override
   String toString() {
-    return 'GateExitForm(exitno: $exitno, exitdate: $exitdate, createdtime: $createdtime, customerName: $customerName, dcNo: $dcNo, sONO: $sONO, poNumber: $poNumber, vehicleImageUrl: $vehicleImageUrl, vehicleImage: $vehicleImage, vehicleNo: $vehicleNo, driverName: $driverName, driverMobileNo: $driverMobileNo, status: $status)';
+    return 'GateExitForm(exitno: $exitno, exitdate: $exitdate, createdtime: $createdtime, customerName: $customerName, dcNo: $dcNo, sONO: $sONO, poNumber: $poNumber, vehicleWithMaterial: $vehicleWithMaterial, vehicleWithOutMaterial: $vehicleWithOutMaterial, actualWeight: $actualWeight, vechileMaterialUrl: $vechileMaterialUrl, vechileWithoutMaterialUrl: $vechileWithoutMaterialUrl, vehicleImageUrl: $vehicleImageUrl, vehicleImage: $vehicleImage, vehicleWeightWithMaterialPhoto: $vehicleWeightWithMaterialPhoto, vehicleWeightWithOutMaterialPhoto: $vehicleWeightWithOutMaterialPhoto, vehicleNo: $vehicleNo, driverName: $driverName, driverMobileNo: $driverMobileNo, status: $status)';
   }
 
   @override
@@ -373,10 +563,29 @@ class _$GateExitFormImpl implements _GateExitForm {
             (identical(other.sONO, sONO) || other.sONO == sONO) &&
             (identical(other.poNumber, poNumber) ||
                 other.poNumber == poNumber) &&
+            (identical(other.vehicleWithMaterial, vehicleWithMaterial) ||
+                other.vehicleWithMaterial == vehicleWithMaterial) &&
+            (identical(other.vehicleWithOutMaterial, vehicleWithOutMaterial) ||
+                other.vehicleWithOutMaterial == vehicleWithOutMaterial) &&
+            (identical(other.actualWeight, actualWeight) ||
+                other.actualWeight == actualWeight) &&
+            (identical(other.vechileMaterialUrl, vechileMaterialUrl) ||
+                other.vechileMaterialUrl == vechileMaterialUrl) &&
+            (identical(other.vechileWithoutMaterialUrl,
+                    vechileWithoutMaterialUrl) ||
+                other.vechileWithoutMaterialUrl == vechileWithoutMaterialUrl) &&
             (identical(other.vehicleImageUrl, vehicleImageUrl) ||
                 other.vehicleImageUrl == vehicleImageUrl) &&
             (identical(other.vehicleImage, vehicleImage) ||
                 other.vehicleImage == vehicleImage) &&
+            (identical(other.vehicleWeightWithMaterialPhoto,
+                    vehicleWeightWithMaterialPhoto) ||
+                other.vehicleWeightWithMaterialPhoto ==
+                    vehicleWeightWithMaterialPhoto) &&
+            (identical(other.vehicleWeightWithOutMaterialPhoto,
+                    vehicleWeightWithOutMaterialPhoto) ||
+                other.vehicleWeightWithOutMaterialPhoto ==
+                    vehicleWeightWithOutMaterialPhoto) &&
             (identical(other.vehicleNo, vehicleNo) ||
                 other.vehicleNo == vehicleNo) &&
             (identical(other.driverName, driverName) ||
@@ -388,21 +597,29 @@ class _$GateExitFormImpl implements _GateExitForm {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      exitno,
-      exitdate,
-      createdtime,
-      customerName,
-      dcNo,
-      sONO,
-      poNumber,
-      vehicleImageUrl,
-      vehicleImage,
-      vehicleNo,
-      driverName,
-      driverMobileNo,
-      status);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        exitno,
+        exitdate,
+        createdtime,
+        customerName,
+        dcNo,
+        sONO,
+        poNumber,
+        vehicleWithMaterial,
+        vehicleWithOutMaterial,
+        actualWeight,
+        vechileMaterialUrl,
+        vechileWithoutMaterialUrl,
+        vehicleImageUrl,
+        vehicleImage,
+        vehicleWeightWithMaterialPhoto,
+        vehicleWeightWithOutMaterialPhoto,
+        vehicleNo,
+        driverName,
+        driverMobileNo,
+        status
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -428,6 +645,16 @@ abstract class _GateExitForm implements GateExitForm {
       @JsonKey(name: 'dc_no') final String? dcNo,
       @JsonKey(name: 'so_number') final String? sONO,
       @JsonKey(name: 'purchase_order') final String? poNumber,
+      @JsonKey(name: 'vehicle_weight_with_material')
+      final double? vehicleWithMaterial,
+      @JsonKey(name: 'vehicle_weight_without_material')
+      final double? vehicleWithOutMaterial,
+      @JsonKey(name: 'actual_weight') final double? actualWeight,
+      @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+      final String? vechileMaterialUrl,
+      @JsonKey(
+          name: 'vehicle_weight_without_material_photo', includeToJson: false)
+      final String? vechileWithoutMaterialUrl,
       @JsonKey(name: 'vehicle_image', includeToJson: false)
       final String? vehicleImageUrl,
       @JsonKey(
@@ -436,6 +663,18 @@ abstract class _GateExitForm implements GateExitForm {
           toJson: toNull,
           fromJson: toNull)
       final File? vehicleImage,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      final File? vehicleWeightWithMaterialPhoto,
+      @JsonKey(
+          includeFromJson: true,
+          includeToJson: false,
+          toJson: toNull,
+          fromJson: toNull)
+      final File? vehicleWeightWithOutMaterialPhoto,
       @JsonKey(name: 'vehicle_no') final String? vehicleNo,
       @JsonKey(name: 'driver_name') final String? driverName,
       @JsonKey(name: 'driver_mobile_no') final String? driverMobileNo,
@@ -466,6 +705,21 @@ abstract class _GateExitForm implements GateExitForm {
   @JsonKey(name: 'purchase_order')
   String? get poNumber;
   @override
+  @JsonKey(name: 'vehicle_weight_with_material')
+  double? get vehicleWithMaterial;
+  @override
+  @JsonKey(name: 'vehicle_weight_without_material')
+  double? get vehicleWithOutMaterial;
+  @override
+  @JsonKey(name: 'actual_weight')
+  double? get actualWeight;
+  @override
+  @JsonKey(name: 'vehicle_weight_with_material_photo', includeToJson: false)
+  String? get vechileMaterialUrl;
+  @override
+  @JsonKey(name: 'vehicle_weight_without_material_photo', includeToJson: false)
+  String? get vechileWithoutMaterialUrl;
+  @override
   @JsonKey(name: 'vehicle_image', includeToJson: false)
   String? get vehicleImageUrl;
   @override
@@ -475,6 +729,20 @@ abstract class _GateExitForm implements GateExitForm {
       toJson: toNull,
       fromJson: toNull)
   File? get vehicleImage;
+  @override
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  File? get vehicleWeightWithMaterialPhoto;
+  @override
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: false,
+      toJson: toNull,
+      fromJson: toNull)
+  File? get vehicleWeightWithOutMaterialPhoto;
   @override
   @JsonKey(name: 'vehicle_no')
   String? get vehicleNo;

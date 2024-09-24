@@ -170,10 +170,7 @@ class _DialogWidget extends StatelessWidget {
                   ] else...[const SizedBox.shrink()],
                 ],
               ),
-              AppSpacer.p4(),
-              if(dialogType != DialogType.success)...[
-                const Divider(color: AppColors.grey, height: 1, thickness: 2),
-              ],
+           
               AppSpacer.p8(),
               _BulletPointWidget(content, textColor),
               AppSpacer.p12(),

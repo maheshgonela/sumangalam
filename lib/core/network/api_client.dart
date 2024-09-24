@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/network/network.dart';
@@ -14,30 +14,30 @@ class ApiClient {
 
   /// HTTPClient that is going to be used to make underlying api calls. It can be easily switched
   /// any other implementations like dio.
-  final http.Client client;
+  final Dio client;
 
   /// Internet checker
   final InternetConnectionChecker internet;
 
-  /// Performs HTTP GET request with provided request configuration
+  /// Performs DIO GET request with provided request configuration
   Future<ApiResponse<T>> get<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.get(urlWithParams, headers: params.headers),
+      (Uri urlWithParams) => client.getUri(urlWithParams, options: Options(headers: params.headers)),
       params,
     );
   }
 
-  /// Performs HTTP POST request with provided request configuration
+  /// Performs DIO POST request with provided request configuration
   Future<ApiResponse<T>> post<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.post(urlWithParams, headers: params.headers, body: params.body),
+      (Uri urlWithParams) => client.postUri(urlWithParams, options:Options(headers: params.headers,),data:params.body),
       params,
     );
   }
 
   Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.post(urlWithParams, headers: params.headers, body: jsonDecode(params.body!)),
+      (Uri urlWithParams) => client.postUri(urlWithParams, options: Options(headers: params.headers, ),data: jsonDecode(params.body!)),
       params,
     );
   }
@@ -50,42 +50,43 @@ class ApiClient {
   Future<ApiResponse<T>> multipartRequest<T>(RequestConfig<T> params) async {
     return _request(
       (Uri urlWithParams) async {
-        final http.MultipartRequest request = http.MultipartRequest('POST', urlWithParams);
         final Map<String, String>? headers = params.headers;
         final Map<String, dynamic>? reqParams = params.reqParams;
+        final FormData formData = FormData.fromMap(reqParams!);
 
-        if (headers != null) {
-          request.headers.addAll(headers);
-        }
-
-        if (reqParams != null) {
+      
+        if (reqParams.isNotEmpty) {
           for (final MapEntry<String, dynamic> param in reqParams.entries) {
             if (param.value is File?) {
               final File originalFile = param.value as File;
-              await _addFileToRequest(param.key, originalFile, request);
+              await _addFileToRequest(param.key, originalFile, formData);
             } else {
-              request.fields.putIfAbsent(param.key, () => param.value);
+              if (!formData.fields.contains(MapEntry(param.key, param.value))) {
+                formData.fields.add(MapEntry(param.key, param.value));
+                
+              }
             }
           }
         }
-        final http.StreamedResponse streamedResponse =
-            await client.send(request);
+       final Response response = await client.postUri(urlWithParams, data: formData, options: Options(headers: headers,contentType:'multipart/form-data' ));
 
-        return http.Response.fromStream(streamedResponse);
+        return response;
       },
       params,
     );
   }
 
-  Future<void> _addFileToRequest(String key, File? file, http.MultipartRequest request) async {
+  Future<void> _addFileToRequest(String key, File? file, FormData form) async {
     if (file != null) {
-      final multipartFile = await http.MultipartFile.fromPath(key, file.path);
-      request.files.add(multipartFile);
+     final fileLength = await file.length();
+     print((fileLength/1024)/1024);
+      final multipartFile = MapEntry(key, await MultipartFile.fromFile(file.path));
+      form.files.add(multipartFile);
     }
   }
 
   Future<ApiResponse<T>> _request<T>(
-    Future<http.Response> Function(Uri url) apiCall,
+    Future<Response<dynamic>> Function(Uri url) apiCall,
     RequestConfig<T> params,
   ) async {
     try {
@@ -94,10 +95,12 @@ class ApiClient {
       }
 
       final Uri uri = RestUtils.constructUri(params.url, params.reqParams);
-      final http.Response httpResponse = await apiCall(uri);
-      final int statusCode = httpResponse.statusCode;
-      final String resBody = httpResponse.body;
-      
+      final  dioResponse = await apiCall(uri);
+      final  statusCode = dioResponse.statusCode!;
+    if (dioResponse.data == null) {
+        throw UnExpectedResponseException(Errors.unknown);
+      }
+      final resBody = dioResponse.data as Map<String, dynamic>;      
       if (kDebugMode) {
         $logger
           ..info(uri)
@@ -108,13 +111,13 @@ class ApiClient {
       }
 
       if (statusCode == HttpStatus.ok) {
-        if (resBody.doesNotHaveValue) {
-          throw UnExpectedResponseException(resBody);
+        if (resBody.isEmpty) {
+          throw UnExpectedResponseException(Errors.unknown);
         }
 
         final ApiResponseParser<T> responseParser = params.apiResponseParser ?? FrappeApiResponseParser<T>();
         final ApiResponse<T> result = responseParser.parse(
-          resBody,
+          jsonEncode(resBody),
           params.parser,
           Errors.defaultApiErrorMessage,
         );
@@ -127,7 +130,7 @@ class ApiClient {
           throw ServerException(Errors.invalidcredentials);
         } else if ((statusCode >= HttpStatus.internalServerError &&
             statusCode <= HttpStatus.networkConnectTimeoutError) || statusCode == HttpStatus.expectationFailed) {
-          final message = defaultErrorParser(jsonDecode(resBody), Errors.internalServerError);
+          final message = defaultErrorParser(resBody, Errors.internalServerError);
           throw ServerException(message);
         } else if (statusCode >= HttpStatus.badRequest &&
             statusCode <= HttpStatus.clientClosedRequest) {

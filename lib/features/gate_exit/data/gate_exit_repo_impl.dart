@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/constants/urls.dart';
@@ -58,16 +60,21 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
       final cleanedMap = removeNullValues(formJson);
       final config = RequestConfig(
         url: Urls.createGateExit,
-        reqParams: cleanedMap,
+        reqParams:cleanedMap,
         parser: (p0) => p0['message']['gate_exit_no'] as String,
       );
+            $logger.devLog('config $config');
+
       final response = await multiPart(config);
+      $logger.devLog('response $response');
       return response.process((r) {
         final docNo = r.data!;
         const successMsg =
             'The Gate Exit Details have been saved successfully.';
         return right(Pair(docNo, successMsg));
+        
       });
+    
     } on Exception catch (e, st) {
       $logger.error('[Gate Exit Creation]', e, st);
       return left(Failure(error: e.toString()));

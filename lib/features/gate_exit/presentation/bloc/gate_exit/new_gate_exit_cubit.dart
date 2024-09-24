@@ -71,9 +71,24 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
     String? vehicleNo,
     String? driverName,
     String? driverMobileNo,
+    double? vWithMaterial,
+    double? vWithoutMaterial,
+    double? actualWeight,
+    File? vehicleWithMaterialPhoto,
+    File? vehicleWithoutMaterialPhoto,
   }) {
     final form = state.form;
     final vechPhoto = vehicleImage ?? form.vehicleImage;
+    final vechMaterialPhoto = vehicleWithMaterialPhoto ?? form.vehicleWeightWithMaterialPhoto;
+    final vechWithoutMaterialPhoto = vehicleWithoutMaterialPhoto ?? form.vehicleWeightWithOutMaterialPhoto;
+    final weight1 = vWithMaterial ?? form.vehicleWithMaterial;
+    final weight2 = vWithoutMaterial ?? form.vehicleWithOutMaterial;
+    final actualWeight1 = (weight1.isNotNull && weight2.isNotNull)
+        ? _calculateActualWeight(weight1!, weight2!)
+        : null;
+    print('actualWeight: $actualWeight1');
+    print('vWithMaterial: $weight1');
+    print('vWithoutMaterial: $weight2');
 
     final newForm = form.copyWith(
       poNumber: poNumber ?? form.poNumber,
@@ -88,11 +103,31 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
       exitdate: exitdate ?? form.exitdate,
       exitno: exitno ?? form.exitno,
       sONO: sONO ?? form.sONO,
+      actualWeight: actualWeight1,
+      vehicleWithMaterial: vWithMaterial ?? form.vehicleWithMaterial,
+      vehicleWithOutMaterial: vWithoutMaterial ?? form.vehicleWithOutMaterial,
+      vehicleWeightWithMaterialPhoto: vechMaterialPhoto,
+      vehicleWeightWithOutMaterialPhoto: vechWithoutMaterialPhoto,
+      vechileMaterialUrl: vechMaterialPhoto.isNotNull ? null : form.vechileMaterialUrl,
+      vechileWithoutMaterialUrl: vechWithoutMaterialPhoto.isNotNull
+          ? null
+          : form.vechileWithoutMaterialUrl,
     );
     emitSafeState(state.copyWith(
       form: newForm,
       error: null,
     ));
+  }
+
+  double? _calculateActualWeight(
+      double vWithMaterial, double vWithoutMaterial) {
+    try {
+      final actualWeight = vWithMaterial - vWithoutMaterial;
+      return actualWeight;
+    } catch (e) {
+      print('Error calculating actual weight: $e');
+      return null;
+    }
   }
 
   void processGateExit() {
@@ -172,6 +207,16 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
       return optionOf('Enter Driver Name');
     } else if (form.driverMobileNo.isNull) {
       return optionOf('Enter Driver Mobile No.');
+    } else if (form.vehicleWithMaterial.isNull) {
+      return optionOf('Enter Vechile With Material Weight');
+    } else if (form.vehicleWithOutMaterial.isNull) {
+      return optionOf('Enter Vechile With Out Material Weight');
+    } else if (form.vehicleWeightWithMaterialPhoto.isNull &&
+        form.vechileMaterialUrl.isNull) {
+      return optionOf('Capture Vechile With Material Photo.');
+    } else if (form.vehicleWeightWithOutMaterialPhoto.isNull &&
+        form.vechileWithoutMaterialUrl.isNull) {
+      return optionOf('Capture Vechile Without Material Photo.');
     }
 
     return const None();

@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
-import 'package:http/io_client.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'injector.config.dart';
@@ -27,13 +25,7 @@ Future<void> configureDependencies({required String env}) async {
 @module
 abstract class ThirdPartyDependencies {
   @singleton
-  Client get httpClient {
-    final c = HttpClient();
-    if (kDebugMode) {
-      c.badCertificateCallback = (_, __, ___) => true;
-    }
-    return IOClient(c);
-  }
+  Dio get dio => Dio();
 
   @singleton
   Connectivity get connectivity => Connectivity();

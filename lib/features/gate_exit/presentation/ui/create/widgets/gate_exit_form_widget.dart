@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/di/injector.dart';
@@ -29,6 +30,7 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
     with AttahcmentSelectionMixin {
   final dateTime = DateTime.now();
   final shipments = <DeliveryNote>[];
+  String _scanBarcode = '';
 
   @override
   void initState() {
@@ -40,6 +42,8 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
     'vehicleNo': TextEditingController(),
     'driverMobileNo': TextEditingController(),
     'driverName': TextEditingController(),
+    'WeightWithMaterial': TextEditingController(),
+    'WeightWithoutMaterial': TextEditingController(),
   };
   Future<void> _fetchShipments() async {
     final orders = await $sl.get<ShipmentListHelper>().call();
@@ -49,6 +53,27 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
         ..addAll(orders);
     });
   }
+
+ 
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +112,10 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
               title: 'DC No.',
               hint: 'Select DC No.',
               readOnly: isSubmitted,
+              onScan: () {
+                scanBarcodeNormal();
+              },
+               
               defaultSelection: DeliveryNote.fromEntry(form),
               items: shipments,
               futureRequest: (p0) async {
@@ -111,13 +140,12 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
                   controllers['poNumber']?.text = dcNo?.poNumber ?? '';
                 });
               },
-              headerBuilder: (context, item, isExpanded) =>
-                  Text(item.name),
+              headerBuilder: (context, item, isExpanded) => Text(item.name),
               listItemBuilder: (context, item, isSelected, onTap) =>
                   Text(item.name),
               hintBuilder: (context, hint, isExpanded) => Text(hint),
             ),
-            if(form.dcNo.isNotNull)...[
+            if (form.dcNo.isNotNull) ...[
               InputField(
                 title: 'Customer Name',
                 readOnly: true,
@@ -178,6 +206,71 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
                     .cubit<NewGateExitCubit>()
                     .onFieldValueChanged(vehicleNo: vehicleNo);
               },
+            ),
+            InputField(
+              title: 'Vehicle Weight With Material',
+              controller: controllers['WeightWithMaterial'],
+              initialValue: NumUtils.toVal(form.vehicleWithMaterial),
+              readOnly: isSubmitted,
+              inputType: TextInputType.number,
+              inputFormatters: [UpperCaseTextFormatter()],
+              suffixIcon: const Icon(Icons.pin_outlined),
+              onChanged: (vWithMaterial) {
+                final double vWithMaterial1 =
+                    double.tryParse(vWithMaterial) ?? 0.0;
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(vWithMaterial: vWithMaterial1);
+              },
+            ),
+            ImageSelectionWidget(
+              title: 'Vehicle Wight With Material Photo',
+              initialValue: form.vechileMaterialUrl,
+              readOnly: isSubmitted,
+              onImage: (materailImage) {
+                context.cubit<NewGateExitCubit>().onFieldValueChanged(
+                    vehicleWithMaterialPhoto: materailImage);
+              },
+              icon: const Icon(Icons.local_shipping_outlined,
+                  color: AppColors.white, size: 32),
+            ),
+            InputField(
+              title: 'Vehicle Weight Without Material',
+              controller: controllers['WeightWithoutMaterial'],
+              initialValue: NumUtils.toVal(form.vehicleWithOutMaterial),
+              readOnly: isSubmitted,
+              inputType: TextInputType.number,
+              inputFormatters: [UpperCaseTextFormatter()],
+              suffixIcon: const Icon(Icons.pin_outlined),
+              onChanged: (vWithoutMaterial) {
+                final double vWithoutMaterial1 =
+                    double.tryParse(vWithoutMaterial) ?? 0.0;
+                context
+                    .cubit<NewGateExitCubit>()
+                    .onFieldValueChanged(vWithoutMaterial: vWithoutMaterial1);
+              },
+            ),
+            ImageSelectionWidget(
+              title: 'Vehicle Weight Without Material Photo',
+              initialValue: form.vechileWithoutMaterialUrl,
+              readOnly: isSubmitted,
+              onImage: (vWithoutImage) {
+                context.cubit<NewGateExitCubit>().onFieldValueChanged(
+                    vehicleWithoutMaterialPhoto: vWithoutImage);
+              },
+              icon: const Icon(Icons.local_shipping_outlined,
+                  color: AppColors.white, size: 32),
+            ),
+            GateExitBuilder(
+              buildWhen: (previous, current) =>
+                  previous.form.actualWeight != current.form.actualWeight,
+              builder: (_, state) => InputField(
+                title: 'Actual Weight',
+                initialValue: NumUtils.toVal(state.form.actualWeight),
+                readOnly: true,
+                inputFormatters: [UpperCaseTextFormatter()],
+                suffixIcon: const Icon(Icons.pin_outlined),
+              ),
             ),
             InputField(
               title: 'Driver Name',

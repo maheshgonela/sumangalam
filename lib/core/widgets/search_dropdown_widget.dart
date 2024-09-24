@@ -19,6 +19,7 @@ class SearchDropDownList<T> extends StatefulWidget {
     this.futureRequest,
     this.hintBuilder,
     this.closedFillColor,
+    this.onScan, 
   });
 
   final String? title;
@@ -33,6 +34,7 @@ class SearchDropDownList<T> extends StatefulWidget {
   final bool readOnly;
   final Color? closedFillColor;
   final void Function(T? item) onSelected;
+  final void Function()? onScan; 
 
   @override
   State<SearchDropDownList<T>> createState() => _SearchDropDownListState<T>();
@@ -54,7 +56,7 @@ class _SearchDropDownListState<T> extends State<SearchDropDownList<T>> {
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
-            color:  AppColors.white,
+            color: AppColors.white,
             border: Border.all(color: AppColors.white, width: 0),
             boxShadow: const [
               BoxShadow(
@@ -67,33 +69,46 @@ class _SearchDropDownListState<T> extends State<SearchDropDownList<T>> {
           ),
           child: AbsorbPointer(
             absorbing: widget.readOnly,
-            child: CustomDropdown<T>.searchRequest(
-              hideSelectedFieldWhenExpanded: true,
-              excludeSelected: false,
-              futureRequestDelay: const Duration(milliseconds: 500),
-              closedHeaderPadding: const EdgeInsets.all(16.0),
-              expandedHeaderPadding: const EdgeInsets.all(16.0),
-              searchRequestLoadingIndicator: const AppLoadingIndicator(),
-              decoration: CustomDropdownDecoration(
-                closedSuffixIcon: const Icon(Icons.arrow_drop_down),
-                closedBorder: Border.all(width: 0.4),
-                expandedBorder: Border.all(width: 0.4),
-                closedBorderRadius: BorderRadius.circular(8.0),
-                expandedBorderRadius: BorderRadius.circular(8.0),
-                closedFillColor: widget.closedFillColor?.withOpacity(0.5),
-                hintStyle: context.textTheme.titleMedium?.copyWith(
-                  color: AppColors.black, 
-                  fontWeight: FontWeight.w500,
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                CustomDropdown<T>.searchRequest(
+                  hideSelectedFieldWhenExpanded: true,
+                  excludeSelected: false,
+                  futureRequestDelay: const Duration(milliseconds: 500),
+                  closedHeaderPadding: const EdgeInsets.all(16.0),
+                  expandedHeaderPadding: const EdgeInsets.all(16.0),
+                  searchRequestLoadingIndicator: const AppLoadingIndicator(),
+                  decoration: CustomDropdownDecoration(
+                    closedSuffixIcon: const Icon(Icons.arrow_drop_down),
+                    closedBorder: Border.all(width: 0.4),
+                    expandedBorder: Border.all(width: 0.4),
+                    closedBorderRadius: BorderRadius.circular(8.0),
+                    expandedBorderRadius: BorderRadius.circular(8.0),
+                    closedFillColor: widget.closedFillColor?.withOpacity(0.5),
+                    hintStyle: context.textTheme.titleMedium?.copyWith(
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  hintBuilder: widget.hintBuilder,
+                  futureRequest: widget.futureRequest,
+                  hintText: widget.hint,
+                  items: widget.items,
+                  headerBuilder: widget.headerBuilder,
+                  listItemBuilder: widget.listItemBuilder,
+                  onChanged: widget.onSelected,
+                  initialItem: _selectedValue,
                 ),
-              ),
-              hintBuilder: widget.hintBuilder,
-              futureRequest: widget.futureRequest,
-              hintText: widget.hint,
-              items: widget.items,
-              headerBuilder: widget.headerBuilder,
-              listItemBuilder: widget.listItemBuilder,
-              onChanged: widget.onSelected,
-              initialItem: _selectedValue,
+                if (widget.onScan != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 42.0),
+                    child: IconButton(
+                      onPressed: widget.onScan,
+                      icon: const Icon(Icons.qr_code_scanner),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

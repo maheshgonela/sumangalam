@@ -9,27 +9,27 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:connectivity_plus/connectivity_plus.dart' as _i4;
+import 'package:dio/dio.dart' as _i3;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i5;
 import 'package:get_it/get_it.dart' as _i1;
-import 'package:http/http.dart' as _i3;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i6;
 
 import '../../features/auth/data/auth_repo.dart' as _i12;
 import '../../features/auth/data/auth_repo_impl.dart' as _i13;
-import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i16;
+import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i15;
 import '../../features/auth/presentation/bloc/sign_in/sign_in_cubit.dart'
-    as _i15;
-import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i25;
+    as _i16;
+import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i26;
 import '../../features/gate_entry/data/gate_entry_repo.dart' as _i17;
 import '../../features/gate_entry/data/gate_entry_repo_impl.dart' as _i18;
-import '../../features/gate_entry/presentation/bloc/bloc_provider.dart' as _i26;
+import '../../features/gate_entry/presentation/bloc/bloc_provider.dart' as _i25;
 import '../../features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart'
     as _i24;
-import '../../features/gate_exit/data/gate_exit_api_helper.dart' as _i22;
+import '../../features/gate_exit/data/gate_exit_api_helper.dart' as _i23;
 import '../../features/gate_exit/data/gate_exit_repo.dart' as _i19;
 import '../../features/gate_exit/data/gate_exit_repo_impl.dart' as _i20;
-import '../../features/gate_exit/presentation/bloc/bloc_providers.dart' as _i23;
+import '../../features/gate_exit/presentation/bloc/bloc_providers.dart' as _i22;
 import '../../features/gate_exit/presentation/bloc/gate_exit/new_gate_exit_cubit.dart'
     as _i21;
 import '../core.dart' as _i14;
@@ -53,7 +53,7 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final thirdPartyDependencies = _$ThirdPartyDependencies();
     gh.factory<DateTime>(() => thirdPartyDependencies.defaultDateTime);
-    gh.singleton<_i3.Client>(() => thirdPartyDependencies.httpClient);
+    gh.singleton<_i3.Dio>(() => thirdPartyDependencies.dio);
     gh.singleton<_i4.Connectivity>(() => thirdPartyDependencies.connectivity);
     gh.singleton<_i5.FlutterSecureStorage>(
         () => thirdPartyDependencies.secureStorage);
@@ -72,33 +72,33 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i6.SharedPreferences>(),
         ));
     gh.factory<_i10.ApiClient>(() => _i10.ApiClient(
-          gh<_i3.Client>(),
+          gh<_i3.Dio>(),
           gh<_i11.InternetConnectionChecker>(),
         ));
     gh.lazySingleton<_i12.AuthRepo>(() => _i13.AuthRepoImpl(
           gh<_i10.ApiClient>(),
           gh<_i14.KeyValueStorage>(),
         ));
-    gh.factory<_i15.SignInCubit>(() => _i15.SignInCubit(gh<_i12.AuthRepo>()));
-    gh.factory<_i16.AuthCubit>(() => _i16.AuthCubit(gh<_i12.AuthRepo>()));
+    gh.factory<_i15.AuthCubit>(() => _i15.AuthCubit(gh<_i12.AuthRepo>()));
+    gh.factory<_i16.SignInCubit>(() => _i16.SignInCubit(gh<_i12.AuthRepo>()));
     gh.lazySingleton<_i17.GateEntryRepo>(
         () => _i18.GateEntryRepoImpl(gh<_i11.ApiClient>()));
     gh.singleton<_i19.GateExitRepo>(
         () => _i20.GateExitRepoImpl(gh<_i11.ApiClient>()));
     gh.factory<_i21.NewGateExitCubit>(
         () => _i21.NewGateExitCubit(gh<_i19.GateExitRepo>()));
-    gh.factory<_i22.ShipmentListHelper>(
-        () => _i22.ShipmentListHelper(repo: gh<_i19.GateExitRepo>()));
-    gh.factory<_i23.GateExitBlocProvider>(
-        () => _i23.GateExitBlocProvider(repo: gh<_i19.GateExitRepo>()));
+    gh.factory<_i22.GateExitBlocProvider>(
+        () => _i22.GateExitBlocProvider(repo: gh<_i19.GateExitRepo>()));
+    gh.factory<_i23.ShipmentListHelper>(
+        () => _i23.ShipmentListHelper(repo: gh<_i19.GateExitRepo>()));
     gh.factory<_i24.NewGateEntryCubit>(
         () => _i24.NewGateEntryCubit(gh<_i17.GateEntryRepo>()));
-    gh.factory<_i25.PurchaseOrderHelper>(
-        () => _i25.PurchaseOrderHelper(repo: gh<_i17.GateEntryRepo>()));
-    gh.factory<_i25.SupplierListHelper>(
-        () => _i25.SupplierListHelper(repo: gh<_i17.GateEntryRepo>()));
-    gh.factory<_i26.GateEntryBlocProvider>(
-        () => _i26.GateEntryBlocProvider(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i25.GateEntryBlocProvider>(
+        () => _i25.GateEntryBlocProvider(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i26.PurchaseOrderHelper>(
+        () => _i26.PurchaseOrderHelper(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i26.SupplierListHelper>(
+        () => _i26.SupplierListHelper(repo: gh<_i17.GateEntryRepo>()));
     return this;
   }
 }
