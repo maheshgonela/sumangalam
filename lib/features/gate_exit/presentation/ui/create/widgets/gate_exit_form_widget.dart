@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/di/injector.dart';
@@ -30,7 +29,6 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
     with AttahcmentSelectionMixin {
   final dateTime = DateTime.now();
   final shipments = <DeliveryNote>[];
-  String _scanBarcode = '';
 
   @override
   void initState() {
@@ -54,26 +52,8 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
     });
   }
 
- 
-
   Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
-
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/constants/urls.dart';
@@ -63,10 +61,8 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
         reqParams:cleanedMap,
         parser: (p0) => p0['message']['gate_exit_no'] as String,
       );
-            $logger.devLog('config $config');
 
       final response = await multiPart(config);
-      $logger.devLog('response $response');
       return response.process((r) {
         final docNo = r.data!;
         const successMsg =

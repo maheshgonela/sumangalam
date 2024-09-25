@@ -78,8 +78,6 @@ class ApiClient {
 
   Future<void> _addFileToRequest(String key, File? file, FormData form) async {
     if (file != null) {
-     final fileLength = await file.length();
-     print((fileLength/1024)/1024);
       final multipartFile = MapEntry(key, await MultipartFile.fromFile(file.path));
       form.files.add(multipartFile);
     }

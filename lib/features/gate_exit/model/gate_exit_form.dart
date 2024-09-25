@@ -44,26 +44,6 @@ class GateExitForm with _$GateExitForm {
     json['vehicle_weight_without_material_photo'] = form.vehicleWeightWithOutMaterialPhoto;
     return json;
   }
-
-  static List<String> fields = [
-    "name",
-    "gate_exit_date",
-    "driver_mobile_no",
-    "created_time",
-    "customer_name",
-    "so_number",
-    "customer_name_copy_copy",
-    "vehicle_image",
-    "vehicle_no",
-    "driver_name",
-    "dc_no",
-    "status",
-    "vehicle_weight_with_material",
-    "vehicle_weight_without_material",
-    "actual_weight",
-    "vehicle_weight_with_material_photo",
-    "vehicle_weight_without_material_photo"
-  ];
 }
 
 extension GateExitFormApi on GateExitForm {
