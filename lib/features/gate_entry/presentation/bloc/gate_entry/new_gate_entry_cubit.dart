@@ -228,16 +228,17 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
   void _submitGateEntry() async {
     final form = state.form;
     if(form.isOtherMaterialType.isFalse) {
-      if (form.weight2.isNull) {
-        return _emitError('Enter Weight without Material');
-      }
+      if(form.receiveMode == ReceiverMode.byVehicle) {
+        if (form.weight2.isNull) {
+          return _emitError('Enter Weight without Material');
+        }
 
-      if (form.actualWeight.isNull) {
-        return _emitError(
-            'Update Weight without out material. To obtain actual weight.');
-      }
-      if (form.actualWeight!.isNegative) {
-        return _emitError('Actual weight cant be Negative');
+        if (form.actualWeight.isNull) {
+          return _emitError('Update Weight without out material. To obtain actual weight.');
+        }
+        if (form.actualWeight!.isNegative) {
+          return _emitError('Actual weight cant be Negative');
+        }
       }
       final isByVehicle = form.receiveMode == ReceiverMode.byVehicle;
       if (isByVehicle &&

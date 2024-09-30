@@ -25,8 +25,8 @@ class GateEntryForm with _$GateEntryForm {
     @JsonKey(includeFromJson: false, includeToJson: false) String? docPhotoUrl,
 
     // "By Hand" fields
-    @JsonKey(name: 'delivery_person_name') String? delivererName,
-    @JsonKey(name: 'delivery_person_mobile') String? delivererMobileNo,
+    @JsonKey(name: 'deliverer_name') String? delivererName,
+    @JsonKey(name: 'deliverer_mobile_number') String? delivererMobileNo,
 
     // "By Vehicle" fields
     @JsonKey(name: 'vehicle_image', includeFromJson: true, includeToJson: false, toJson: toNull, fromJson: toNull) File? vehiclePhoto,
@@ -68,8 +68,8 @@ class GateEntryForm with _$GateEntryForm {
     }
     if (form.receiveMode == ReceiverMode.byVehicle) {
       json
-        ..remove('delivery_person_name')
-        ..remove('delivery_person_mobile');
+        ..remove('deliverer_name')
+        ..remove('deliverer_mobile_number');
     }
     json['vehicle_image'] = form.vehiclePhoto;
     json['document_image'] = form.docPhoto;

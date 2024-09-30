@@ -123,7 +123,7 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
   }
 
   Future<void> _selectFile() async {
-    final capturedFile = await captureImage();
+    final capturedFile = await selectImageFromGallery();
     if (capturedFile.isNull) return;
     setState(() {
       _selectedImage = capturedFile;

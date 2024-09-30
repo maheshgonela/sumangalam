@@ -37,7 +37,12 @@ class ApiClient {
 
   Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.postUri(urlWithParams, options: Options(headers: params.headers, ),data: jsonDecode(params.body!)),
+      (Uri urlWithParams) => client.postUri(urlWithParams, 
+        options: Options(
+          headers: params.headers?..putIfAbsent('Content-Type', () => 'multipart/form-data'), 
+          contentType: 'multipart/form-data'),
+          data: params.body,
+        ),
       params,
     );
   }
@@ -68,10 +73,16 @@ class ApiClient {
             }
           }
         }
-       final Response response = await client.postUri(urlWithParams, data: formData, options: Options(headers: headers,contentType:'multipart/form-data' ));
-
-        return response;
-      },
+        final header = {...headers ?? {}};
+        final Response response = await client.postUri(
+          urlWithParams, 
+          data: formData,
+          options: Options(
+            headers: header..putIfAbsent('Content-Type', () => 'multipart/form-data'),
+            contentType:'multipart/form-data',
+          ));
+          return response;
+        },
       params,
     );
   }

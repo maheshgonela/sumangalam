@@ -417,90 +417,92 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
               },
             ),
             if(form.isOtherMaterialType.isFalse)...[
-              Visibility(
-                visible: (formState.type != ActionType.vechileIn),
-                child: SpacedColumn(
-                  defaultHeight: 8,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Divider(height: 1),
-                    const SectoinHead(title: 'Unloading'),
-                    GateEntryBuilder(
-                      buildWhen: (prev, curr) =>
-                          prev.form.unloadedPilePhotoUrl !=
-                              curr.form.unloadedPilePhotoUrl ||
-                          prev.form.unloadedPilePhoto !=
-                              curr.form.unloadedPilePhoto,
-                      builder: (context, state) => ImageSelectionWidget(
-                        title: 'Unloaded Pile Photo',
+              if(form.receiveMode == ReceiverMode.byVehicle)...[
+                Visibility(
+                  visible: (formState.type != ActionType.vechileIn),
+                  child: SpacedColumn(
+                    defaultHeight: 8,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(height: 1),
+                      const SectoinHead(title: 'Unloading'),
+                      GateEntryBuilder(
+                        buildWhen: (prev, curr) =>
+                            prev.form.unloadedPilePhotoUrl !=
+                                curr.form.unloadedPilePhotoUrl ||
+                            prev.form.unloadedPilePhoto !=
+                                curr.form.unloadedPilePhoto,
+                        builder: (context, state) => ImageSelectionWidget(
+                          title: 'Unloaded Pile Photo',
+                          readOnly: isSubmitted,
+                          initialValue: state.form.unloadedPilePhotoUrl,
+                          onImage: (vehiclePhoto) {
+                            context
+                                .cubit<NewGateEntryCubit>()
+                                .onFieldValueChanged(pilePhoto: vehiclePhoto);
+                          },
+                          icon: const Icon(Icons.add_a_photo_outlined,
+                              color: AppColors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: (formState.type == ActionType.vechileOut ||
+                      formState.type == ActionType.completed),
+                  child: SpacedColumn(
+                    defaultHeight: 8,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(height: 1),
+                      const SectoinHead(title: 'Vehicle OUT'),
+                      InputField(
+                        controller: controllers['weight_2'],
+                        title: 'vehicle Weight (Without Material in KGs)',
                         readOnly: isSubmitted,
-                        initialValue: state.form.unloadedPilePhotoUrl,
-                        onImage: (vehiclePhoto) {
+                        inputType:
+                            const TextInputType.numberWithOptions(decimal: true),
+                        initialValue: NumUtils.toVal(form.weight2),
+                        suffixIcon: GateEntryBuilder(
+                          builder: (context, state) {
+                            final isAttached = state.form.weight2Photo.isNotNull ||
+                                state.form.weight2PhotoUrl.isNotNull;
+                            return IconButton(
+                              onPressed: () async {
+                                captureImage().then((value) {
+                                  if (value.isNull) return;
+
+                                  context
+                                      .cubit<NewGateEntryCubit>()
+                                      .onFieldValueChanged(weight2Photo: value!);
+                                });
+                              },
+                              icon: Icon(Icons.add_a_photo_outlined, color: isAttached ? AppColors.blue : AppColors.black),
+                            );
+                          },
+                        ),
+                        onChanged: (weight) {
                           context
                               .cubit<NewGateEntryCubit>()
-                              .onFieldValueChanged(pilePhoto: vehiclePhoto);
+                              .onFieldValueChanged(weight2: weight);
                         },
-                        icon: const Icon(Icons.add_a_photo_outlined,
-                            color: AppColors.white),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Visibility(
-                visible: (formState.type == ActionType.vechileOut ||
-                    formState.type == ActionType.completed),
-                child: SpacedColumn(
-                  defaultHeight: 8,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Divider(height: 1),
-                    const SectoinHead(title: 'Vehicle OUT'),
-                    InputField(
-                      controller: controllers['weight_2'],
-                      title: 'vehicle Weight (Without Material in KGs)',
-                      readOnly: isSubmitted,
-                      inputType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      initialValue: NumUtils.toVal(form.weight2),
-                      suffixIcon: GateEntryBuilder(
-                        builder: (context, state) {
-                          final isAttached = state.form.weight2Photo.isNotNull ||
-                              state.form.weight2PhotoUrl.isNotNull;
-                          return IconButton(
-                            onPressed: () async {
-                              captureImage().then((value) {
-                                if (value.isNull) return;
-
-                                context
-                                    .cubit<NewGateEntryCubit>()
-                                    .onFieldValueChanged(weight2Photo: value!);
-                              });
-                            },
-                            icon: Icon(Icons.add_a_photo_outlined, color: isAttached ? AppColors.blue : AppColors.black),
+                      GateEntryBuilder(
+                        buildWhen: (previous, current) => previous.form.actualWeight !=
+                            current.form.actualWeight,
+                        builder: (_, state) {
+                          return InputField(
+                            title: 'Actual Weight (in KGs)',
+                            readOnly: true,
+                            initialValue: NumUtils.toVal(state.form.actualWeight),
                           );
                         },
                       ),
-                      onChanged: (weight) {
-                        context
-                            .cubit<NewGateEntryCubit>()
-                            .onFieldValueChanged(weight2: weight);
-                      },
-                    ),
-                    GateEntryBuilder(
-                      buildWhen: (previous, current) => previous.form.actualWeight !=
-                          current.form.actualWeight,
-                      builder: (_, state) {
-                        return InputField(
-                          title: 'Actual Weight (in KGs)',
-                          readOnly: true,
-                          initialValue: NumUtils.toVal(state.form.actualWeight),
-                        );
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ],
             const Divider(height: 0),
             InputField(

@@ -17,16 +17,15 @@ import 'package:shared_preferences/shared_preferences.dart' as _i6;
 
 import '../../features/auth/data/auth_repo.dart' as _i12;
 import '../../features/auth/data/auth_repo_impl.dart' as _i13;
-import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i15;
+import '../../features/auth/presentation/bloc/auth/auth_cubit.dart' as _i16;
 import '../../features/auth/presentation/bloc/sign_in/sign_in_cubit.dart'
-    as _i16;
-import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i26;
+    as _i15;
+import '../../features/gate_entry/data/gate_entry_api_helper.dart' as _i24;
 import '../../features/gate_entry/data/gate_entry_repo.dart' as _i17;
 import '../../features/gate_entry/data/gate_entry_repo_impl.dart' as _i18;
 import '../../features/gate_entry/presentation/bloc/bloc_provider.dart' as _i25;
 import '../../features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart'
-    as _i24;
-import '../../features/gate_exit/data/gate_exit_api_helper.dart' as _i23;
+    as _i23;
 import '../../features/gate_exit/data/gate_exit_repo.dart' as _i19;
 import '../../features/gate_exit/data/gate_exit_repo_impl.dart' as _i20;
 import '../../features/gate_exit/presentation/bloc/bloc_providers.dart' as _i22;
@@ -38,7 +37,7 @@ import '../logger/app_logger.dart' as _i8;
 import '../network/api_client.dart' as _i10;
 import '../network/internet_check.dart' as _i7;
 import '../network/network.dart' as _i11;
-import 'injector.dart' as _i27;
+import 'injector.dart' as _i26;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -79,8 +78,8 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i10.ApiClient>(),
           gh<_i14.KeyValueStorage>(),
         ));
-    gh.factory<_i15.AuthCubit>(() => _i15.AuthCubit(gh<_i12.AuthRepo>()));
-    gh.factory<_i16.SignInCubit>(() => _i16.SignInCubit(gh<_i12.AuthRepo>()));
+    gh.factory<_i15.SignInCubit>(() => _i15.SignInCubit(gh<_i12.AuthRepo>()));
+    gh.factory<_i16.AuthCubit>(() => _i16.AuthCubit(gh<_i12.AuthRepo>()));
     gh.lazySingleton<_i17.GateEntryRepo>(
         () => _i18.GateEntryRepoImpl(gh<_i11.ApiClient>()));
     gh.singleton<_i19.GateExitRepo>(
@@ -89,18 +88,16 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i21.NewGateExitCubit(gh<_i19.GateExitRepo>()));
     gh.factory<_i22.GateExitBlocProvider>(
         () => _i22.GateExitBlocProvider(repo: gh<_i19.GateExitRepo>()));
-    gh.factory<_i23.ShipmentListHelper>(
-        () => _i23.ShipmentListHelper(repo: gh<_i19.GateExitRepo>()));
-    gh.factory<_i24.NewGateEntryCubit>(
-        () => _i24.NewGateEntryCubit(gh<_i17.GateEntryRepo>()));
+    gh.factory<_i23.NewGateEntryCubit>(
+        () => _i23.NewGateEntryCubit(gh<_i17.GateEntryRepo>()));
+    gh.factory<_i24.PurchaseOrderHelper>(
+        () => _i24.PurchaseOrderHelper(repo: gh<_i17.GateEntryRepo>()));
+    gh.factory<_i24.SupplierListHelper>(
+        () => _i24.SupplierListHelper(repo: gh<_i17.GateEntryRepo>()));
     gh.factory<_i25.GateEntryBlocProvider>(
         () => _i25.GateEntryBlocProvider(repo: gh<_i17.GateEntryRepo>()));
-    gh.factory<_i26.PurchaseOrderHelper>(
-        () => _i26.PurchaseOrderHelper(repo: gh<_i17.GateEntryRepo>()));
-    gh.factory<_i26.SupplierListHelper>(
-        () => _i26.SupplierListHelper(repo: gh<_i17.GateEntryRepo>()));
     return this;
   }
 }
 
-class _$ThirdPartyDependencies extends _i27.ThirdPartyDependencies {}
+class _$ThirdPartyDependencies extends _i26.ThirdPartyDependencies {}

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/constants/urls.dart';
@@ -5,7 +7,7 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/core/network/network.dart';
 import 'package:sumangalam/features/gate_exit/model/gate_exit_form.dart';
-import 'package:sumangalam/features/gate_exit/model/delivery_note.dart';
+import 'package:sumangalam/features/gate_exit/model/sales_invoice.dart';
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit_filter/gate_exit_filters.dart';
 import 'package:sumangalam/features/gate_exit/data/gate_exit_repo.dart';
 
@@ -42,6 +44,7 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
           return exits.map((e) => GateExitForm.fromJson(e)).toList();
         },
       );
+      $logger.devLog(config);
       final response = await get(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {
@@ -56,6 +59,7 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
       final formJson = GateExitForm.toEncodedFormJson(form);
       formJson.update('status', (value) => 'Draft');
       final cleanedMap = removeNullValues(formJson);
+      $logger.devLog(formJson);
       final config = RequestConfig(
         url: Urls.createGateExit,
         reqParams:cleanedMap,
@@ -101,19 +105,26 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
   }
 
   @override
-  AsyncValueOf<List<DeliveryNote>> fetchPonumberlist() async {
+  AsyncValueOf<SalesInvoice> getSalesInvoice(String name) async {
     try {
       final config = RequestConfig(
-        url: Urls.deliveryNotes,
-        parser: (p0) {
-          final orders = p0['message']['data'] as List<dynamic>;
-          return orders.map((e) => DeliveryNote.fromJson(e)).toList();
-        },
+        url: Urls.salesInvoice,
+        body: jsonEncode({'sales_invoice': name.trim()}),
+        parser: (p0) => p0,
       );
       final response = await post(config);
-      return response.process((r) => right(r.data!));
+      return response.process((r) {
+        final message = r.data!['message'] as Map<String, dynamic>;
+        final status = message['status'] as String;
+        if(status == 'success') {
+          final data = message['data'];
+          return right(SalesInvoice.fromJson(data).copyWith(name: name));
+        }
+        final errorMsg = message['message'];
+        return left(Failure(error: errorMsg));
+      });
     } on Exception catch (e, st) {
-      $logger.error('[Pofrom]', e, st);
+      $logger.error('[Gate Exit Submit]', e, st);
       return left(Failure(error: e.toString()));
     }
   }

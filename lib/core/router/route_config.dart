@@ -14,6 +14,7 @@ import 'package:sumangalam/features/gate_entry/presentation/bloc/bloc_provider.d
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry/new_gate_entry_cubit.dart';
 import 'package:sumangalam/features/gate_entry/presentation/ui/create/new_gate_entry.dart';
 import 'package:sumangalam/features/gate_entry/presentation/ui/entries/gate_entry_list.dart';
+import 'package:sumangalam/features/gate_exit/presentation/bloc/bloc_providers.dart';
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit/new_gate_exit_cubit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/create/new_gate_exit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/exits/gate_exit_list.dart';
@@ -85,6 +86,7 @@ class AppRouterConfig {
                           return MultiBlocProvider(
                             providers: [
                               BlocProvider(create: (context) => $sl.get<NewGateExitCubit>()..init(form)),
+                              BlocProvider(create: (context) => GateExitBlocProvider.instance().salesInvoice()),
                             ],
                             child: const NewGateExitScrn(),
                           );

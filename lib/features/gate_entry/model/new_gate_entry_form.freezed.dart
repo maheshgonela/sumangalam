@@ -54,9 +54,9 @@ mixin _$GateEntryForm {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get docPhotoUrl =>
       throw _privateConstructorUsedError; // "By Hand" fields
-  @JsonKey(name: 'delivery_person_name')
+  @JsonKey(name: 'deliverer_name')
   String? get delivererName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'delivery_person_mobile')
+  @JsonKey(name: 'deliverer_mobile_number')
   String? get delivererMobileNo =>
       throw _privateConstructorUsedError; // "By Vehicle" fields
   @JsonKey(
@@ -157,8 +157,8 @@ abstract class $GateEntryFormCopyWith<$Res> {
       File? docPhoto,
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? docPhotoUrl,
-      @JsonKey(name: 'delivery_person_name') String? delivererName,
-      @JsonKey(name: 'delivery_person_mobile') String? delivererMobileNo,
+      @JsonKey(name: 'deliverer_name') String? delivererName,
+      @JsonKey(name: 'deliverer_mobile_number') String? delivererMobileNo,
       @JsonKey(
           name: 'vehicle_image',
           includeFromJson: true,
@@ -428,8 +428,8 @@ abstract class _$$GateEntryFormImplCopyWith<$Res>
       File? docPhoto,
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? docPhotoUrl,
-      @JsonKey(name: 'delivery_person_name') String? delivererName,
-      @JsonKey(name: 'delivery_person_mobile') String? delivererMobileNo,
+      @JsonKey(name: 'deliverer_name') String? delivererName,
+      @JsonKey(name: 'deliverer_mobile_number') String? delivererMobileNo,
       @JsonKey(
           name: 'vehicle_image',
           includeFromJson: true,
@@ -691,8 +691,8 @@ class _$GateEntryFormImpl implements _GateEntryForm {
           fromJson: toNull)
       this.docPhoto,
       @JsonKey(includeFromJson: false, includeToJson: false) this.docPhotoUrl,
-      @JsonKey(name: 'delivery_person_name') this.delivererName,
-      @JsonKey(name: 'delivery_person_mobile') this.delivererMobileNo,
+      @JsonKey(name: 'deliverer_name') this.delivererName,
+      @JsonKey(name: 'deliverer_mobile_number') this.delivererMobileNo,
       @JsonKey(
           name: 'vehicle_image',
           includeFromJson: true,
@@ -796,10 +796,10 @@ class _$GateEntryFormImpl implements _GateEntryForm {
   final String? docPhotoUrl;
 // "By Hand" fields
   @override
-  @JsonKey(name: 'delivery_person_name')
+  @JsonKey(name: 'deliverer_name')
   final String? delivererName;
   @override
-  @JsonKey(name: 'delivery_person_mobile')
+  @JsonKey(name: 'deliverer_mobile_number')
   final String? delivererMobileNo;
 // "By Vehicle" fields
   @override
@@ -1038,8 +1038,8 @@ abstract class _GateEntryForm implements GateEntryForm {
       final File? docPhoto,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final String? docPhotoUrl,
-      @JsonKey(name: 'delivery_person_name') final String? delivererName,
-      @JsonKey(name: 'delivery_person_mobile') final String? delivererMobileNo,
+      @JsonKey(name: 'deliverer_name') final String? delivererName,
+      @JsonKey(name: 'deliverer_mobile_number') final String? delivererMobileNo,
       @JsonKey(
           name: 'vehicle_image',
           includeFromJson: true,
@@ -1144,10 +1144,10 @@ abstract class _GateEntryForm implements GateEntryForm {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get docPhotoUrl;
   @override // "By Hand" fields
-  @JsonKey(name: 'delivery_person_name')
+  @JsonKey(name: 'deliverer_name')
   String? get delivererName;
   @override
-  @JsonKey(name: 'delivery_person_mobile')
+  @JsonKey(name: 'deliverer_mobile_number')
   String? get delivererMobileNo;
   @override // "By Vehicle" fields
   @JsonKey(

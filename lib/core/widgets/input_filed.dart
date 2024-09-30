@@ -84,6 +84,7 @@ class InputField extends StatelessWidget {
               labelText: labelText,
               border: textFieldBorder,
               enabledBorder: textFieldBorder,
+              hintText: hintText,
               focusedBorder: textFieldBorder,
               contentPadding: const EdgeInsets.all(16.0),
               suffixIcon: suffixIcon,

@@ -27,7 +27,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
           'start' : start, 
           'end' : end,
           if(filter.query.containsValidValue)
-            'query' : filter.query,
+            'gate_entry_no' : filter.query,
         }),
         parser: (p0) {
           final entries = p0['message']['data'] as List<dynamic>;
