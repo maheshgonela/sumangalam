@@ -26,14 +26,14 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
           'status' : filter.status, 
           'start' : start, 
           'end' : end,
-          if(filter.query.containsValidValue)
-            'gate_entry_no' : filter.query,
+          'gate_entry_no' : filter.query.valueOrEmpty,
         }),
         parser: (p0) {
           final entries = p0['message']['data'] as List<dynamic>;
           return entries.map((e) => GateEntryForm.fromJson(e)).toList();
         },
       );
+      $logger.info(config);
       final response = await post(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {

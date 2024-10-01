@@ -22,7 +22,8 @@ class ApiClient {
   /// Performs DIO GET request with provided request configuration
   Future<ApiResponse<T>> get<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.getUri(urlWithParams, options: Options(headers: params.headers)),
+      (Uri urlWithParams) => client.getUri(urlWithParams,
+          options: Options(headers: params.headers)),
       params,
     );
   }
@@ -30,19 +31,25 @@ class ApiClient {
   /// Performs DIO POST request with provided request configuration
   Future<ApiResponse<T>> post<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.postUri(urlWithParams, options:Options(headers: params.headers,),data:params.body),
+      (Uri urlWithParams) => client.postUri(urlWithParams,
+          options: Options(
+            headers: params.headers,
+          ),
+          data: params.body),
       params,
     );
   }
 
   Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
     return _request(
-      (Uri urlWithParams) => client.postUri(urlWithParams, 
+      (Uri urlWithParams) => client.postUri(
+        urlWithParams,
         options: Options(
-          headers: params.headers?..putIfAbsent('Content-Type', () => 'multipart/form-data'), 
-          contentType: 'multipart/form-data'),
-          data: params.body,
-        ),
+            headers: params.headers
+              ?..putIfAbsent('Content-Type', () => 'multipart/form-data'),
+            contentType: 'multipart/form-data'),
+        data: params.body,
+      ),
       params,
     );
   }
@@ -59,7 +66,6 @@ class ApiClient {
         final Map<String, dynamic>? reqParams = params.reqParams;
         final FormData formData = FormData.fromMap(reqParams!);
 
-      
         if (reqParams.isNotEmpty) {
           for (final MapEntry<String, dynamic> param in reqParams.entries) {
             if (param.value is File?) {
@@ -68,28 +74,28 @@ class ApiClient {
             } else {
               if (!formData.fields.contains(MapEntry(param.key, param.value))) {
                 formData.fields.add(MapEntry(param.key, param.value));
-                
               }
             }
           }
         }
         final header = {...headers ?? {}};
-        final Response response = await client.postUri(
-          urlWithParams, 
-          data: formData,
-          options: Options(
-            headers: header..putIfAbsent('Content-Type', () => 'multipart/form-data'),
-            contentType:'multipart/form-data',
-          ));
-          return response;
-        },
+        final Response response = await client.postUri(urlWithParams,
+            data: formData,
+            options: Options(
+              headers: header
+                ..putIfAbsent('Content-Type', () => 'multipart/form-data'),
+              contentType: 'multipart/form-data',
+            ));
+        return response;
+      },
       params,
     );
   }
 
   Future<void> _addFileToRequest(String key, File? file, FormData form) async {
     if (file != null) {
-      final multipartFile = MapEntry(key, await MultipartFile.fromFile(file.path));
+      final multipartFile =
+          MapEntry(key, await MultipartFile.fromFile(file.path));
       form.files.add(multipartFile);
     }
   }
@@ -98,18 +104,22 @@ class ApiClient {
     Future<Response<dynamic>> Function(Uri url) apiCall,
     RequestConfig<T> params,
   ) async {
+    $logger.info(params.headers);
+    $logger.info(params.reqParams);
     try {
       if (!await internet.hasInternet()) {
         throw NoInternetException(Errors.noInternet);
       }
 
-      final Uri uri = RestUtils.constructUri(params.url, params.reqParams);
-      final  dioResponse = await apiCall(uri);
-      final  statusCode = dioResponse.statusCode!;
-    if (dioResponse.data == null) {
+      final uri = RestUtils.constructUri(params.url, params.reqParams);
+      final dioResponse = await apiCall(uri);
+      $logger.info('Res: ${dioResponse.data}');
+      $logger.info('Code: ${dioResponse.statusMessage}');
+      final statusCode = dioResponse.statusCode!;
+      if (dioResponse.data == null) {
         throw UnExpectedResponseException(Errors.unknown);
       }
-      final resBody = dioResponse.data as Map<String, dynamic>;      
+      final resBody = dioResponse.data as Map<String, dynamic>;
       if (kDebugMode) {
         $logger
           ..info(uri)
@@ -124,7 +134,8 @@ class ApiClient {
           throw UnExpectedResponseException(Errors.unknown);
         }
 
-        final ApiResponseParser<T> responseParser = params.apiResponseParser ?? FrappeApiResponseParser<T>();
+        final ApiResponseParser<T> responseParser =
+            params.apiResponseParser ?? FrappeApiResponseParser<T>();
         final ApiResponse<T> result = responseParser.parse(
           jsonEncode(resBody),
           params.parser,
@@ -133,13 +144,15 @@ class ApiClient {
 
         return result;
       } else {
-        if(statusCode == HttpStatus.gatewayTimeout) {
+        if (statusCode == HttpStatus.gatewayTimeout) {
           throw ServerException(Errors.gatewayTimeout);
-        } else if(statusCode == HttpStatus.unauthorized) {
+        } else if (statusCode == HttpStatus.unauthorized) {
           throw ServerException(Errors.invalidcredentials);
         } else if ((statusCode >= HttpStatus.internalServerError &&
-            statusCode <= HttpStatus.networkConnectTimeoutError) || statusCode == HttpStatus.expectationFailed) {
-          final message = defaultErrorParser(resBody, Errors.internalServerError);
+                statusCode <= HttpStatus.networkConnectTimeoutError) ||
+            statusCode == HttpStatus.expectationFailed) {
+          final message =
+              defaultErrorParser(resBody, Errors.internalServerError);
           throw ServerException(message);
         } else if (statusCode >= HttpStatus.badRequest &&
             statusCode <= HttpStatus.clientClosedRequest) {
@@ -148,12 +161,24 @@ class ApiClient {
           throw UnknownException(Errors.unknown);
         }
       }
-    } on ServerException catch(e, _) {
+    } on DioException catch (e, _) {
+      final response = e.response?.data;
+      if(response is Map<String,dynamic>) {
+        final message = defaultErrorParser(response, Errors.internalServerError);
+        throw ServerException(message);
+      }
+      final errorMsg = e.message;
+      $logger.info(errorMsg);
+      if(errorMsg != null) {
+        throw UnknownException(errorMsg.toString());
+      }
+      throw UnknownException(Errors.unknown);
+    } on ServerException catch (e, _) {
       throw BaseApiException(e.message);
     } on FormatException catch (e) {
       throw ParseException(e.message);
     } on Exception catch (e, st) {
-      $logger.error('[API client SocketException]',e, st);
+      $logger.error('[API client SocketException]', e, st);
       if (e is NoInternetException ||
           e is UnExpectedResponseException ||
           e is UnAuthorizedException ||
