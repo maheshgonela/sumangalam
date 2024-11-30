@@ -9,7 +9,13 @@ enum RoutePath {
   newGateEntry('/home/gateEntry/newGateEntry'),
   gateExit('/home/gateExit'),
   newGateExit('/home/gateExit/newGateExit'),
-  profile('/profile');
+  profile('/profile'),
+
+  hr('/home/hr'),
+  onduty('/home/hr/onduty'),
+  approval('/home/hr/approval'),
+
+  attendance('/home/hr/attendance');
 
   const RoutePath(this.path);
   final String path;

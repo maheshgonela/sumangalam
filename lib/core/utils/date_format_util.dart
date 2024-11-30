@@ -26,8 +26,20 @@ abstract class DateFormatUtil {
   static String yyyyMMdd(DateTime dateTime) => _DateTimeFormats.yyyyMMdd.format(dateTime);
   static String hhMMss(DateTime dateTime) => _DateTimeFormats.hhMMss.format(dateTime);
   static String friendlyFormat(DateTime dateTime) => _DateTimeFormats.friendlyFormat.format(dateTime);
+  static String fullDateFomrat() {
+    return DateFormat('dd-MM-yyyy HH:mm:ss').format(DFU.now());
+  }
 
   static bool isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  static String fromFrappeDT(String dateTime) {
+    try {      
+      final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime);
+      return DateFormat('dd-MM-yyyy HH:mm:ss').format(dateFormat);
+    } catch (_) {
+      return dateTime;
+    }
   }
 }

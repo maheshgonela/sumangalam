@@ -12,6 +12,7 @@ _$LoggedInUserImpl _$$LoggedInUserImplFromJson(Map<String, dynamic> json) =>
       apiKey: json['api_key'] as String? ?? '',
       apiSecret: json['api_secret'] as String? ?? '',
       password: json['password'] as String? ?? '',
+      email: json['email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$LoggedInUserImplToJson(_$LoggedInUserImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$LoggedInUserImplToJson(_$LoggedInUserImpl instance) =>
       'api_key': instance.apiKey,
       'api_secret': instance.apiSecret,
       'password': instance.password,
+      'email': instance.email,
     };

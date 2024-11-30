@@ -28,6 +28,12 @@ class Urls {
   static final createGateExit = '$cusWs/sumangalam.api.create_gate_exit_record';
   static final gateExits = '$jsonWs/Gate Exit';
   static final salesInvoice = '$cusWs/sumangalam.api.get_sales_invoice_details';
+  static final createCheckinss = '$cusWs/easycloudhr.api2.create_employee_checkins';
+  static final empCheckinss = '$cusWs/easycloudhr.api2.get_employee_checkinss';
+  static final empChecking = '$cusWs/easycloudhr.api2.get_employee_checking';
+  static final approveCheckinss = '$cusWs/easycloudhr.api2.set_custom_approved';
+  static final uploadFile = '$cusWs/upload_file';
+  static final userRoleAccess = '$cusWs/easycloudhr.api2.get_user_role';
 
   static filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';

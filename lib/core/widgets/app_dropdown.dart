@@ -82,8 +82,8 @@ class _AppDropDownState<T> extends State<AppDropDown<T>> {
                 expandedBorderRadius: BorderRadius.circular(8.0),
                 closedBorder: Border.all(width: 0.4),
                 expandedBorder: Border.all(width: 0.4),
-                hintStyle: context.textTheme.titleLarge?.copyWith(
-                    color: AppColors.black, fontWeight: FontWeight.bold),
+                hintStyle: context.textTheme.titleMedium?.copyWith(
+                    color: AppColors.black, fontWeight: FontWeight.w500),
               ),
               hintText: widget.hint,
               items: widget.items,

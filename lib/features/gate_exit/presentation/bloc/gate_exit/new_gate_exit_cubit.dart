@@ -77,7 +77,6 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
     File? vehicleWithMaterialPhoto,
     File? vehicleWithoutMaterialPhoto,
   }) {
-    print('dcNO: $dcNO');
     final form = state.form;
     final vechPhoto = vehicleImage ?? form.vehicleImage;
     final vechMaterialPhoto = vehicleWithMaterialPhoto ?? form.vehicleWeightWithMaterialPhoto;
@@ -122,7 +121,6 @@ class NewGateExitCubit extends AppBaseCubit<NewGateExitState> {
       final actualWeight = vWithMaterial - vWithoutMaterial;
       return actualWeight;
     } catch (e) {
-      print('Error calculating actual weight: $e');
       return null;
     }
   }

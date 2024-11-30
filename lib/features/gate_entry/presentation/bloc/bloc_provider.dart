@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/cubit/network_request/network_request_cubit.dart';
@@ -6,6 +7,9 @@ import 'package:sumangalam/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:sumangalam/features/gate_entry/model/gate_entry_attachments.dart';
 import 'package:sumangalam/features/gate_entry/model/new_gate_entry_form.dart';
 import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filter/gate_entry_filters.dart';
+
+typedef AccessibleFeatues = NetworkRequestCubit<List<String>, None>;
+typedef AccessibleFeatuesState = NetworkRequestState<List<String>>;
 
 typedef GateEntriesCubit = InfiniteListCubit<GateEntryForm, GateEntryFilter, GateEntryFilter>;
 typedef GateEntriesState = InfiniteListState<GateEntryForm>;
@@ -28,5 +32,9 @@ class GateEntryBlocProvider {
 
   AttachmentsCubit fetchAttachments() => AttachmentsCubit(
     onRequest: (params, state) => repo.fetchAttachments(params!),
+  );
+
+  AccessibleFeatues accessibleFeat() => AccessibleFeatues(
+    onRequest: (params, state) => repo.fetchFeatures(),
   );
 }

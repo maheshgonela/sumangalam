@@ -228,7 +228,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
               InputField(
                 controller: controllers['deliveryPerMobileNo'],
                 title: 'Delivery Person Mobile No.',
-                initialValue: form.delivererName,
+                initialValue: form.delivererMobileNo,
                 readOnly: isSubmitted,
                 maxLength: 10,
                 inputFormatters: [
@@ -385,8 +385,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
                   return IconButton(
                     onPressed: () async {
                       captureImage().then((value) {
-                        if (value.isNull) return;
-
+                        if (value.isNull && !context.mounted) return;
                         context
                             .cubit<NewGateEntryCubit>()
                             .onFieldValueChanged(weightPhoto: value!);
@@ -471,8 +470,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget>
                             return IconButton(
                               onPressed: () async {
                                 captureImage().then((value) {
-                                  if (value.isNull) return;
-
+                                  if (value.isNull && !context.mounted) return;
                                   context
                                       .cubit<NewGateEntryCubit>()
                                       .onFieldValueChanged(weight2Photo: value!);

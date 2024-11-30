@@ -30,9 +30,7 @@ class AuthRepoImpl extends BaseApiRepository implements AuthRepo {
   AsyncValueOf<LoggedInUser> logIn(String username, String pswd) async {
     final requestConfig = RequestConfig(
       url: Urls.login,
-      parser: (res) {
-        return LoggedInUser.fromJson(res);
-      },
+      parser: (res) => LoggedInUser.fromJson(res),
       body: jsonEncode({'usr' : username, 'pwd' : pswd}),
     );
 
@@ -42,7 +40,10 @@ class AuthRepoImpl extends BaseApiRepository implements AuthRepo {
       if (r.data.isNull) {
         return Errors.unauthorized.asFailure();
       }
-      final userWithPswd = r.data!.copyWith(password: pswd);
+      final userWithPswd = r.data!.copyWith(
+        password: pswd, 
+        email: username,
+      );
       await _persistUser(userWithPswd);
       await storage.setString(LocalKeys.apiKey, userWithPswd.apiKey);
       await storage.setString(LocalKeys.apiSecret, userWithPswd.apiSecret);

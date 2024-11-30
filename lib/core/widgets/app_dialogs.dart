@@ -174,18 +174,19 @@ class _DialogWidget extends StatelessWidget {
               AppSpacer.p8(),
               _BulletPointWidget(content, textColor),
               AppSpacer.p12(),
-              AppButton(
-                label: 'CLOSE', 
-                bgColor: AppColors.black,
-                onPressed: onTapDismiss,
-              ),
-              AppSpacer.p8(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Expanded(
+                    child: AppButton(
+                      label: 'CLOSE', 
+                      bgColor: AppColors.black,
+                      onPressed: onTapDismiss,
+                    ),
+                  ),
                   if (dialogType == DialogType.confirmRetry) ...[
-                    const SizedBox(width: 24),
+                  AppSpacer.p8(),
                     Expanded(
                       child: AppButton(
                         label: confirmBtnText!,

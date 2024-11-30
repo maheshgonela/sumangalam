@@ -21,38 +21,43 @@ class AppFeatureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(18),
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: featureColor, width: 2),
-            color:AppColors.cobaltBlue,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppSpacer.p24(),
-              icon,
-              Container(
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 130,
+        padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(color: featureColor, width: 2),
+          color: featureColor,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppSpacer.p8(),
+            icon,
+            AppSpacer.p8(),
+            Expanded(
+              child: Container(
                 width: context.sizeOfWidth,
-                padding: const EdgeInsets.all(10),
+                margin: EdgeInsets.zero,
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.cobaltBlue),
-                  color: featureColor,
+                  border: Border.all(color: featureColor),
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
                   child: Text(
                     title,
-                    style: AppTextStyles.titleLarge(context).copyWith(fontSize: 24,color: AppColors.black),
+                    maxLines: null,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.titleLarge(context).copyWith(fontSize: 18,color: AppColors.black),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],  
         ),
       ),
     );

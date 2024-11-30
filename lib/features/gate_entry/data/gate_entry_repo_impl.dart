@@ -33,7 +33,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
           return entries.map((e) => GateEntryForm.fromJson(e)).toList();
         },
       );
-      $logger.info(config);
+
       final response = await post(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {
@@ -115,10 +115,8 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
   AsyncValueOf<String> updatePileDetails(GateEntryForm form) async {
     try {  
       final formJson = GateEntryForm.toEncodedFormJson(form);
-      $logger.devLog(formJson);
       formJson.update('status', (value) => 'Update');
       final cleanedMap = removeNullValues(formJson);
-      $logger.devLog(cleanedMap);
       final config = RequestConfig(
         url: Urls.createGateEntry, 
         reqParams: cleanedMap,
@@ -166,6 +164,31 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
         parser: (p0) => GateEntryAttachments.fromJson(p0['message']['data']['attachments']),
       );
       final response = await post(config);
+      return response.processAsync((r) => right(r.data!));
+    } on Exception catch (e, st) {
+      $logger.error('[Gate Entry Attachments]', e, st);
+      return left(Failure(error: e.toString()));
+    }
+  }
+  
+  @override
+  AsyncValueOf<List<String>> fetchFeatures() async {
+    try {  
+      final config = RequestConfig(
+        url: Urls.userRoleAccess,
+        reqParams: {
+          'user': user().email,
+          'pwd': user().password,
+        },
+        parser: (p0) {
+          final roles = p0['message']['roles'] as List<dynamic>;
+          return roles
+            .where((item) => item['is_assigned'] == true)
+            .map((item) => item['role'] as String)
+            .toList();
+        },
+      );
+      final response = await multiPart(config);
       return response.processAsync((r) => right(r.data!));
     } on Exception catch (e, st) {
       $logger.error('[Gate Entry Attachments]', e, st);

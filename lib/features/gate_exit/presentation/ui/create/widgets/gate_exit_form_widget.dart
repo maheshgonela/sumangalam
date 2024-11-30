@@ -242,9 +242,9 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
                   context.cubit<NewGateExitCubit>().onFieldValueChanged(
                       vehicleWithMaterialPhoto: materailImage);
                   final res = await _uploadImage(materailImage!);
-                  print('res: $res');
                   if(res.isSome()) {
                     final value = double.parse(res.getOrElse(() => ''));
+                    if(!context.mounted) return;
                     context.cubit<NewGateExitCubit>().onFieldValueChanged(vWithMaterial: value); 
                   }
                   setState(() => _extracingWithMaterial = false);
@@ -280,6 +280,7 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
                   final res = await _uploadImage(vWithoutImage!);
                   if(res.isSome()) {
                     final value = double.parse(res.getOrElse(() => ''));
+                    if(!context.mounted) return;
                     context.cubit<NewGateExitCubit>().onFieldValueChanged(vWithoutMaterial: value); 
                   }
                   setState(() => _extracingWithoutMaterial = false);
@@ -337,10 +338,12 @@ class _GateExitFormWidgetState extends State<GateExitFormWidget>
         return dartz.optionOf(responseMap['extracted_value'].toString());
       } else {
         final error = responseMap['data'].toString();
-        AppDialog.showErrorDialog(context, content: error, onTapDismiss: context.exit);
+        if(mounted) {
+          AppDialog.showErrorDialog(context, content: error, onTapDismiss: context.exit);
+        }
       }
     } catch (e, st) {
-      $logger.error('e', e, st);
+      $logger.error('[Gate Exit]', e, st);
     }
     return dartz.none();
   }

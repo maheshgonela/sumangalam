@@ -9,7 +9,7 @@ final $logger = $sl.get<AppLogger>(instanceName: 'app_logger');
 @injectable
 class AppLogger {
   final _$logger = Logger(
-    printer: PrettyPrinter(printTime: true,colors: true,printEmojis: true),
+    printer: PrettyPrinter(dateTimeFormat: DateTimeFormat.dateAndTime, colors: true,printEmojis: true),
     level: Level.all,
   );
 

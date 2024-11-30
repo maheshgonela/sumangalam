@@ -29,7 +29,7 @@ class AppPageView extends StatelessWidget {
             left: 18,
             right: 8,
             top: kToolbarHeight,
-            child: Text(mode.name.toUpperCase(),style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.black,) , 
+            child: Text(mode.name.toUpperCase(),style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.black) , 
             ),
           ),
           
@@ -40,6 +40,7 @@ class AppPageView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0).copyWith(top: 100),
               decoration: BoxDecoration(
                 color: AppColors.white,
+                
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(32.0),
                   topRight: Radius.circular(32.0),
@@ -90,7 +91,7 @@ class _HomeCardContent extends StatelessWidget {
             margin: const EdgeInsets.all(8.0),
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(context.dayOfTimeGreeting(), style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.black)),
+              Text(context.dayOfTimeGreeting(), style: AppTextStyles.titleLarge(context).copyWith(color: AppColors.powderBlue)),
               Text('Ready to capture some entries?', style: AppTextStyles.titleMedium(context).copyWith(color: AppColors.black)),
             ],
           ),

@@ -28,6 +28,8 @@ mixin _$LoggedInUser {
   String get apiSecret => throw _privateConstructorUsedError;
   @JsonKey(defaultValue: '')
   String get password => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: '')
+  String get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +47,8 @@ abstract class $LoggedInUserCopyWith<$Res> {
       {@JsonKey(name: 'full_name', defaultValue: '') String name,
       @JsonKey(name: 'api_key', defaultValue: '') String apiKey,
       @JsonKey(name: 'api_secret', defaultValue: '') String apiSecret,
-      @JsonKey(defaultValue: '') String password});
+      @JsonKey(defaultValue: '') String password,
+      @JsonKey(defaultValue: '') String email});
 }
 
 /// @nodoc
@@ -65,6 +68,7 @@ class _$LoggedInUserCopyWithImpl<$Res, $Val extends LoggedInUser>
     Object? apiKey = null,
     Object? apiSecret = null,
     Object? password = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -83,6 +87,10 @@ class _$LoggedInUserCopyWithImpl<$Res, $Val extends LoggedInUser>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -99,7 +107,8 @@ abstract class _$$LoggedInUserImplCopyWith<$Res>
       {@JsonKey(name: 'full_name', defaultValue: '') String name,
       @JsonKey(name: 'api_key', defaultValue: '') String apiKey,
       @JsonKey(name: 'api_secret', defaultValue: '') String apiSecret,
-      @JsonKey(defaultValue: '') String password});
+      @JsonKey(defaultValue: '') String password,
+      @JsonKey(defaultValue: '') String email});
 }
 
 /// @nodoc
@@ -117,6 +126,7 @@ class __$$LoggedInUserImplCopyWithImpl<$Res>
     Object? apiKey = null,
     Object? apiSecret = null,
     Object? password = null,
+    Object? email = null,
   }) {
     return _then(_$LoggedInUserImpl(
       name: null == name
@@ -135,6 +145,10 @@ class __$$LoggedInUserImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -146,7 +160,8 @@ class _$LoggedInUserImpl extends _LoggedInUser {
       {@JsonKey(name: 'full_name', defaultValue: '') required this.name,
       @JsonKey(name: 'api_key', defaultValue: '') required this.apiKey,
       @JsonKey(name: 'api_secret', defaultValue: '') required this.apiSecret,
-      @JsonKey(defaultValue: '') required this.password})
+      @JsonKey(defaultValue: '') required this.password,
+      @JsonKey(defaultValue: '') required this.email})
       : super._();
 
   factory _$LoggedInUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -164,10 +179,13 @@ class _$LoggedInUserImpl extends _LoggedInUser {
   @override
   @JsonKey(defaultValue: '')
   final String password;
+  @override
+  @JsonKey(defaultValue: '')
+  final String email;
 
   @override
   String toString() {
-    return 'LoggedInUser(name: $name, apiKey: $apiKey, apiSecret: $apiSecret, password: $password)';
+    return 'LoggedInUser(name: $name, apiKey: $apiKey, apiSecret: $apiSecret, password: $password, email: $email)';
   }
 
   @override
@@ -180,13 +198,14 @@ class _$LoggedInUserImpl extends _LoggedInUser {
             (identical(other.apiSecret, apiSecret) ||
                 other.apiSecret == apiSecret) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, apiKey, apiSecret, password);
+      Object.hash(runtimeType, name, apiKey, apiSecret, password, email);
 
   @JsonKey(ignore: true)
   @override
@@ -208,8 +227,9 @@ abstract class _LoggedInUser extends LoggedInUser {
       @JsonKey(name: 'api_key', defaultValue: '') required final String apiKey,
       @JsonKey(name: 'api_secret', defaultValue: '')
       required final String apiSecret,
+      @JsonKey(defaultValue: '') required final String password,
       @JsonKey(defaultValue: '')
-      required final String password}) = _$LoggedInUserImpl;
+      required final String email}) = _$LoggedInUserImpl;
   const _LoggedInUser._() : super._();
 
   factory _LoggedInUser.fromJson(Map<String, dynamic> json) =
@@ -227,6 +247,9 @@ abstract class _LoggedInUser extends LoggedInUser {
   @override
   @JsonKey(defaultValue: '')
   String get password;
+  @override
+  @JsonKey(defaultValue: '')
+  String get email;
   @override
   @JsonKey(ignore: true)
   _$$LoggedInUserImplCopyWith<_$LoggedInUserImpl> get copyWith =>

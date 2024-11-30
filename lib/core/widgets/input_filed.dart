@@ -16,6 +16,7 @@ class InputField extends StatelessWidget {
     this.readOnly = false,
     this.hintText,
     this.suffixIcon,
+    this.prefixIcon,
     this.autofocus = false,
     this.borderColor = AppColors.catalineBlue,
     this.minLines,
@@ -40,6 +41,7 @@ class InputField extends StatelessWidget {
   final bool readOnly;
   final String? hintText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final Color? borderColor;
   final Color? fieldColor;
   final String? labelText;
@@ -53,7 +55,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textFieldBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12.0),
+      borderRadius: BorderRadius.circular(8.0),
       borderSide: const BorderSide(color: AppColors.black, width: 0.8),
     );
 
@@ -75,7 +77,7 @@ class InputField extends StatelessWidget {
                 offset: const Offset(4, 4),
               ),
             ],
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: TextField(
             onTapOutside: (_) => FocusScope.of(context).unfocus(),
@@ -88,11 +90,13 @@ class InputField extends StatelessWidget {
               focusedBorder: textFieldBorder,
               contentPadding: const EdgeInsets.all(16.0),
               suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
               filled: readOnly,
-              fillColor: AppColors.himlayaPeeks,
+              fillColor: AppColors.himlayaPeeks.withOpacity(0.8),
               counterText: '',
             ),
             obscuringCharacter: '*',
+            cursorColor: AppColors.black,
             textInputAction: TextInputAction.done,
             maxLengthEnforcement: MaxLengthEnforcement.enforced,
             onChanged: onChanged,

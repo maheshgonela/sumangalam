@@ -11,6 +11,7 @@ class LoggedInUser with _$LoggedInUser {
     @JsonKey(name: 'api_key', defaultValue: '') required String apiKey,
     @JsonKey(name: 'api_secret', defaultValue: '') required String apiSecret,
     @JsonKey(defaultValue: '') required String password,
+    @JsonKey(defaultValue: '') required String email,
     
   }) = _LoggedInUser;
 

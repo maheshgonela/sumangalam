@@ -41,15 +41,29 @@ class ApiClient {
   }
 
   Future<ApiResponse<T>> formRequest<T>(RequestConfig<T> params) async {
+    final headers = Map<String, String>.from(params.headers ?? {});
     return _request(
-      (Uri urlWithParams) => client.postUri(
-        urlWithParams,
-        options: Options(
-            headers: params.headers
-              ?..putIfAbsent('Content-Type', () => 'multipart/form-data'),
-            contentType: 'multipart/form-data'),
-        data: params.body,
-      ),
+      (Uri urlWithParams) async {
+        final formDataMap = params.reqParams ?? {};
+        final formData = FormData();
+
+        for (var entry in formDataMap.entries) {
+          if (entry.value is File) {
+            formData.files.add(MapEntry(
+              entry.key,
+              await MultipartFile.fromFile((entry.value as File).path),
+            ));
+          } else {
+            formData.fields.add(MapEntry(entry.key, entry.value.toString()));
+          }
+        }
+        return client.postUri(
+          urlWithParams,
+          options:
+              Options(headers: headers, contentType: 'multipart/form-data'),
+          data: formData,
+        );
+      },
       params,
     );
   }
@@ -62,9 +76,9 @@ class ApiClient {
   Future<ApiResponse<T>> multipartRequest<T>(RequestConfig<T> params) async {
     return _request(
       (Uri urlWithParams) async {
-        final Map<String, String>? headers = params.headers;
-        final Map<String, dynamic>? reqParams = params.reqParams;
-        final FormData formData = FormData.fromMap(reqParams!);
+        final headers = {...params.headers ?? {}};
+        final reqParams = {...params.reqParams ?? {}};
+        final FormData formData = FormData.fromMap(reqParams);
 
         if (reqParams.isNotEmpty) {
           for (final MapEntry<String, dynamic> param in reqParams.entries) {
@@ -73,12 +87,13 @@ class ApiClient {
               await _addFileToRequest(param.key, originalFile, formData);
             } else {
               if (!formData.fields.contains(MapEntry(param.key, param.value))) {
-                formData.fields.add(MapEntry(param.key, param.value));
+                formData.fields
+                    .add(MapEntry(param.key, param.value.toString()));
               }
             }
           }
         }
-        final header = {...headers ?? {}};
+        final header = {...headers};
         final Response response = await client.postUri(urlWithParams,
             data: formData,
             options: Options(
@@ -104,8 +119,6 @@ class ApiClient {
     Future<Response<dynamic>> Function(Uri url) apiCall,
     RequestConfig<T> params,
   ) async {
-    $logger.info(params.headers);
-    $logger.info(params.reqParams);
     try {
       if (!await internet.hasInternet()) {
         throw NoInternetException(Errors.noInternet);
@@ -163,13 +176,14 @@ class ApiClient {
       }
     } on DioException catch (e, _) {
       final response = e.response?.data;
-      if(response is Map<String,dynamic>) {
-        final message = defaultErrorParser(response, Errors.internalServerError);
+      if (response is Map<String, dynamic>) {
+        final message =
+            defaultErrorParser(response, Errors.internalServerError);
         throw ServerException(message);
       }
       final errorMsg = e.message;
-      $logger.info(errorMsg);
-      if(errorMsg != null) {
+
+      if (errorMsg != null) {
         throw UnknownException(errorMsg.toString());
       }
       throw UnknownException(Errors.unknown);

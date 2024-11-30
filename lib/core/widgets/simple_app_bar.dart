@@ -9,12 +9,12 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     required this.textColor,
-    required this.status, 
+    this.status, 
   });
 
   final String title;
   final Color textColor;
-  final String status;
+  final String? status;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,11 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: DocStatusWidget(status: status),
-        ),
+        if(status.containsValidValue)
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: DocStatusWidget(status: status.valueOrEmpty),
+          ),
       ],
     );
   }

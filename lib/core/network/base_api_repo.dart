@@ -65,7 +65,7 @@ class BaseApiRepository {
         headers: {...config.headers ?? {}, ...commonHeaders},
       );
 
-
+      $logger.devLog(requestConfig);
       final ApiResponse<T> response = await apiCall(requestConfig);
       if (response.isFailed()) {
         return left(Failure(error: response.error!));

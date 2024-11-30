@@ -16,6 +16,8 @@ class AppIcons {
   static AppIcon get vehicleIn => const AppIcon('$_imagesPath/gate_entry.png');
   static AppIcon get vehicleOut => const AppIcon('$_imagesPath/gate_exit.png');
   static AppIcon get emptyListState => const AppIcon('$_imagesPath/list_empty_state.svg');
+  static AppIcon get empSearch => const AppIcon('$_imagesPath/employee_search.png');
+  static AppIcon get jobSearch => const AppIcon('$_imagesPath/jobs_person.png');
 }
 
 class AppIcon {

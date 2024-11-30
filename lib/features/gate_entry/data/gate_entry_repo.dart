@@ -8,6 +8,7 @@ import 'package:sumangalam/features/gate_entry/presentation/bloc/gate_entry_filt
 
 
 abstract interface class GateEntryRepo {
+  AsyncValueOf<List<String>> fetchFeatures();
   AsyncValueOf<List<GateEntryForm>> fetchGateEntries(GateEntryFilter filters, int start, int end);
   AsyncValueOf<List<Supplier>> getSuppliers(String name);
   AsyncValueOf<List<POOrder>> fetchPurchaseOrders(String supplier);

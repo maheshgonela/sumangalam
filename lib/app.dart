@@ -22,6 +22,7 @@ class SumangalamApp extends StatelessWidget {
         BlocProvider(create: (_) => $sl.get<SignInCubit>()),
         BlocProvider(create: (_) => GateEntryFilterCubit()),
         BlocProvider(create: (_) => GateExitFilterCubit()),
+        BlocProvider(create: (_) => GateEntryBlocProvider.instance().accessibleFeat()),
         BlocProvider(create: (_) => GateEntryBlocProvider.instance().gateEntries()),
         BlocProvider(create: (_) => GateExitBlocProvider.instance().gateExits()),
       ],
@@ -36,11 +37,12 @@ class SumangalamApp extends StatelessWidget {
                   final filters = ctxt.read<GateEntryFilterCubit>().state;
                   final filters1 = ctxt.read<GateExitFilterCubit>().state;
                   ctxt
+                    ..cubit<AccessibleFeatues>().request()
                     ..cubit<GateEntriesCubit>().fetchInitial(filters)
                     ..cubit<GateExitsCubit>().fetchInitial(filters1);
                   RoutePath.home.go(ctxt);
                 },
-                unAuthenticated: () => RoutePath.login .go(AppRouterConfig.getCurrContext!),
+                unAuthenticated: () => RoutePath.login.go(AppRouterConfig.getCurrContext!),
               );
             },
           ),

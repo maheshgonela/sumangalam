@@ -6,7 +6,9 @@ import 'package:sumangalam/app/presentation/app_profile_page.dart';
 import 'package:sumangalam/app/presentation/app_splash_scrn.dart';
 import 'package:sumangalam/app/widgets/scaffold_with_bottom_nav_bar.dart';
 import 'package:sumangalam/core/core.dart';
+import 'package:sumangalam/core/cubit/location/geo_location_cubit.dart';
 import 'package:sumangalam/core/di/injector.dart';
+import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/core/router/app_route.dart';
 import 'package:sumangalam/features/auth/presentation/ui/authentication_scrn.dart';
 import 'package:sumangalam/features/gate_entry/model/new_gate_entry_form.dart';
@@ -18,6 +20,12 @@ import 'package:sumangalam/features/gate_exit/presentation/bloc/bloc_providers.d
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit/new_gate_exit_cubit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/create/new_gate_exit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/exits/gate_exit_list.dart';
+import 'package:sumangalam/features/hr/presentation/bloc/hr_bloc_provider.dart';
+import 'package:sumangalam/features/hr/presentation/bloc/new_on_duty/new_on_duty_cubit.dart';
+import 'package:sumangalam/features/hr/presentation/ui/attendance_approval/attendance_app_scrn.dart';
+import 'package:sumangalam/features/hr/presentation/ui/hr_main_page.dart';
+import 'package:sumangalam/features/hr/presentation/ui/on_auty_approval/on_duty_app_scrn.dart';
+import 'package:sumangalam/features/hr/presentation/ui/on_duty/create_on_duty_scrn.dart';
 
 class AppRouterConfig {
   static final parentNavigatorKey = GlobalKey<NavigatorState>();
@@ -56,17 +64,18 @@ class AppRouterConfig {
                         path: _getPath(RoutePath.newGateEntry),
                         builder: (context, state) {
                           final form = state.extra;
-                          String? name;
-                          if(form is GateEntryForm) {
-                            name = form.gateEntryNo;
-                          }
+                          final name = (form as GateEntryForm?)?.gateEntryNo;
+
                           return MultiBlocProvider(
                             providers: [
-                              BlocProvider(create: (context) => $sl.get<NewGateEntryCubit>()..init(state.extra)),
-                              if(name.isNotNull)...[
-                                BlocProvider(create: (_) => GateEntryBlocProvider.instance().fetchAttachments()..request(name)),
-                              ] else...[
-                                BlocProvider(create: (_) => GateEntryBlocProvider.instance().fetchAttachments()),
+                              BlocProvider(
+                                create: (_) => $sl.get<NewGateEntryCubit>()..init(state.extra)),
+                              if (name.isNotNull) ...[
+                                BlocProvider(
+                                  create: (_) => GateEntryBlocProvider.instance().fetchAttachments()..request(name)),
+                              ] else ...[
+                                BlocProvider(
+                                  create: (_) => GateEntryBlocProvider.instance().fetchAttachments()),
                               ],
                             ],
                             child: const NewGateEntry(),
@@ -85,12 +94,63 @@ class AppRouterConfig {
                           final form = state.extra;
                           return MultiBlocProvider(
                             providers: [
-                              BlocProvider(create: (context) => $sl.get<NewGateExitCubit>()..init(form)),
-                              BlocProvider(create: (context) => GateExitBlocProvider.instance().salesInvoice()),
+                              BlocProvider(
+                                create: (_) => $sl.get<NewGateExitCubit>()..init(form)),
+                              BlocProvider(
+                                create: (_) => GateExitBlocProvider.instance().salesInvoice()),
                             ],
                             child: const NewGateExitScrn(),
                           );
                         },
+                      ),
+                    ],
+                  ),
+                  GoRoute(
+                    path: _getPath(RoutePath.hr),
+                    builder: (_, state) => const HRMainPage(),
+                    routes: [
+                      GoRoute(
+                        path: _getPath(RoutePath.onduty),
+                        builder: (_, state) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (_) => $sl.get<GeoLocationCubit>()..fetchLocation()),
+                            BlocProvider(create: (_) => $sl.get<NewOnDutyCubit>()),
+                          ],
+                          child: const CreateOnDutyScrn(),
+                        ),
+                      ),
+                      GoRoute(
+                        path: _getPath(RoutePath.approval),
+                        builder: (_, state) {
+                          final provider = HRBlocProvider.get();
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider(create: (_) => provider.approvalList()
+                                ..request(Pair(DFU.now(), DFU.now()))),
+                              BlocProvider(create: (_) => provider.approvedList()
+                                ..request(Pair(DFU.now(), DFU.now()))),
+                              BlocProvider(create: (_) => provider.approveReqs()),
+                            ], 
+                            child: const OnDutyApprovalScrn(),
+                          );
+                        }
+                      ),
+                      GoRoute(
+                        path: _getPath(RoutePath.attendance),
+                        builder: (_, state) {
+                          final provider = HRBlocProvider.get();
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider(create: (_) => provider.draftAttendace()
+                                ..request(Pair(DFU.now(), DFU.now()))),
+                              BlocProvider(create: (_) => provider.approvedAttendance()
+                                ..request(Pair(DFU.now(), DFU.now()))),
+                              BlocProvider(create: (_) => provider.approveReqs()),
+                            ], 
+                            child: const AttendanceAppScrn(),
+                          );
+                        }
                       ),
                     ],
                   ),

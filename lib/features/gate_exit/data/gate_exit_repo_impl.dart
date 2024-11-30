@@ -44,7 +44,7 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
           return exits.map((e) => GateExitForm.fromJson(e)).toList();
         },
       );
-      $logger.devLog(config);
+
       final response = await get(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {
@@ -59,7 +59,6 @@ class GateExitRepoImpl extends BaseApiRepository implements GateExitRepo {
       final formJson = GateExitForm.toEncodedFormJson(form);
       formJson.update('status', (value) => 'Draft');
       final cleanedMap = removeNullValues(formJson);
-      $logger.devLog(formJson);
       final config = RequestConfig(
         url: Urls.createGateExit,
         reqParams:cleanedMap,

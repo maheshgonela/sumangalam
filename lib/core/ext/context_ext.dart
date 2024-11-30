@@ -10,7 +10,7 @@ extension BuildContextExt on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
   void exit<T>([T? data]) => Navigator.of(this, rootNavigator: true).pop(data);
-  void pop<T>([T? data]) => Navigator.of(this).pop();
+  void pop<T>([T? data]) => Navigator.of(this).pop(data);
 
   double get sizeOfWidth => MediaQuery.sizeOf(this).width;
   double get sizeOfHeight => MediaQuery.sizeOf(this).height;
