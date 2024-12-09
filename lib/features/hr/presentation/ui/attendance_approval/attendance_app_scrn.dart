@@ -74,8 +74,8 @@ class _AttendanceAppScrnState extends State<AttendanceAppScrn> {
         ),
         body: TabBarView(
           children: [
-            DraftAttendanceList(start: startTime, end: endTime),
-            AppAttendanceListWidget(start: startTime, end: endTime)
+            SingleChildScrollView(child: DraftAttendanceList(start: startTime, end: endTime)),
+            SingleChildScrollView(child: AppAttendanceListWidget(start: startTime, end: endTime))
           ],
         ),
       ),

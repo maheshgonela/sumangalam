@@ -26,6 +26,15 @@ class AppAttendanceListWidget extends StatelessWidget {
             retry: () => context.cubit<AppAttendanceList>().request(Pair(start, end)),
           ),
           success: (data) {
+            if(data.isEmpty) {
+              return AppFailureWidget(
+                errorMsg: 'No Employee Checkins Found',
+                retry: () {
+                  final inp = Pair(start, end);
+                  context.cubit<AppAttendanceList>().request(inp);
+                },
+              );
+            }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(4.0),
               scrollDirection: Axis.horizontal,

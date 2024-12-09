@@ -74,8 +74,8 @@ class _OnDutyApprovalScrnState extends State<OnDutyApprovalScrn> {
         ),
         body: TabBarView(
           children: [
-            PendingForAppList(start: startTime, end: endTime),
-            ApprovedListWidget(start: startTime, end: endTime)
+            SingleChildScrollView(child: PendingForAppList(start: startTime, end: endTime)),
+            SingleChildScrollView(child: ApprovedListWidget(start: startTime, end: endTime))
           ],
         ),
       ),

@@ -49,7 +49,7 @@ class DraftAttendanceList extends StatelessWidget {
             orElse: () => const Center(child: AppLoadingIndicator()),
             failure: (failure) => AppFailureWidget(
               errorMsg: failure.error,
-              retry: () => context.cubit<ApprovalList>().request(Pair(start, end)),
+              retry: () => context.cubit<DraftAttendaceList>().request(Pair(start, end)),
             ),
             success: (data) {
               if(data.isEmpty) {
@@ -57,7 +57,7 @@ class DraftAttendanceList extends StatelessWidget {
                   errorMsg: 'No Draft Employee Checkins Found To Approve',
                   retry: () {
                     final inp = Pair(start, end);
-                    context.cubit<ApprovalList>().request(inp);
+                    context.cubit<DraftAttendaceList>().request(inp);
                   },
                 );
               }

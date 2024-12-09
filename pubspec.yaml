@@ -2,7 +2,7 @@ name: sumangalam
 description: A new Flutter project.
 publish_to: none
 
-version: '1.0.3+10'
+version: '1.0.3+11'
 environment: 
   sdk: '>=3.4.3 <4.0.0'
 
