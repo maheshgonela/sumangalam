@@ -87,9 +87,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i557.ApiClient>(),
           gh<_i351.KeyValueStorage>(),
         ));
+    gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
     gh.factory<_i140.SignInCubit>(
         () => _i140.SignInCubit(gh<_i585.AuthRepo>()));
-    gh.factory<_i190.AuthCubit>(() => _i190.AuthCubit(gh<_i585.AuthRepo>()));
     gh.lazySingleton<_i820.GateEntryRepo>(
         () => _i174.GateEntryRepoImpl(gh<_i855.ApiClient>()));
     gh.singleton<_i495.GateExitRepo>(
@@ -106,12 +106,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i493.GateExitBlocProvider(repo: gh<_i495.GateExitRepo>()));
     gh.factory<_i465.NewGateEntryCubit>(
         () => _i465.NewGateEntryCubit(gh<_i820.GateEntryRepo>()));
+    gh.factory<_i210.GateEntryBlocProvider>(
+        () => _i210.GateEntryBlocProvider(repo: gh<_i820.GateEntryRepo>()));
     gh.factory<_i830.PurchaseOrderHelper>(
         () => _i830.PurchaseOrderHelper(repo: gh<_i820.GateEntryRepo>()));
     gh.factory<_i830.SupplierListHelper>(
         () => _i830.SupplierListHelper(repo: gh<_i820.GateEntryRepo>()));
-    gh.factory<_i210.GateEntryBlocProvider>(
-        () => _i210.GateEntryBlocProvider(repo: gh<_i820.GateEntryRepo>()));
     return this;
   }
 }

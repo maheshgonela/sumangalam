@@ -32,8 +32,8 @@ mixin _$Employee {
   String get time => throw _privateConstructorUsedError;
   @JsonKey(name: 'approval_status')
   String get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'custom_approved')
-  int get isApproved => throw _privateConstructorUsedError;
+  @JsonKey(name: 'custom_status')
+  String get isApproved => throw _privateConstructorUsedError;
   @JsonKey(name: 'shift_type')
   String get shift => throw _privateConstructorUsedError;
   @JsonKey(name: 'custom_location_')
@@ -59,7 +59,7 @@ abstract class $EmployeeCopyWith<$Res> {
       @JsonKey(name: 'employee_name') String employeeName,
       @JsonKey(name: 'punch_in_time') String time,
       @JsonKey(name: 'approval_status') String status,
-      @JsonKey(name: 'custom_approved') int isApproved,
+      @JsonKey(name: 'custom_status') String isApproved,
       @JsonKey(name: 'shift_type') String shift,
       @JsonKey(name: 'custom_location_') String? location,
       @JsonKey(name: 'custom_selfie') String? selfie});
@@ -117,7 +117,7 @@ class _$EmployeeCopyWithImpl<$Res, $Val extends Employee>
       isApproved: null == isApproved
           ? _value.isApproved
           : isApproved // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       shift: null == shift
           ? _value.shift
           : shift // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ abstract class _$$EmployeeImplCopyWith<$Res>
       @JsonKey(name: 'employee_name') String employeeName,
       @JsonKey(name: 'punch_in_time') String time,
       @JsonKey(name: 'approval_status') String status,
-      @JsonKey(name: 'custom_approved') int isApproved,
+      @JsonKey(name: 'custom_status') String isApproved,
       @JsonKey(name: 'shift_type') String shift,
       @JsonKey(name: 'custom_location_') String? location,
       @JsonKey(name: 'custom_selfie') String? selfie});
@@ -205,7 +205,7 @@ class __$$EmployeeImplCopyWithImpl<$Res>
       isApproved: null == isApproved
           ? _value.isApproved
           : isApproved // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       shift: null == shift
           ? _value.shift
           : shift // ignore: cast_nullable_to_non_nullable
@@ -232,7 +232,7 @@ class _$EmployeeImpl implements _Employee {
       @JsonKey(name: 'employee_name') required this.employeeName,
       @JsonKey(name: 'punch_in_time') required this.time,
       @JsonKey(name: 'approval_status') required this.status,
-      @JsonKey(name: 'custom_approved') required this.isApproved,
+      @JsonKey(name: 'custom_status') required this.isApproved,
       @JsonKey(name: 'shift_type') required this.shift,
       @JsonKey(name: 'custom_location_') this.location,
       @JsonKey(name: 'custom_selfie') this.selfie});
@@ -259,8 +259,8 @@ class _$EmployeeImpl implements _Employee {
   @JsonKey(name: 'approval_status')
   final String status;
   @override
-  @JsonKey(name: 'custom_approved')
-  final int isApproved;
+  @JsonKey(name: 'custom_status')
+  final String isApproved;
   @override
   @JsonKey(name: 'shift_type')
   final String shift;
@@ -324,7 +324,7 @@ abstract class _Employee implements Employee {
       @JsonKey(name: 'employee_name') required final String employeeName,
       @JsonKey(name: 'punch_in_time') required final String time,
       @JsonKey(name: 'approval_status') required final String status,
-      @JsonKey(name: 'custom_approved') required final int isApproved,
+      @JsonKey(name: 'custom_status') required final String isApproved,
       @JsonKey(name: 'shift_type') required final String shift,
       @JsonKey(name: 'custom_location_') final String? location,
       @JsonKey(name: 'custom_selfie') final String? selfie}) = _$EmployeeImpl;
@@ -351,8 +351,8 @@ abstract class _Employee implements Employee {
   @JsonKey(name: 'approval_status')
   String get status;
   @override
-  @JsonKey(name: 'custom_approved')
-  int get isApproved;
+  @JsonKey(name: 'custom_status')
+  String get isApproved;
   @override
   @JsonKey(name: 'shift_type')
   String get shift;

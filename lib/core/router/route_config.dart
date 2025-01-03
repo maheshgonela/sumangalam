@@ -20,12 +20,14 @@ import 'package:sumangalam/features/gate_exit/presentation/bloc/bloc_providers.d
 import 'package:sumangalam/features/gate_exit/presentation/bloc/gate_exit/new_gate_exit_cubit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/create/new_gate_exit.dart';
 import 'package:sumangalam/features/gate_exit/presentation/ui/exits/gate_exit_list.dart';
+import 'package:sumangalam/features/hr/model/request_params.dart';
 import 'package:sumangalam/features/hr/presentation/bloc/hr_bloc_provider.dart';
 import 'package:sumangalam/features/hr/presentation/bloc/new_on_duty/new_on_duty_cubit.dart';
 import 'package:sumangalam/features/hr/presentation/ui/attendance_approval/attendance_app_scrn.dart';
 import 'package:sumangalam/features/hr/presentation/ui/hr_main_page.dart';
 import 'package:sumangalam/features/hr/presentation/ui/on_auty_approval/on_duty_app_scrn.dart';
 import 'package:sumangalam/features/hr/presentation/ui/on_duty/create_on_duty_scrn.dart';
+import 'package:tuple/tuple.dart';
 
 class AppRouterConfig {
   static final parentNavigatorKey = GlobalKey<NavigatorState>();
@@ -124,15 +126,18 @@ class AppRouterConfig {
                         path: _getPath(RoutePath.approval),
                         builder: (_, state) {
                           final provider = HRBlocProvider.get();
+                   
                           return MultiBlocProvider(
                             providers: [
                               BlocProvider(create: (_) => provider.approvalList()
-                                ..request(Pair(DFU.now(), DFU.now()))),
+                                ..request(RequestParams(status: 'Draft', start: DFU.now(), end: DFU.now()))),
                               BlocProvider(create: (_) => provider.approvedList()
-                                ..request(Pair(DFU.now(), DFU.now()))),
+                                ..request(RequestParams(status: 'Rejected', start: DFU.now(), end: DFU.now()))),
+                                  BlocProvider(create: (_) => provider.rejectedList()
+                                ..request(RequestParams(status: 'Approved', start: DFU.now(), end: DFU.now()))),
                               BlocProvider(create: (_) => provider.approveReqs()),
                             ], 
-                            child: const OnDutyApprovalScrn(),
+                            child:  const OnDutyApprovalScrn(),
                           );
                         }
                       ),
@@ -146,6 +151,7 @@ class AppRouterConfig {
                                 ..request(Pair(DFU.now(), DFU.now()))),
                               BlocProvider(create: (_) => provider.approvedAttendance()
                                 ..request(Pair(DFU.now(), DFU.now()))),
+
                               BlocProvider(create: (_) => provider.approveReqs()),
                             ], 
                             child: const AttendanceAppScrn(),

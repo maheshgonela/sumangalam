@@ -87,7 +87,7 @@ class AppAttendanceListWidget extends StatelessWidget {
                         DataCell(Text(employee.employeeName)),
                         DataCell(Text(employee.logType)),
                         DataCell(Text(employee.shift)),
-                        DataCell(Text(DFU.fromFrappeDT(employee.time))),
+                        DataCell(Text(DFU.toDate(employee.time))),
                         DataCell(Text(employee.status)),
                         DataCell(InkWell(
                           onTap: () {

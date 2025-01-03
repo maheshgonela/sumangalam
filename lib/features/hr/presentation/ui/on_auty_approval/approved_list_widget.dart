@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/cubit/network_request/network_request_cubit.dart';
-import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/widgets/widgets.dart';
 import 'package:sumangalam/features/hr/model/employee.dart';
+import 'package:sumangalam/features/hr/model/request_params.dart';
 import 'package:sumangalam/features/hr/presentation/bloc/hr_bloc_provider.dart';
 import 'package:sumangalam/features/hr/presentation/ui/on_auty_approval/pending_for_app_list.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ApprovedListWidget extends StatelessWidget {
-  const ApprovedListWidget({super.key, required this.start, required this.end});
+  const ApprovedListWidget({super.key, required this.params, });
 
-  final DateTime start;
-  final DateTime end;
+ final RequestParams params;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ApprovedList, NetworkRequestState<List<Employee>>>(
@@ -23,9 +22,20 @@ class ApprovedListWidget extends StatelessWidget {
           orElse: () => const Center(child: AppLoadingIndicator()),
           failure: (failure) => AppFailureWidget(
             errorMsg: failure.error,
-            retry: () => context.cubit<ApprovedList>().request(Pair(start, end)),
+            retry: () => context.cubit<ApprovedList>().request(params),
           ),
           success: (data) {
+            final status = data.map((e) => e.status).toList();
+            print(status);
+            if (!status.contains('Approved')) {
+              return  AppFailureWidget(
+              errorMsg: 'No Approved Requests Found',
+              retry: () => context
+                  .cubit<ApprovalList>()
+                  .request(params),
+            );
+            }
+              
             return SingleChildScrollView(
               padding: const EdgeInsets.all(4.0),
               scrollDirection: Axis.horizontal,
@@ -51,6 +61,9 @@ class ApprovedListWidget extends StatelessWidget {
                   DataColumn(
                     label: Center(child: Text('Shift', textAlign: TextAlign.center)),
                   ),
+                     DataColumn(
+                    label: Center(child: Text('Date', textAlign: TextAlign.center)),
+                  ),
                   DataColumn(
                     label: Center(child: Text('Time', textAlign: TextAlign.center)),
                   ),
@@ -74,7 +87,8 @@ class ApprovedListWidget extends StatelessWidget {
                         DataCell(Text(employee.empId)),
                         DataCell(Text(employee.employeeName)),
                         DataCell(Text(employee.shift)),
-                        DataCell(Text(DFU.fromFrappeDT(employee.time))),
+                        DataCell(Text(DFU.toDate(employee.time))),
+                  DataCell(Text(DFU.toTime(employee.time))),
                         DataCell(Text(employee.status)),
                         DataCell(InkWell(
                           onTap: () {

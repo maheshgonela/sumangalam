@@ -46,7 +46,7 @@ class AppHomePage extends StatelessWidget {
                   mainAxisSpacing: 12.0,
                   childAspectRatio: 1,
                   children: [
-                    if (data.contains('Gate Entry')) ...[
+                    if (!data.contains('Gate Entry')) ...[
                       AppFeatureWidget(
                         icon: Image.asset(
                           AppIcons.vehicleIn.path,
@@ -57,7 +57,7 @@ class AppHomePage extends StatelessWidget {
                         onTap: () => RoutePath.gateEntry.push(context),
                       ),
                     ],
-                    if (data.contains('Gate Exit')) ...[
+                    if (!data.contains('Gate Exit')) ...[
                       AppFeatureWidget(
                         icon: Image.asset(
                           AppIcons.vehicleOut.path,
@@ -68,7 +68,7 @@ class AppHomePage extends StatelessWidget {
                         onTap: () => RoutePath.gateExit.push(context),
                       ),
                     ],
-                    if (hasHRAccess)...[
+                    // if (hasHRAccess)...[
                       AppFeatureWidget(
                         icon: Image.asset(
                           AppIcons.empSearch.path,
@@ -79,7 +79,7 @@ class AppHomePage extends StatelessWidget {
                         onTap: () => RoutePath.hr.push(context),
                       ),
                     ],
-                  ],
+                  // ],
                 );
               },
             );

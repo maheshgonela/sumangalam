@@ -207,7 +207,7 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
                             DataCell(Text(employee.employeeName)),
                             DataCell(Text(employee.logType)),
                             DataCell(Text(employee.shift)),
-                            DataCell(Text(DFU.fromFrappeDT(employee.time))),
+                            DataCell(Text(DFU.toDate(employee.time))),
                             DataCell(InkWell(
                               onTap: () {
                                 if (employee.location == null || employee.location == 'Not location Provided') return;
@@ -226,8 +226,6 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
           ),
         ),
         Positioned(
-          right: 8.0,
-          bottom: 8.0,
           child: BlocBuilder<ApproveAuthReqCubit, ApproveAuthReqState>(
             builder: (_, state) {
               return OutlinedButton.icon(
@@ -253,11 +251,11 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
                         onTapDismiss: () => context.pop(false), 
                         onTapConfirm: () => context.pop(true), 
                       );
-
+          
                       if(res.isTrue && context.mounted) {
                         context
                           .cubit<ApproveAuthReqCubit>()
-                          .request(_selectedEmployees);
+                          .request(Pair(_selectedEmployees, 'Approved'));
                       }
                     },
                 icon: const Icon(Icons.thumb_up_alt),

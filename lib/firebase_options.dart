@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -53,10 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBMgvFjZLwO1GUMsTe8SUKBwNPHUBqKJWk',
-    appId: '1:398765158500:android:d8a9b0ce3c9cd2f9cb6f71',
-    messagingSenderId: '398765158500',
-    projectId: 'sumangalam-easy',
-    storageBucket: 'sumangalam-easy.appspot.com',
+    apiKey: 'AIzaSyBCiPgFzepXXPJWZNQnBzfpM9cIe4bd5qU',
+    appId: '1:200131883452:android:3121caf57925500a783bb9',
+    messagingSenderId: '200131883452',
+    projectId: 'sumangalam-24d05',
+    storageBucket: 'sumangalam-24d05.firebasestorage.app',
   );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCOCGIvFZpgExzQiMVhymGIEqSR8wXxj-Y',
+    appId: '1:200131883452:ios:f966682ec02b639f783bb9',
+    messagingSenderId: '200131883452',
+    projectId: 'sumangalam-24d05',
+    storageBucket: 'sumangalam-24d05.firebasestorage.app',
+    iosBundleId: 'in.easycloud.sumangalam',
+  );
+
 }

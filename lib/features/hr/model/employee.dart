@@ -12,7 +12,7 @@ class Employee with _$Employee {
     @JsonKey(name: 'employee_name') required String employeeName,
     @JsonKey(name: 'punch_in_time') required String time,
     @JsonKey(name: 'approval_status') required String status,
-    @JsonKey(name: 'custom_approved') required int isApproved,
+    @JsonKey(name: 'custom_status') required String isApproved,
     @JsonKey(name: 'shift_type') required String shift,
     @JsonKey(name: 'custom_location_') String? location,
     @JsonKey(name: 'custom_selfie') String? selfie,
@@ -20,4 +20,7 @@ class Employee with _$Employee {
   
   factory Employee.fromJson(Map<String, dynamic> json) =>
       _$EmployeeFromJson(json);
+      
+
+      
 }

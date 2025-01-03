@@ -1,32 +1,13 @@
 {
   "project_info": {
-    "project_number": "398765158500",
-    "project_id": "sumangalam-easy",
-    "storage_bucket": "sumangalam-easy.appspot.com"
+    "project_number": "200131883452",
+    "project_id": "sumangalam-24d05",
+    "storage_bucket": "sumangalam-24d05.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:398765158500:android:d8a9b0ce3c9cd2f9cb6f71",
-        "android_client_info": {
-          "package_name": "in.easycloud.suma"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBMgvFjZLwO1GUMsTe8SUKBwNPHUBqKJWk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:398765158500:android:87769d6d251199f2cb6f71",
+        "mobilesdk_app_id": "1:200131883452:android:3121caf57925500a783bb9",
         "android_client_info": {
           "package_name": "in.easycloud.sumangalam"
         }
@@ -34,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBMgvFjZLwO1GUMsTe8SUKBwNPHUBqKJWk"
+          "current_key": "AIzaSyBCiPgFzepXXPJWZNQnBzfpM9cIe4bd5qU"
         }
       ],
       "services": {

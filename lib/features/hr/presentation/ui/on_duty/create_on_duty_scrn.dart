@@ -13,7 +13,7 @@ class CreateOnDutyScrn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SimpleAppBar(
-        title: 'On Duth Authentication',
+        title: 'On Duty Authentication',
         textColor: AppColors.cobaltBlue,
         status: 'Not Saved',
       ),

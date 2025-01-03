@@ -9,6 +9,7 @@ import 'package:sumangalam/core/network/network.dart';
 import 'package:sumangalam/features/hr/data/hr_repo.dart';
 import 'package:sumangalam/features/hr/model/employee.dart';
 import 'package:sumangalam/features/hr/model/on_duty_form.dart';
+import 'package:sumangalam/features/hr/model/request_params.dart';
 
 @LazySingleton(as: HRRepo)
 class HRRepoImpl extends BaseApiRepository implements HRRepo {
@@ -24,6 +25,7 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
         url: Urls.createCheckinss,
         reqParams: {
           'user': user().email,
+          'custom_status': 'Draft',
           'time': dateTime,
           'log_type': form.logType,
           'custom_customer_details': form.custDetails,
@@ -50,40 +52,41 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
   }
 
   @override
-  AsyncValueOf<List<Employee>> fetchEmployees(bool check, DateTime start, DateTime end) async {
+  AsyncValueOf<List<Employee>> fetchEmployees(RequestParams params) async {
     try {
       final config = RequestConfig(
         url: Urls.empCheckinss,
         reqParams: {
-          'shift_request_approver': user().email,
-          'custom_approved': check ? 1 : 0,
-          'start_date': DFU.yyyyMMdd(start),
-          'end_date': DFU.yyyyMMdd(end),
+          'shift_request_approver': 'ram@easycloud.in',
+          'custom_status': params.status,
+          'start_date': DFU.yyyyMMdd(params.start),
+          'end_date': DFU.yyyyMMdd(params.end),
         },
         parser: (p0) {
           final data = p0['message'] as List<dynamic>;
           return data.map((e) => Employee.fromJson(e)).toList();
         },
       );
+      $logger.info('Employee List config $config');
       final response = await get(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {
       $logger.error('[Employee List]', e, st);
       return left(Failure(error: e.toString()));
     }
+    
   }
   
   @override
-  AsyncValueOf<String> approveRequests(List<String> ids) async {
+  AsyncValueOf<String> approveRequests(List<String> ids, String status) async {
     try {
       final config = RequestConfig(
         url: Urls.approveCheckinss,
-        body: jsonEncode({'employee_checkin_ids' : ids.join(',')}),
-        parser: (p0) => p0,
+             parser: (p0) => p0,
       );
       $logger.devLog(config);
       final response = await post(config);
-      return response.process((r) => right('Approved Successfully..!'));
+      return response.process((r) => right(status == 'Approve' ?'Approved Successfully..!' : 'Rejected Successfully..!'));
     } on Exception catch (e, st) {
       $logger.error('[Employee List]', e, st);
       return left(Failure(error: e.toString()));
@@ -97,7 +100,7 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
         url: Urls.empChecking,
         reqParams: {
           'shift_request_approver': user().email,
-          'custom_approved': check ? 1 : 0,
+          'custom_status': 'Draft',
           'start_date': DFU.yyyyMMdd(start),
           'end_date': DFU.yyyyMMdd(end),
         },

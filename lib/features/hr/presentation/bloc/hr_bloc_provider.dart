@@ -4,12 +4,15 @@ import 'package:sumangalam/core/di/injector.dart';
 import 'package:sumangalam/core/model/pair_triple.dart';
 import 'package:sumangalam/features/hr/data/hr_repo.dart';
 import 'package:sumangalam/features/hr/model/employee.dart';
+import 'package:sumangalam/features/hr/model/request_params.dart';
 
-mixin ApprovalList on NetworkRequestCubit<List<Employee>, Pair<DateTime, DateTime>> {}
-mixin ApprovedList on NetworkRequestCubit<List<Employee>, Pair<DateTime, DateTime>> {}
+mixin ApprovalList on NetworkRequestCubit<List<Employee>, RequestParams> {}
+mixin ApprovedList on NetworkRequestCubit<List<Employee>, RequestParams> {}
+mixin RejectedList on NetworkRequestCubit<List<Employee>, RequestParams> {}
 
-class OnDutyAuthCubit extends NetworkRequestCubit<List<Employee>, Pair<DateTime, DateTime>>
-    with ApprovalList, ApprovedList{
+
+class OnDutyAuthCubit extends NetworkRequestCubit<List<Employee>, RequestParams>
+    with ApprovalList, ApprovedList, RejectedList{
   OnDutyAuthCubit({required super.onRequest});
 }
 
@@ -21,7 +24,7 @@ class AttendanceCubit extends NetworkRequestCubit<List<Employee>, Pair<DateTime,
   AttendanceCubit({required super.onRequest});
 }
 
-typedef ApproveAuthReqCubit = NetworkRequestCubit<String, List<String>>;
+typedef ApproveAuthReqCubit = NetworkRequestCubit<String, Pair<List<String>, String>>;
 typedef ApproveAuthReqState = NetworkRequestState<String>;
 
 @injectable
@@ -32,11 +35,14 @@ class HRBlocProvider {
   static HRBlocProvider get() => $sl.get<HRBlocProvider>();
 
   ApprovalList approvalList() => OnDutyAuthCubit(
-    onRequest: (params, __) => repo.fetchEmployees(false, params!.first, params.second),
+    onRequest: (params, __) => repo.fetchEmployees(params!),
   );
 
   ApprovedList approvedList() => OnDutyAuthCubit(
-    onRequest: (params, __) => repo.fetchEmployees(true, params!.first, params.second),
+    onRequest: (params, __) => repo.fetchEmployees(params!),
+  );
+   RejectedList rejectedList() => OnDutyAuthCubit(
+    onRequest: (params, __) => repo.fetchEmployees(params!),
   );
 
   DraftAttendaceList draftAttendace() => AttendanceCubit(
@@ -48,6 +54,6 @@ class HRBlocProvider {
   );
 
   ApproveAuthReqCubit approveReqs() => ApproveAuthReqCubit(
-    onRequest: (params, __) => repo.approveRequests(params!),
+    onRequest: (params, __) => repo.approveRequests(params!.first, params.second),
   );
 }

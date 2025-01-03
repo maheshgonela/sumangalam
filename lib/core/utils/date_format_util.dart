@@ -34,12 +34,24 @@ abstract class DateFormatUtil {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
-  static String fromFrappeDT(String dateTime) {
+  static String toTime(String dateTime) {
     try {      
       final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime);
-      return DateFormat('dd-MM-yyyy HH:mm:ss').format(dateFormat);
+      return DateFormat('HH:mm:ss').format(dateFormat);
     } catch (_) {
       return dateTime;
     }
   }
+  static String toDate(String dateTime){
+    try {
+      final date = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime);
+      print('date $date');
+      return DateFormat('dd-MM-yyyy').format(date);
+    } catch (e) {
+      return dateTime;
+      
+    }
+  }
+   
+ 
 }
