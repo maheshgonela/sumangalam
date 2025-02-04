@@ -57,7 +57,7 @@ class HRMainPage extends StatelessWidget {
                   ],
                 ],
               ),
-              if(!features.contains('Attendance Approval'))...[
+              if(features.contains('Attendance Approval'))...[
                 AppSpacer.p12(),
                 const CaptionText(title: 'Attendance Approval'),
                 Row(

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/constants/urls.dart';
@@ -104,7 +105,7 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
           child: Row(
             children: [
               DataTable(
-                horizontalMargin: 1,
+                horizontalMargin: 10,
                 headingRowHeight: 35,
                 dataRowHeight: 40,
                 border: TableBorder.all(
@@ -293,7 +294,7 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
 
                               if (res.isTrue && context.mounted) {
                                 context.cubit<ApproveAuthReqCubit>().request(
-                                    Pair(_selectedEmployees, 'Approved'));
+                                   dartz. Tuple3(_selectedEmployees, 'Approved',null));
                               }
                             },
                       child: state.isLoading && isApproved == 'Approved'
@@ -329,7 +330,7 @@ class _PendingFeeTableWidgetState extends State<_PendingFeeTableWidget> {
 
                               if (res.isTrue && context.mounted) {
                                 context.cubit<ApproveAuthReqCubit>().request(
-                                    Pair(_selectedEmployees, 'Rejected'));
+                                  dartz.  Tuple3(_selectedEmployees, 'Rejected',null));
                               }
                             },
                       child: state.isLoading && isApproved == 'Rejected'

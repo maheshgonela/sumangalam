@@ -148,9 +148,11 @@ class AppRouterConfig {
                           return MultiBlocProvider(
                             providers: [
                               BlocProvider(create: (_) => provider.draftAttendace()
-                                ..request(Pair(DFU.now(), DFU.now()))),
-                              BlocProvider(create: (_) => provider.approvedAttendance()
-                                ..request(Pair(DFU.now(), DFU.now()))),
+                                ..request(RequestParams(status: 'Draft', start: DFU.now(), end: DFU.now()))),
+                              BlocProvider(create: (_) => provider.attendaceApprovedList()
+                                ..request(RequestParams(status: 'Approved', start: DFU.now(), end: DFU.now()))),
+                                   BlocProvider(create: (_) => provider.attendaceRejectedList()
+                                ..request(RequestParams(status: 'Rejected', start: DFU.now(), end: DFU.now()))),
 
                               BlocProvider(create: (_) => provider.approveReqs()),
                             ], 

@@ -4,37 +4,41 @@ import 'package:sumangalam/core/core.dart';
 import 'package:sumangalam/core/cubit/network_request/network_request_cubit.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/widgets/widgets.dart';
-import 'package:sumangalam/features/hr/model/employee.dart';
+import 'package:sumangalam/features/hr/model/employee_status.dart';
 import 'package:sumangalam/features/hr/model/request_params.dart';
 import 'package:sumangalam/features/hr/presentation/bloc/hr_bloc_provider.dart';
-import 'package:sumangalam/features/hr/presentation/ui/attendance_approval/reject_reason_dialog.dart';
 import 'package:sumangalam/features/hr/presentation/ui/on_auty_approval/pending_for_app_list.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class RejectedListWidget extends StatelessWidget {
-  const RejectedListWidget({super.key, required this.params,});
+class AttendanceRejectScreen extends StatelessWidget {
+  const AttendanceRejectScreen({
+    super.key,
+    required this.params,
+  });
+
   final RequestParams params;
-
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RejectedList, NetworkRequestState<List<Employee>>>(
+    return BlocBuilder<AttendanceRejectedList,
+        NetworkRequestState<List<EmployeeStatus>>>(
       builder: (_, state) {
+        print('Approval List state $state');
         return state.maybeWhen(
           orElse: () => const Center(child: AppLoadingIndicator()),
           failure: (failure) => AppFailureWidget(
             errorMsg: failure.error,
-            retry: () => context.cubit<RejectedList>().request(),
+            retry: () =>
+                context.cubit<AttendanceRejectedList>().request(params),
           ),
           success: (data) {
-            final status = data.map((e) => e.status).toList();
-            if (!status.contains('Rejected')) {
-         return   AppFailureWidget(
-              errorMsg: 'No Rejected Requests Found',
-              retry: () => context
-                  .cubit<ApprovalList>()
-                  .request(params),
-            );
+            if (data.isEmpty) {
+              return AppFailureWidget(
+                errorMsg: 'No Employee Are Rejected ',
+                retry: () {
+                  final inp = params;
+                  context.cubit<AttendanceRejectedList>().request(inp);
+                },
+              );
             }
             return SingleChildScrollView(
               padding: const EdgeInsets.all(4.0),
@@ -45,6 +49,8 @@ class RejectedListWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(width: 0, color: Colors.transparent),
                 ),
+                border: TableBorder.all(
+                    color: AppColors.white, width: 0, style: BorderStyle.solid),
                 headingTextStyle: context.textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.white,
@@ -53,50 +59,51 @@ class RejectedListWidget extends StatelessWidget {
                     WidgetStateProperty.all(AppColors.catalineBlue),
                 columns: const [
                   DataColumn(
-                    label: Center(child: Text('Emp Id', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Emp Id', textAlign: TextAlign.center)),
                   ),
                   DataColumn(
-                    label: Center(child: Text('Emp Name', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Emp Name', textAlign: TextAlign.center)),
                   ),
                   DataColumn(
-                    label: Center(child: Text('Shift', textAlign: TextAlign.center)),
-                  ),
-                     DataColumn(
-                    label: Center(child: Text('Date', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Log Type', textAlign: TextAlign.center)),
                   ),
                   DataColumn(
-                    label: Center(child: Text('Time', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Date', textAlign: TextAlign.center)),
                   ),
                   DataColumn(
-                    label: Center(child: Text('Status', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Time', textAlign: TextAlign.center)),
                   ),
                   DataColumn(
-                    label: Center(child: Text('Location', textAlign: TextAlign.center)),
+                    label: Center(
+                        child: Text('Status', textAlign: TextAlign.center)),
+                  ),
+                  DataColumn(
+                    label: Center(
+                        child: Text('Reason', textAlign: TextAlign.center)),
                   ),
                 ],
                 rows: [
                   for (final employee in data) ...[
                     DataRow(
-                      onLongPress: employee.selfie.doesNotHaveValue
-                        ? null 
-                        : () => showDialog(
-                          context: context, 
-                          builder: (_) => ViewSelfieWidget(url: employee.selfie!)
-                        ),
+                      onLongPress: employee.customSelfie.doesNotHaveValue
+                          ? null
+                          : () => showDialog(
+                              context: context,
+                              builder: (_) => ViewSelfieWidget(
+                                  url: employee.customSelfie!)),
                       cells: [
-                        DataCell(Text(employee.empId)),
+                        DataCell(Text(employee.employeeId)),
                         DataCell(Text(employee.employeeName)),
-                        DataCell(Text(employee.shift)),
-                        DataCell(Text(DFU.toDate(employee.time))),
-                         DataCell(Text(DFU.toTime(employee.time))),
-                        DataCell(Text(employee.status)),
-                        DataCell(InkWell(
-                          onTap: () {
-                            if (employee.location == null || employee.location == 'Not Provided') return;
-                            _openGoogleMaps(employee.location!);
-                          },
-                          child: Text(employee.location.valueOrEmpty)),
-                        ),
+                        DataCell(Text(employee.logType)),
+                        DataCell(Text(DFU.toDate(employee.punchDate))),
+                        DataCell(Text(DFU.toTime(employee.punchInTime))),
+                        DataCell(Text(employee.customStatus)),
+                        DataCell(Text(employee.reason)),
                       ],
                     ),
                   ]
@@ -118,10 +125,9 @@ class RejectedListWidget extends StatelessWidget {
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
     final canLaunch = await canLaunchUrlString(url);
     if (canLaunch) {
-        await launchUrlString(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-
 }

@@ -11,11 +11,12 @@ class Employee with _$Employee {
     @JsonKey(name: 'log_type') required String logType,
     @JsonKey(name: 'employee_name') required String employeeName,
     @JsonKey(name: 'punch_in_time') required String time,
-    @JsonKey(name: 'approval_status') required String status,
-    @JsonKey(name: 'custom_status') required String isApproved,
-    @JsonKey(name: 'shift_type') required String shift,
+    @JsonKey(name: 'approval_status',defaultValue: '') required String status,
+    @JsonKey(name: 'custom_status',defaultValue: '') required String isApproved,
+    @JsonKey(name: 'shift_type',defaultValue: '') required String shift,
     @JsonKey(name: 'custom_location_') String? location,
     @JsonKey(name: 'custom_selfie') String? selfie,
+
   }) = _Employee;
   
   factory Employee.fromJson(Map<String, dynamic> json) =>

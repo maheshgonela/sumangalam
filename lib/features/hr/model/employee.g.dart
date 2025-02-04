@@ -13,9 +13,9 @@ _$EmployeeImpl _$$EmployeeImplFromJson(Map<String, dynamic> json) =>
       logType: json['log_type'] as String,
       employeeName: json['employee_name'] as String,
       time: json['punch_in_time'] as String,
-      status: json['approval_status'] as String,
-      isApproved: json['custom_status'] as String,
-      shift: json['shift_type'] as String,
+      status: json['approval_status'] as String? ?? '',
+      isApproved: json['custom_status'] as String? ?? '',
+      shift: json['shift_type'] as String? ?? '',
       location: json['custom_location_'] as String?,
       selfie: json['custom_selfie'] as String?,
     );

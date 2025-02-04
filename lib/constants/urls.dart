@@ -34,6 +34,8 @@ class Urls {
   static final approveCheckinss = '$cusWs/easycloudhr.api2.set_custom_approved';
   static final uploadFile = '$cusWs/upload_file';
   static final userRoleAccess = '$cusWs/easycloudhr.api2.get_user_role';
+    static final custAttendanceList = '$cusWs/easycloudhr.api2.get_status_list';
+
 
   static filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';

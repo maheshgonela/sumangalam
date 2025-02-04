@@ -44,8 +44,9 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CaptionText(title: widget.title.valueOrEmpty),
-        if(widget.helperText.containsValidValue)...[
-          Text(widget.helperText.valueOrEmpty, 
+        if (widget.helperText.containsValidValue) ...[
+          Text(
+            widget.helperText.valueOrEmpty,
             style: context.textTheme.labelSmall?.copyWith(
               color: AppColors.error,
               fontWeight: FontWeight.w600,
@@ -87,37 +88,52 @@ class _ImageSelectionWidgetState extends State<ImageSelectionWidget>
                   ),
                 ),
               ] else ...[
-                Container(
-                  height: widget.height,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    border: Border.all(color: AppColors.black, width: 0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: AppColors.catalineBlue,
-                        blurRadius: 0.8,
-                        offset: Offset(4, 4),
+                Stack(
+                  children: [
+                    Container(
+                      height: widget.height,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border.all(color: AppColors.black, width: 0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: AppColors.catalineBlue,
+                            blurRadius: 0.8,
+                            offset: Offset(4, 4),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
-                    ],
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: _selectedImage.isNotNull
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.memory(_selectedImage!.readAsBytesSync(),
-                            fit: BoxFit.cover),
-                      )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(Urls.filepath(widget.initialValue!)),
-                      ),
+                      child: _selectedImage.isNotNull
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.memory(
+                                  _selectedImage!.readAsBytesSync(),
+                                  fit: BoxFit.cover),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(
+                                  Urls.filepath(widget.initialValue!)),
+                            ),
+                    ),
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                            onPressed: _selectFile,
+                            icon: const CircleAvatar(
+                                backgroundColor: AppColors.white,
+                                child: Icon(
+                                  Icons.party_mode,
+                                  color: AppColors.black,
+                                )))),
+                  ],
                 ),
               ],
             ],
           ),
         ),
-        
       ],
     );
   }

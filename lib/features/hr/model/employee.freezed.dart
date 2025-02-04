@@ -30,11 +30,11 @@ mixin _$Employee {
   String get employeeName => throw _privateConstructorUsedError;
   @JsonKey(name: 'punch_in_time')
   String get time => throw _privateConstructorUsedError;
-  @JsonKey(name: 'approval_status')
+  @JsonKey(name: 'approval_status', defaultValue: '')
   String get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'custom_status')
+  @JsonKey(name: 'custom_status', defaultValue: '')
   String get isApproved => throw _privateConstructorUsedError;
-  @JsonKey(name: 'shift_type')
+  @JsonKey(name: 'shift_type', defaultValue: '')
   String get shift => throw _privateConstructorUsedError;
   @JsonKey(name: 'custom_location_')
   String? get location => throw _privateConstructorUsedError;
@@ -58,9 +58,9 @@ abstract class $EmployeeCopyWith<$Res> {
       @JsonKey(name: 'log_type') String logType,
       @JsonKey(name: 'employee_name') String employeeName,
       @JsonKey(name: 'punch_in_time') String time,
-      @JsonKey(name: 'approval_status') String status,
-      @JsonKey(name: 'custom_status') String isApproved,
-      @JsonKey(name: 'shift_type') String shift,
+      @JsonKey(name: 'approval_status', defaultValue: '') String status,
+      @JsonKey(name: 'custom_status', defaultValue: '') String isApproved,
+      @JsonKey(name: 'shift_type', defaultValue: '') String shift,
       @JsonKey(name: 'custom_location_') String? location,
       @JsonKey(name: 'custom_selfie') String? selfie});
 }
@@ -148,9 +148,9 @@ abstract class _$$EmployeeImplCopyWith<$Res>
       @JsonKey(name: 'log_type') String logType,
       @JsonKey(name: 'employee_name') String employeeName,
       @JsonKey(name: 'punch_in_time') String time,
-      @JsonKey(name: 'approval_status') String status,
-      @JsonKey(name: 'custom_status') String isApproved,
-      @JsonKey(name: 'shift_type') String shift,
+      @JsonKey(name: 'approval_status', defaultValue: '') String status,
+      @JsonKey(name: 'custom_status', defaultValue: '') String isApproved,
+      @JsonKey(name: 'shift_type', defaultValue: '') String shift,
       @JsonKey(name: 'custom_location_') String? location,
       @JsonKey(name: 'custom_selfie') String? selfie});
 }
@@ -231,9 +231,10 @@ class _$EmployeeImpl implements _Employee {
       @JsonKey(name: 'log_type') required this.logType,
       @JsonKey(name: 'employee_name') required this.employeeName,
       @JsonKey(name: 'punch_in_time') required this.time,
-      @JsonKey(name: 'approval_status') required this.status,
-      @JsonKey(name: 'custom_status') required this.isApproved,
-      @JsonKey(name: 'shift_type') required this.shift,
+      @JsonKey(name: 'approval_status', defaultValue: '') required this.status,
+      @JsonKey(name: 'custom_status', defaultValue: '')
+      required this.isApproved,
+      @JsonKey(name: 'shift_type', defaultValue: '') required this.shift,
       @JsonKey(name: 'custom_location_') this.location,
       @JsonKey(name: 'custom_selfie') this.selfie});
 
@@ -256,13 +257,13 @@ class _$EmployeeImpl implements _Employee {
   @JsonKey(name: 'punch_in_time')
   final String time;
   @override
-  @JsonKey(name: 'approval_status')
+  @JsonKey(name: 'approval_status', defaultValue: '')
   final String status;
   @override
-  @JsonKey(name: 'custom_status')
+  @JsonKey(name: 'custom_status', defaultValue: '')
   final String isApproved;
   @override
-  @JsonKey(name: 'shift_type')
+  @JsonKey(name: 'shift_type', defaultValue: '')
   final String shift;
   @override
   @JsonKey(name: 'custom_location_')
@@ -323,9 +324,12 @@ abstract class _Employee implements Employee {
       @JsonKey(name: 'log_type') required final String logType,
       @JsonKey(name: 'employee_name') required final String employeeName,
       @JsonKey(name: 'punch_in_time') required final String time,
-      @JsonKey(name: 'approval_status') required final String status,
-      @JsonKey(name: 'custom_status') required final String isApproved,
-      @JsonKey(name: 'shift_type') required final String shift,
+      @JsonKey(name: 'approval_status', defaultValue: '')
+      required final String status,
+      @JsonKey(name: 'custom_status', defaultValue: '')
+      required final String isApproved,
+      @JsonKey(name: 'shift_type', defaultValue: '')
+      required final String shift,
       @JsonKey(name: 'custom_location_') final String? location,
       @JsonKey(name: 'custom_selfie') final String? selfie}) = _$EmployeeImpl;
 
@@ -348,13 +352,13 @@ abstract class _Employee implements Employee {
   @JsonKey(name: 'punch_in_time')
   String get time;
   @override
-  @JsonKey(name: 'approval_status')
+  @JsonKey(name: 'approval_status', defaultValue: '')
   String get status;
   @override
-  @JsonKey(name: 'custom_status')
+  @JsonKey(name: 'custom_status', defaultValue: '')
   String get isApproved;
   @override
-  @JsonKey(name: 'shift_type')
+  @JsonKey(name: 'shift_type', defaultValue: '')
   String get shift;
   @override
   @JsonKey(name: 'custom_location_')
