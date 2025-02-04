@@ -22,26 +22,25 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
       final parsedDate = DateFormat('dd-MM-yyyy HH:mm:ss').parse(form.time!);
       final dateTime = dateFormat.format(parsedDate);
       final config = RequestConfig(
-        url: Urls.createCheckinss,
-        reqParams: {
-          'user': user().email,
-          'custom_status': 'Draft',
-          'time': dateTime,
-          'log_type': form.logType,
-          'custom_customer_details': form.custDetails,
-          'custom_purpose': form.purpose,
-          'custom_remarks': form.remarks,
-          'custom_type': 'On Duty',
-          'device_id': form.location,
-          'custom_location_': form.location,
-          'selfie': form.selfieFile,
-        },
-        parser: (p0) {
-          final checkInNo =  p0['message']['checkin_no'];
-          final message = p0['message']['message'];
-          return '"$checkInNo" - $message';
-        }
-      );
+          url: Urls.createCheckinss,
+          reqParams: {
+            'user': user().email,
+            'custom_status': 'Draft',
+            'time': dateTime,
+            'log_type': form.logType,
+            'custom_customer_details': form.custDetails,
+            'custom_purpose': form.purpose,
+            'custom_remarks': form.remarks,
+            'custom_type': 'On Duty',
+            'device_id': form.location,
+            'custom_location_': form.location,
+            'selfie': form.selfieFile,
+          },
+          parser: (p0) {
+            final checkInNo = p0['message']['checkin_no'];
+            final message = p0['message']['message'];
+            return '"$checkInNo" - $message';
+          });
 
       final response = await formRequest(config);
       return response.process((r) => right(r.data!));
@@ -57,7 +56,7 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
       final config = RequestConfig(
         url: Urls.empCheckinss,
         reqParams: {
-          'shift_request_approver': 'ram@easycloud.in',
+          'shift_request_approver': 'toolroom@sumangalamaluminium.com',
           'custom_status': params.status,
           'start_date': DFU.yyyyMMdd(params.start),
           'end_date': DFU.yyyyMMdd(params.end),
@@ -74,27 +73,36 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
       $logger.error('[Employee List]', e, st);
       return left(Failure(error: e.toString()));
     }
-    
   }
-  
+
   @override
   AsyncValueOf<String> approveRequests(List<String> ids, String status) async {
     try {
+       final employeeCheckinIds = ids.join(',');
+     
       final config = RequestConfig(
         url: Urls.approveCheckinss,
-             parser: (p0) => p0,
+        parser: (p0) => p0,
+        body: jsonEncode({
+          'employee_checkin_ids': employeeCheckinIds,
+          'status': status,
+        }),
       );
+
       $logger.devLog(config);
       final response = await post(config);
-      return response.process((r) => right(status == 'Approve' ?'Approved Successfully..!' : 'Rejected Successfully..!'));
+      return response.process((r) => right(status == 'Approved'
+          ? 'Approved Successfully..!'
+          : 'Rejected Successfully..!'));
     } on Exception catch (e, st) {
       $logger.error('[Employee List]', e, st);
       return left(Failure(error: e.toString()));
     }
   }
-  
+
   @override
-  AsyncValueOf<List<Employee>> fetchAttendace(bool check, DateTime start, DateTime end) async {
+  AsyncValueOf<List<Employee>> fetchAttendace(
+      bool check, DateTime start, DateTime end) async {
     try {
       final config = RequestConfig(
         url: Urls.empChecking,

@@ -1,12 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sumangalam/core/core.dart';
-import 'package:sumangalam/core/cubit/network_request/network_request_cubit.dart';
 import 'package:sumangalam/core/styles/app_colors.dart';
 import 'package:sumangalam/core/styles/app_text_styles.dart';
-import 'package:sumangalam/features/hr/model/employee.dart';
 import 'package:sumangalam/features/hr/model/request_params.dart';
 import 'package:sumangalam/features/hr/presentation/bloc/hr_bloc_provider.dart';
 import 'package:sumangalam/features/hr/presentation/ui/on_auty_approval/approved_list_widget.dart';
@@ -32,18 +29,16 @@ class _OnDutyApprovalScrnState extends State<OnDutyApprovalScrn> {
         appBar: AppBar(
           bottom: TabBar(
             onTap: (index) {
-
               if (index == 0) {
-
-                context.cubit<ApprovalList>().request(RequestParams(status: 'Draft', start: startTime, end: endTime));
-                
-              }else if (index == 1) {
-                context.cubit<ApprovedList>().request(RequestParams(status: 'Approved', start: startTime, end: endTime));
+                context.cubit<ApprovalList>().request(RequestParams(
+                    status: 'Draft', start: startTime, end: endTime));
+              } else if (index == 1) {
+                context.cubit<ApprovedList>().request(RequestParams(
+                    status: 'Approved', start: startTime, end: endTime));
               } else {
-                context.cubit<RejectedList>().request(RequestParams(status: 'Rejected', start: startTime, end: endTime));
+                context.cubit<RejectedList>().request(RequestParams(
+                    status: 'Rejected', start: startTime, end: endTime));
               }
-              
-
             },
             labelStyle: AppTextStyles.titleMedium(context)
                 .copyWith(color: AppColors.black),
@@ -85,10 +80,17 @@ class _OnDutyApprovalScrnState extends State<OnDutyApprovalScrn> {
                   setState(() {
                     startTime = value.start;
                     endTime = value.end;
-                    final inp = RequestParams(status: 'Draft', start: startTime, end: endTime);
+                    final dInp = RequestParams(
+                        status: 'Draft', start: startTime, end: endTime);
+                    final aInp = RequestParams(
+                        status: 'Approved', start: startTime, end: endTime);
+                    final rInp = RequestParams(
+                        status: 'Rejected', start: startTime, end: endTime);
+
                     context
-                      ..cubit<ApprovalList>().request(inp)
-                      ..cubit<ApprovedList>().request(inp);
+                      ..cubit<ApprovalList>().request(dInp)
+                      ..cubit<ApprovedList>().request(aInp)
+                      ..cubit<RejectedList>().request(rInp);
                   });
                 });
               },
@@ -98,13 +100,21 @@ class _OnDutyApprovalScrnState extends State<OnDutyApprovalScrn> {
         ),
         body: TabBarView(
           children: [
-            SingleChildScrollView(child:  PendingForAppList(params: RequestParams(status: 'Draft', start: startTime, end: endTime)),
-              ),
-            SingleChildScrollView(child:ApprovedListWidget(
-                      params: RequestParams(status: 'Approved', start: startTime, end: endTime)),
-              ),
-            SingleChildScrollView(child:    RejectedListWidget(
-                    params: RequestParams(status: 'Rejected', start: startTime, end: endTime),))
+            SingleChildScrollView(
+              child: PendingForAppList(
+                  params: RequestParams(
+                      status: 'Draft', start: startTime, end: endTime)),
+            ),
+            SingleChildScrollView(
+              child: ApprovedListWidget(
+                  params: RequestParams(
+                      status: 'Approved', start: startTime, end: endTime)),
+            ),
+            SingleChildScrollView(
+                child: RejectedListWidget(
+              params: RequestParams(
+                  status: 'Rejected', start: startTime, end: endTime),
+            ))
           ],
         ),
       ),
