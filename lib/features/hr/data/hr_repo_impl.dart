@@ -116,15 +116,17 @@ class HRRepoImpl extends BaseApiRepository implements HRRepo {
         url: Urls.empChecking,
         reqParams: {
           'shift_request_approver': user().email,
-          'custom_status': 'Draft',
+          'custom_status': params.status,
           'start_date': DFU.yyyyMMdd(params.start),
           'end_date': DFU.yyyyMMdd(params.end),
         },
         parser: (p0) {
+          $logger.devLog(' afdjaskfjsdak f$p0');
           final data = p0['message'] as List<dynamic>;
           return data.map((e) => Employee.fromJson(e)).toList();
         },
       );
+      $logger.devLog('congig $config');
       final response = await get(config);
       return response.process((r) => right(r.data!));
     } on Exception catch (e, st) {
